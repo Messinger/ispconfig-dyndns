@@ -3,8 +3,6 @@ class IspSession
 
   client :endpoint => "https://web03.alwin-it.de:8080/remote/index.php", :ssl_verify_mode => :none, :namespace => "http://www.w3.org/2003/05/soap-envelope",:strip_namespaces => true, :convert_request_keys_to => :none
 
-  global :basic_auth, "alwin", ""
-
   operations :login, :logout
 
   def login(username, password)
