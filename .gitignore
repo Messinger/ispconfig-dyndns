@@ -15,3 +15,5 @@
 /log/*.log
 /tmp
 /Gemfile.lock
+.ruby-gemset
+.ruby-version
