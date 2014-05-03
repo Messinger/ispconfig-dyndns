@@ -58,3 +58,5 @@ gem 'devise'
 # soap gedoehns
 
 gem 'savon'
+
+gem 'protected_attributes'

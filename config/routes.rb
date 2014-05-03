@@ -5,6 +5,10 @@ RailsDynamicDomain::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
+  match 'settings/edit',        :controller => 'settings', :action => 'edit',         :via => [:get,:post]
+  match 'settings',             :controller => 'settings', :action => 'index',       :via => :get
+  match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

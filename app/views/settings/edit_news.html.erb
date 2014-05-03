@@ -1,0 +1,15 @@
+
+<div class="box-title grid_5"><span><h4><%= I18n.t('settings.news.title') %></h4></span></div>
+<div class="box grid_5 container_6">
+<div class="subgrid_2 button-row">
+    <ul>
+    <li><%= link_to I18n.t('globals.save_changes'), "#", id: "news-btn-save", class: 'button-magenta', style: 'margin-right: 12px' %></li>  
+    <li><%= link_to I18n.t('settings.global.clear'), "#", id: "news-btn-clear", class: 'button-magenta' %></li>
+    </ul>
+</div>
+<div class="clear"></div>
+<div class="subgrid_5">
+
+<%= render 'news_edit_form' %>
+
+</div>

@@ -1,0 +1,29 @@
+<div class="box-title grid_5"><span><h4><%= I18n.t('settings.global.title') %></h4></span></div>
+<%= form_tag({:action => 'edit'}) do%>
+    <div class="box grid_5 container_6">
+        <div class="subgrid_2 button-row">
+            <%= submit_tag %>
+        </div>
+
+        <% # ******************** %>
+        <div class="clear"></div>
+        <% # ******************** %>
+
+        <div class="box-title subgrid_5"><span><h4><%= I18n.t('settings.table.general') %></h4></span></div>
+        <div class="box subgrid_5">
+            <div  style="margin-top: 5px; padding: 0px 0px 5px 5px;">
+                <table>
+                    <%= setting_text_field :mail_from,{:label=>I18n.t('settings.labels.mail_from'),:as_table=>true}%>
+                    <%= setting_text_field :ispconfig_url,{:label=>I18n.t('settings.labels.ispconfig_url'),:as_table=>true}%>
+                    <%= setting_text_field :remote_user,{:label=>I18n.t('settings.labels.remote_user'),:as_table=>true}%>
+                    <%= setting_password_field :remote_password,{:label=>I18n.t('settings.labels.remote_password'),:as_table=>true}%>
+                </table>
+            </div>
+        </div>
+
+    </div>
+<%end%>
+
+<% content_for :title do%>
+  <%= I18n.t('settings.global.head') %>
+<% end %>
