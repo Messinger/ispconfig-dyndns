@@ -1,8 +1,6 @@
 class IspClient
-  extend Savon::Model
-
-  client :endpoint => "https://web03.alwin-it.de:8080/remote/index.php", :ssl_verify_mode => :none, :namespace => "http://www.w3.org/2003/05/soap-envelope",:strip_namespaces => true, :convert_request_keys_to => :none
-
+  extend Ispremote
+  
   operations :client_get_by_username, :client_get
 
   def initialize clientdata
@@ -26,4 +24,5 @@ class IspClient
   def client
     @clientdata[:item]
   end
+
 end

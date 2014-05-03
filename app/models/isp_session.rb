@@ -1,7 +1,5 @@
 class IspSession
-  extend Savon::Model
-
-  client :endpoint => "https://web03.alwin-it.de:8080/remote/index.php", :ssl_verify_mode => :none, :namespace => "http://www.w3.org/2003/05/soap-envelope",:strip_namespaces => true, :convert_request_keys_to => :none
+  extend Ispremote
 
   operations :login, :logout
 
@@ -15,7 +13,6 @@ class IspSession
 
   def logout
     @loginresponse = nil
-
     r = super(:message => {:sessionid => @sessionid})
     @sessionid = nil
     r.hash[:envelope][:body][:logout_response][:return]
