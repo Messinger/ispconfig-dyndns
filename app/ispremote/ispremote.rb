@@ -65,5 +65,17 @@ module Ispremote
     }.tap { |mod| include(mod) }
   end
   
+  def response_to_hash response
+    isp_method = caller[0][/`.*'/][1..-2]
+    resp = "#{isp_method}_response".to_sym
+    rd = response.hash[:envelope][:body][resp][:return]
+  end
+  
+  def value_to_string v
+    return v if v.is_a? String
+    return "#{v}" if v.is_a? Integer
+    ""
+  end
+  
 end
 

@@ -3,11 +3,10 @@ class IspSession
 
   operations :login, :logout
 
-  def login(username, password)
+  def login
     @sessionid = nil
     @loginresponse = nil
-    @loginresponse = super(:message => {:username => username, :password => password })
-
+    @loginresponse = super(:message => {:username => Setting.remote_user, :password => Setting.remote_password })
     @sessionid = @loginresponse.hash[:envelope][:body][:login_response][:return]
   end
 
