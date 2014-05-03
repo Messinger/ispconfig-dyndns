@@ -68,7 +68,7 @@ module Ispremote
   def response_to_hash response
     isp_method = caller[0][/`.*'/][1..-2]
     resp = "#{isp_method}_response".to_sym
-    rd = response.hash[:envelope][:body][resp][:return]
+    rd = response.body[resp][:return]
   end
   
   def value_to_string v
