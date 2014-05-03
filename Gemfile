@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -54,10 +54,6 @@ end
 # security
 gem 'cancan'
 gem 'devise'
-
-# files files files
-gem 'carrierwave'
-gem 'rack-raw-upload'
 
 # soap gedoehns
 
