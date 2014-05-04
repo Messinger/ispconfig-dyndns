@@ -64,7 +64,13 @@ class PresentationModel
   # Generic initialization method to init Instances with every instance attribute
   def initialize(*h)
     if h.length == 1 && h.first.kind_of?(Hash)
-      h.first.each { |k,v| send("#{k}=",v) }
+      h.first.each do |k,v| 
+        if !respond_to? "#{k}"
+          self.class_eval("def #{k};@#{k};end")
+          self.class_eval("def #{k}=(val);@#{k}=val;end")
+        end
+        send("#{k}=",v) 
+      end
     end
   end
   
