@@ -2,7 +2,7 @@ class IspDnszone < PresentationModel
   extend Ispremote
 
   attr_accessor :sys_userid, :sys_groupid, :origin, :sys_perm_user, :sys_perm_group, :sys_perm_other, :server_id, :ns, :mbox, :serial, :refresh
-  attr_accessor :retry, :expire, :minimum, :ttl, :active, :xfer, :also_notify, :update_acl
+  attr_accessor :retry, :expire, :minimum, :ttl, :active, :xfer, :also_notify, :update_acl, :records
   
   operations :dns_zone_get_by_user, :dns_zone_get, :dns_rr_get_all_by_zone
   
@@ -28,16 +28,13 @@ class IspDnszone < PresentationModel
   ensure 
     asession.logout
   end
-  
-  def dns_rr_get_all_by_zone
-    asession = IspSession.login 
-    r = IspDnszone.response_to_hash super(:message => {:sessionid => asession.sessionid, :primary_id => self.id})
-    return [] unless r.has_key?(:item)
-    rrs = (r[:item]).collect do |rr|
-      IspDnszone.flatten_hash rr
-    end
-  ensure 
-    asession.logout
+ 
+  def records
+    @records ||= self.retrieve_records
+  end  
+
+  def retrieve_records
+    IspResourceRecord.dns_rr_get_all_by_zone self
   end
 
 end
