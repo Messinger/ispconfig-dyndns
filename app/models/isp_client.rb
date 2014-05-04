@@ -9,9 +9,9 @@ class IspClient
 
   def self.client_get_by_username asession,username
     return if asession.blank? || !asession.valid?
-    r = super(:message => {:sessionid => asession.sessionid, :username => username})
-    #self.response_to_hash r
-    clientvalues = self.flatten_hash(self.response_to_hash(r))
+    r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :username => username})
+    raise ActiveRecord::RecordNotFound if r==false
+    clientvalues = self.flatten_hash(r)
     IspClient.new clientvalues
   end
 
@@ -22,8 +22,9 @@ class IspClient
     else
       id = aclient
     end
-    r = super(:message => {:sessionid => asession.sessionid, :client_id => id})
-    clientvalues = self.flatten_hash(self.response_to_hash(r))
+    r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :client_id => id})
+    raise ActiveRecord::RecordNotFound if r==false || !r.has_key?(:item)
+    clientvalues = self.flatten_hash(r)
     IspClient.new clientvalues
   end
 
