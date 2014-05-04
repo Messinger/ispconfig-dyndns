@@ -10,7 +10,7 @@ class IspDnszone < PresentationModel
     return if asession.blank? || !asession.valid?
     r = super(:message => {:sessionid => asession.sessionid, :client_id => aclient.client_id,:server_id => serverid})
     r = self.response_to_hash r
-    raise ActiveRecord::RecordNotFound unless r.has_key?(:item)
+    return [] unless r.has_key?(:item)
     zones = (r[:item]).collect do |zone| 
       vals = flatten_hash zone 
       i = IspDnszone.new(vals)
@@ -28,7 +28,7 @@ class IspDnszone < PresentationModel
   def dns_rr_get_all_by_zone asession
     return if asession.blank? || !asession.valid?
     r = IspDnszone.response_to_hash super(:message => {:sessionid => asession.sessionid, :primary_id => self.id})
-    raise ActiveRecord::RecordNotFound unless r.has_key?(:item)
+    return [] unless r.has_key?(:item)
     rrs = (r[:item]).collect do |rr|
       IspDnszone.flatten_hash rr
     end
