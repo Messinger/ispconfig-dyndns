@@ -1,13 +1,17 @@
 class IspSession
   extend Ispremote
 
+  attr_accessor :sessionid
+
   operations :login, :logout
 
-  def login
-    @sessionid = nil
-    @loginresponse = nil
-    @loginresponse = super(:message => {:username => Setting.remote_user, :password => Setting.remote_password })
-    @sessionid = @loginresponse.hash[:envelope][:body][:login_response][:return]
+  def initialize sid
+    self.sessionid = sid
+  end
+
+  def self.login
+    loginresponse = super(:message => {:username => Setting.remote_user, :password => Setting.remote_password })
+    IspSession.new loginresponse.hash[:envelope][:body][:login_response][:return]
   end
 
   def logout
@@ -15,10 +19,6 @@ class IspSession
     r = super(:message => {:sessionid => @sessionid})
     @sessionid = nil
     r.hash[:envelope][:body][:logout_response][:return]
-  end
-
-  def sessionid
-    @sessionid
   end
 
   def valid?
