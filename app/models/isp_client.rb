@@ -3,6 +3,11 @@ class IspClient < PresentationModel
   
   operations :client_get_by_username, :client_get
 
+  def initialize data
+    super data
+    set_id client_id
+  end
+
   def self.client_get_by_username asession,username
     return if asession.blank? || !asession.valid?
     r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :username => username})
