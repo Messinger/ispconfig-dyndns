@@ -17,5 +17,5 @@ remote_user:
   default:
 
 remote_password:
-  default
+  default:
 
