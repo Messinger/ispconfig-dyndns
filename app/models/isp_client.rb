@@ -1,15 +1,7 @@
-class IspClient
+class IspClient < PresentationModel
   extend Ispremote
   
   operations :client_get_by_username, :client_get
-
-  def initialize clientdata
-    @clientdata = clientdata
-  end
-
-  def id
-    clientdata[:client_id]
-  end
 
   def self.client_get_by_username asession,username
     return if asession.blank? || !asession.valid?
@@ -32,11 +24,6 @@ class IspClient
     IspClient.new clientvalues
   end
 
-  def clientdata
-    @clientdata
-  end
-
   private
- 
 
 end

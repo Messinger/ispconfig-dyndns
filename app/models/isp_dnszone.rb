@@ -8,7 +8,7 @@ class IspDnszone < PresentationModel
   
   def self.dns_zone_get_by_user asession,aclient,serverid
     return if asession.blank? || !asession.valid?
-    r = super(:message => {:sessionid => asession.sessionid, :client_id => aclient.clientdata[:client_id],:server_id => serverid})
+    r = super(:message => {:sessionid => asession.sessionid, :client_id => aclient.client_id,:server_id => serverid})
     r = self.response_to_hash r
     raise ActiveRecord::RecordNotFound unless r.has_key?(:item)
     zones = (r[:item]).collect do |zone| 
