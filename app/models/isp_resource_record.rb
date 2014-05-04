@@ -1,5 +1,8 @@
 class IspResourceRecord < PresentationModel
   extend Ispremote
+
+  attr_accessor :sys_userid, :sys_groupid, :sys_perm_user, :sys_perm_group, :sys_perm_other
+  attr_accessor :server_id, :zone, :name, :type, :data, :aux, :ttl, :active, :stamp, :serial
   
   operations :dns_rr_get_all_by_zone
 
