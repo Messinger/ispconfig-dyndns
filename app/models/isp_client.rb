@@ -7,6 +7,10 @@ class IspClient
     @clientdata = clientdata
   end
 
+  def id
+    clientdata[:client_id]
+  end
+
   def self.client_get_by_username asession,username
     return if asession.blank? || !asession.valid?
     r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :username => username})
