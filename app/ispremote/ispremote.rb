@@ -77,5 +77,10 @@ module Ispremote
     ""
   end
   
+  def flatten_hash r
+    _h = r[:item]
+    Hash[*_h.map {|v| [v[:key].to_sym,self.value_to_string(v[:value])]}.flatten]
+  end
+  
 end
 
