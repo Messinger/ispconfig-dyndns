@@ -33,6 +33,12 @@ class IspClient < PresentationModel
     asession.logout
   end
 
+  def password_is?(passwd)
+    # we only accept ispconfig with crypted passwords this moment
+    password == passwd.crypt("$1$#{password[3..10]}$")
+  end
+
   private
 
 end
+
