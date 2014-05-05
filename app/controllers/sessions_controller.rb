@@ -77,8 +77,11 @@ class SessionsController < ApplicationController
     
     begin
       cl = IspClient.find_by_username username
-      cl = ClientUser.new cl
-      cl.authentication_token = params[:authenticity_token]
+      cl = nil unless cl.is_password? password
+      unless cl.nil?
+        cl = ClientUser.new cl
+        cl.authentication_token = params[:authenticity_token]
+      end
     rescue ActiveRecord::RecordNotFound => ex
       # here no notfound errors for security reasons
       cl = nil

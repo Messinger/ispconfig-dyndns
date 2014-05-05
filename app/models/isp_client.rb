@@ -42,4 +42,7 @@ class IspClient < PresentationModel
     self.passwort
   end
   
+  def password
+    passwort
+  end
 end
