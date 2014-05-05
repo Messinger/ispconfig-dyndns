@@ -10,7 +10,7 @@ module UserHelper
     @@salt_length=8
 
     def is_password?(passwd)
-      password == encrypt_password(passwd,password[1..@@salt_length+2])
+      self.password == encrypt_password(passwd,password[1..@@salt_length+2])
     end
 
     module_function
