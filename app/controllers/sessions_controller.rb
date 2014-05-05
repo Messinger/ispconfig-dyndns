@@ -77,7 +77,7 @@ class SessionsController < ApplicationController
     
     begin
       cl = IspClientUser.find_by_username username
-      cl = nil unless cl.is_password? password
+      cl = nil unless cl.is_password?(password) && cl.active == '1'
       unless cl.nil?
         cl = ClientUser.new cl
         cl.authentication_token = params[:authenticity_token]
