@@ -34,6 +34,12 @@ class IspClient < PresentationModel
     asession.logout unless asession.nil?
   end
 
-  private
+  def self.find_by_username username
+    client_get_by_username username
+  end
 
+  def authentication_token
+    self.passwort
+  end
+  
 end
