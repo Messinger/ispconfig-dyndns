@@ -9,6 +9,24 @@ RailsDynamicDomain::Application.routes.draw do
   match 'settings',             :controller => 'settings', :action => 'index',       :via => :get
   match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
 
+  scope '/user' do
+    match '/login', to: 'sessions#userlogin',          :as => :user_login, :via => :get
+    match '/sessions', to: 'sessions#create_for_user', :as => :create_session_for_user, :via => [:post]
+    delete "/sessions/current" => "sessions#destroy"
+  end
+
+  scope '/admin' do
+    match '/login', to: 'sessions#adminlogin',          :as => :admin_login, :via => :get
+    match '/sessions', to: 'sessions#create_for_admin', :as => :create_session_for_admin, :via => [:post]
+  end
+
+  scope '/client' do
+    match '/login', to: 'sessions#clientlogin',          :as => :client_login, :via => :get
+    match '/sessions', to: 'sessions#create_for_client', :as => :create_session_for_client, :via => [:post]
+  end
+
+  match '/logout', to: 'sessions#destroy', :as => :user_logout, :via => :get
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

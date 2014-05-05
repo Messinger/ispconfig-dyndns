@@ -1,0 +1,16 @@
+ <%= form_for(:session, url: @form_target,:html => { :id => 'session-login-form', :autocomplete =>"off" }) do |f| %>
+  <%= hidden_field_tag "logintype",@logintype %>
+  
+                 <table>
+                <tr>
+                        <td><%= label_tag :user_login_id, t('users.login_id'),:style => "margin-left:6px;"%></td>
+                        <td><%= text_field :user, :login_id, :class => 'input-login_id', :style => "padding-left:2px;" %></td>
+                </tr>
+                <tr>
+                        <td><%= label_tag :user_password, t('users.password'), :style => "display:block;margin-left:6px;padding-top: 6px;"%></td>
+                        <td><%= password_field :user, :password, :class => 'input-login_password', :style => "padding-left:2px;", :autocomplete =>"off" %></td>
+                        </tr>
+        </table>
+  
+  <%= f.submit %>
+ <% end %>
