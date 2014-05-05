@@ -1,7 +1,7 @@
 module UserHelper
 
   ADMIN_TYPE = "admin"
-  CLIENT_TYPE = "client"
+  CLIENT_TYPE = "clientuser"
   USER_TYPE = "user"
 
   module User

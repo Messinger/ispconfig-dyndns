@@ -71,12 +71,12 @@ class SessionsController < ApplicationController
     return true
   end
   
-  def client_authenticate
+  def clientuser_authenticate
     username = params[:user][:login_id]
     password = params[:user][:password]
     
     begin
-      cl = IspClient.find_by_username username
+      cl = IspClientUser.find_by_username username
       cl = nil unless cl.is_password? password
       unless cl.nil?
         cl = ClientUser.new cl
