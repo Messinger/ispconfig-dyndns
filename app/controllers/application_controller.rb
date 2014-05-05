@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
+  before_filter :set_authentication_information
+  
   helper_method :current_user
   
   def initialize
@@ -23,6 +25,16 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  
+  def set_authentication_information
+    if current_user
+      
+    end
+    # touch session object so updated_at is set
+    session[:lastseen] = Time.now()
+    # remove outdated sessions
+    Session.sweep(24.hours)
+  end
   
   def is_authenticated_session
     return !current_user.nil?
