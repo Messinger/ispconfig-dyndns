@@ -2,6 +2,14 @@
 class SessionsController < ApplicationController
   include SessionsHelper
 
+    #skips the check authentication for creation of session
+  skip_before_filter :process_authentication,
+    :only => [
+    :adminlogin, :clientlogin, :userlogin,
+    :new, :create,
+    :create_for_admin, :create_for_client, :create_for_user
+  ]
+  
   def new
   end
   
@@ -13,6 +21,13 @@ class SessionsController < ApplicationController
     render :action => 'new'
   end
 
+  def userlogin
+    @form_target = create_session_for_user_path
+    @logintype = UserHelper::USER_TYPE
+    self.new
+    render :action => 'new'
+  end
+  
   def clientlogin
     @form_target = create_session_for_client_path
     @logintype = UserHelper::CLIENT_TYPE
@@ -36,6 +51,11 @@ class SessionsController < ApplicationController
         end
       }
     end
+  end
+
+  def create_for_user
+    @authtype = UserHelper::USER_TYPE
+    create
   end
 
   def create_for_admin

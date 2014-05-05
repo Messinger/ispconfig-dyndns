@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   before_filter :set_authentication_information
+  before_filter :process_authentication
   
   helper_method :current_user
   
@@ -36,10 +37,31 @@ class ApplicationController < ActionController::Base
     Session.sweep(24.hours)
   end
   
+  def process_authentication
+    if(is_authenticated_session)
+      return true
+    else
+      respond_with_no_valid_authentication_found
+      return false
+    end
+  end
+  
   def is_authenticated_session
     return !current_user.nil?
   end
 
+  def respond_with_no_valid_authentication_found
+    respond_to do |format|
+      format.html {
+        redirect_to user_login_path and return
+        # TODO flash out a message
+      }
+      format.json {
+        render(nothing: true, status: :unauthorized)
+      }
+    end
+  end
+  
   rescue_from RequestException do |exception|
     if exception.is_a? SecurityException
       security_error_request exception
