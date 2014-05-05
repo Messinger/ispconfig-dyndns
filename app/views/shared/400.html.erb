@@ -1,0 +1,28 @@
+<% content_for :title do%>
+The page you were looking for looks bad (400)
+<%end%>
+
+<% content_for :extra_head_content do%>
+  <style type="text/css">
+    body { background-color: #fff; color: #666; font-family: arial, sans-serif; }
+    div.dialog {
+      width: 25em;
+      padding: 0 4em;
+      margin: 4em auto 0 auto;
+      border: 1px solid #ccc;
+      border-right-color: #999;
+      border-bottom-color: #999;
+    }
+    h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
+</style>
+<%end%>
+
+  <!-- This file lives in public/400.html -->
+  <div class="dialog">
+    <% if @errormsg != nil %>
+      <h1>  <%= @errormsg %> </h1>
+    <% else %>
+    <h1>This looks like a request we cannot accept.</h1>
+    <p>You may have mistyped the address or parameters.</p>
+    <%end%>
+  </div>
