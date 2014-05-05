@@ -1,5 +1,5 @@
 class IspSession
-  extend Ispremote
+  extend Ispremote::Soap
 
   attr_accessor :sessionid
 

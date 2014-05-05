@@ -1,6 +1,5 @@
-
 class IspClient < PresentationModel
-  extend Ispremote
+  extend Ispremote::Soap
   include UserHelper::User
   
   operations :client_get_by_username, :client_get
@@ -38,4 +37,3 @@ class IspClient < PresentationModel
   private
 
 end
-
