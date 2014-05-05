@@ -1,4 +1,9 @@
 module UserHelper
+
+  ADMIN_TYPE = "admin"
+  CLIENT_TYPE = "client"
+  USER_TYPE = "user"
+
   module User
     
     @@base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
