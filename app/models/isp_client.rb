@@ -1,5 +1,7 @@
+
 class IspClient < PresentationModel
   extend Ispremote
+  include UserHelper::User
   
   operations :client_get_by_username, :client_get
 
@@ -30,12 +32,7 @@ class IspClient < PresentationModel
     clientvalues = self.flatten_hash(r)
     IspClient.new clientvalues
   ensure 
-    asession.logout
-  end
-
-  def password_is?(passwd)
-    # we only accept ispconfig with crypted passwords this moment
-    password == passwd.crypt("$1$#{password[3..10]}$")
+    asession.logout unless asession.nil?
   end
 
   private
