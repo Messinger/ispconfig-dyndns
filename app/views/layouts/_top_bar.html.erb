@@ -1,0 +1,14 @@
+<div id="topbar">
+	<ul>
+      <% if current_user.nil? %>
+        <%= link_to "Login",client_login_path %>
+      <% else %>
+        <li><%= I18n.t('globals.logged_in_as') %>&nbsp;<strong><%= current_user.full_name %></strong></li>
+        <li>
+
+          	<%= link_to I18n.t('globals.logout'), user_logout_path %>
+
+        </li>
+        <% end %>
+  </ul>
+</div>

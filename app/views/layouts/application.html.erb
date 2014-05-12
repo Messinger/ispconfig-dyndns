@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RailsDynamicDomain</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
+<title>
+    <%= full_title yield(:title) %>
+</title>
+<%= render partial: "layouts/stylesheets" %>
+
+<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <!-- additional javascripts -->
+<%= yield(:additional_javascripts) %>
+    <!-- end additional javascripts -->
+<%= csrf_meta_tags %>
+
+<!-- specific extra header -->
+<%= yield(:extra_head_content) %>
+<!-- specific extra header end -->
+
 </head>
 <body>
+<!-- specific extra body header -->
+<%= yield(:extra_body_start) %>
+<!-- specific extra body end -->
+
+<div id="logo" style="margin-bottom: 6px;">Logobereich</div>
+<%= render partial: "layouts/top_bar"%>
 
 <%= yield %>
 

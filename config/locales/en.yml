@@ -21,3 +21,7 @@
 
 en:
   hello: "Hello world"
+  
+  globals:
+    logged_in_as: "Logged in as"
+    logout: "Logout"

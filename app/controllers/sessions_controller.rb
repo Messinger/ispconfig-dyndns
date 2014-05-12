@@ -107,6 +107,7 @@ class SessionsController < ApplicationController
       cl = nil
     end
     
+    return ClientUserDecorator.new(cl) unless cl.nil?
     return cl
 
   end
