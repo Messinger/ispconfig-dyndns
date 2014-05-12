@@ -1,6 +1,11 @@
 
 class SessionsController < ApplicationController
   include SessionsHelper
+  skip_authorization_check :only => [
+    :adminlogin, :clientlogin, :userlogin,
+    :new, :create,
+    :create_for_admin, :create_for_client, :create_for_user
+  ]
 
     #skips the check authentication for creation of session
   skip_before_filter :process_authentication,

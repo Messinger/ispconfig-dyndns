@@ -9,7 +9,9 @@ class ApplicationController < ActionController::Base
   
   before_filter :set_authentication_information
   before_filter :process_authentication
-  
+
+  check_authorization
+
   helper_method :current_user
   
   def initialize
@@ -23,6 +25,16 @@ class ApplicationController < ActionController::Base
   # a User object if a user is logged in and authorized. If no user is logged in, nil is returned.
   def current_user
     @current_user ||= session[:current_user]
+  end
+
+  # Create and return a request assigened Ability object.
+  #
+  # It gets the current running request as second parameter so CanCan may check against values in request.
+  #
+  # == Returns
+  # A Ability object containing valid security rules
+  def current_ability
+    @current_ability ||= Ability.new(current_user, request)
   end
 
   private
