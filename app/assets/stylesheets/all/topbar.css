@@ -5,9 +5,8 @@
   font-family: Arial,Geneva,Helvetica,sans-serif;
   font-size: 10px;
   overflow: hidden;
-
   position: relative;
-  top: -24px;
+/*  top: -24px; */
   right: 24px;
 }
 
