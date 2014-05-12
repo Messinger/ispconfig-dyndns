@@ -55,6 +55,9 @@ end
 gem 'cancan'
 gem 'devise'
 
+# helpers
+gem 'draper'
+
 # soap gedoehns
 
 gem 'savon'
