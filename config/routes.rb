@@ -27,7 +27,7 @@ RailsDynamicDomain::Application.routes.draw do
 
   match '/logout', to: 'sessions#destroy', :as => :user_logout, :via => :get
 
-  resources :isp_dnszones, :only => :index
+  resources :isp_dnszones, :only => [:index,:show]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

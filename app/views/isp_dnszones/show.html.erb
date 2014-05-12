@@ -1,0 +1,23 @@
+<% content_for :title do %>
+    <%= "DNS Records for #{@ispdnszone.origin}" %>
+<% end %>
+<%= link_to "Back",isp_dnszones_path %>
+<div>
+<h2>Records for <%= "#{@ispdnszone.origin}" %></h2>
+</div>
+<div>
+<table id="dnsrecords">
+<thead>
+<tr><th>Name</th><th>Value</th></tr>
+</thead>
+<tbody>
+<% @ispdnszone.records.each do |record| %>
+<% if record.type == "A" || record.type == "AAAA" || record.type == "CNAME" %>
+<tr><td><%= record.name %><td></td><td><%= record.data %></td></tr>
+<% end %>
+<%end%>
+</tbody>
+</table>
+</div>
+
+<%= @ispdnszone.inspect %>
