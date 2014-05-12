@@ -5,4 +5,7 @@ class ClientUserDecorator < ApplicationDecorator
     model.login_id.capitalize
   end
 
+  def client
+    IspClient.client_get client_id
+  end
 end
