@@ -1,6 +1,16 @@
-<p>
-<%= @ispdnszones.inspect %>
-</p>
-<p>
-<%= @ispclient.inspect %>
-</p>
+<% page_title = "Dns zone records" %>
+<div>
+<table class="display" id="ispdnszones">
+<thead>
+<tr><th>DNS Zone</th></tr>
+</thead>
+
+<tbody>
+<% @ispdnszones.each do |zone| %>
+<tr><td><%= link_to zone.origin,isp_dnszone_path(zone) %></td></tr>
+<% end %>
+</tbody>
+
+</table>
+
+</div>
