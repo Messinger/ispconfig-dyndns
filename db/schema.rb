@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505072621) do
+ActiveRecord::Schema.define(version: 20140513184832) do
+
+  create_table "local_users", force: true do |t|
+    t.string   "last_name",  null: false
+    t.string   "first_name", null: false
+    t.string   "login_id",   null: false
+    t.string   "email",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "local_users", ["email"], name: "index_local_users_on_email", unique: true
+  add_index "local_users", ["login_id"], name: "index_local_users_on_login_id", unique: true
 
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
