@@ -2,7 +2,7 @@
 class ClientUser 
   include User
   
-  attr_accessor :client_id
+  attr_accessor :client_id, :id
   
   def initialize(isp_client)
     self.login_id = isp_client.username
@@ -11,4 +11,18 @@ class ClientUser
     self.client_id = isp_client.client_id
   end
 
+  # copied from ActiveRecord
+  def persisted?
+    !(self.id.nil?)
+  end
+  
+  # copied from ActiveRecord
+  def new_record?
+    !persisted?
+  end
+
+  def set_id(id)
+    @id = id
+  end
+  
 end
