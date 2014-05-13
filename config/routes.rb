@@ -15,6 +15,8 @@ RailsDynamicDomain::Application.routes.draw do
     delete "/sessions/current" => "sessions#destroy"
   end
 
+  resources :local_users, :path => "user"
+  
   scope '/admin' do
     match '/login', to: 'sessions#adminlogin',          :as => :admin_login, :via => :get
     match '/sessions', to: 'sessions#create_for_admin', :as => :create_session_for_admin, :via => [:post]
@@ -28,7 +30,7 @@ RailsDynamicDomain::Application.routes.draw do
   match '/logout', to: 'sessions#destroy', :as => :user_logout, :via => :get
 
   resources :isp_dnszones, :only => [:index,:show]
-
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

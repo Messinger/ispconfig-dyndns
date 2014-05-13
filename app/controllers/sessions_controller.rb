@@ -52,7 +52,11 @@ class SessionsController < ApplicationController
         if authentication_success
           redirect_to root_path
         else
-          redirect_to client_login_path
+          if @authtype == UserHelper::CLIENT_TYPE
+            redirect_to client_login_path
+          else
+            redirect_to user_login_path
+          end
         end
       }
     end
@@ -94,6 +98,14 @@ class SessionsController < ApplicationController
     return false if user.nil?
     authenticate_local_session(user)
     return true
+  end
+  
+  def user_authenticate
+    username = params[:user][:login_id]
+    password = params[:user][:password]
+    lu = LocalUser.find_by_login_id username
+    return lu if lu.nil?
+    
   end
   
   def clientuser_authenticate
