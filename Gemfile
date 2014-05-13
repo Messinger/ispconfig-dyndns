@@ -57,6 +57,7 @@ gem 'devise'
 
 # helpers
 gem 'draper'
+gem 'foreigner'
 
 # soap gedoehns
 
