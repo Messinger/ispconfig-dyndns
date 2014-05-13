@@ -102,10 +102,10 @@ class SessionsController < ApplicationController
     
     begin
       cl = IspClientUser.find_by_username username
-      cl = nil unless cl.is_password?(password) && cl.active == '1'
-      unless cl.nil?
+      if cl.is_password?(password) && cl.active == '1'
         cl = ClientUser.new cl
-        cl.authentication_token = params[:authenticity_token]
+      else
+        cl = nil
       end
     rescue ActiveRecord::RecordNotFound => ex
       # here no notfound errors for security reasons

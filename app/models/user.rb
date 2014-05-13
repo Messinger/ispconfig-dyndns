@@ -1,6 +1,6 @@
 module User
 
-  attr_accessor :login_id, :password, :authentication_token, :id
+  attr_accessor :login_id, :password, :id
   
   def set_id(id)
     @id = id

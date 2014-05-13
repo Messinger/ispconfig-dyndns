@@ -6,4 +6,3 @@ class Session < ActiveRecord::Base
     delete_all "updated_at < '#{time.ago.to_s(:db)}' or created_at < '#{2.days.ago.to_s(:db)}'"
   end
 end
-
