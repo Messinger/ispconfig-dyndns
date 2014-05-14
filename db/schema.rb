@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140513184832) do
     t.string   "login_id",   null: false
     t.string   "email",      null: false
     t.string   "password",   null: false
+    t.boolean  "active"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

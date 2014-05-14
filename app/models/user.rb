@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
   include UserHelper::GeneralUser
   
-  attr_accessible :first_name, :last_name, :email, :login_id, :password
+  before_validation :check_active
+  
+  attr_accessible :first_name, :last_name, :email, :login_id, :password, :active
   
   validates :first_name, :presence => true
   validates :last_name, :presence => true
@@ -36,6 +38,10 @@ class User < ActiveRecord::Base
     if unencrypted.length < 8
       errors.add(:password,"Password is too short")
     end
+  end
+  
+  def check_active
+    self.active = false if self.active.nil?
   end
 
 end
