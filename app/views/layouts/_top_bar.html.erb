@@ -1,7 +1,7 @@
 <div id="topbar">
 	<ul>
       <% if current_user.nil? %>
-        <%= link_to "Login",client_login_path %>
+        <%= link_to "Login",user_login_path %>
       <% else %>
         <li><%= I18n.t('globals.logged_in_as') %>&nbsp;<strong><%= current_user.login_id %></strong></li>
         <li>
