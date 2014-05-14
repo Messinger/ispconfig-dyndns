@@ -1,4 +1,4 @@
-class LocalUsersController < ApplicationController
+class UsersController < ApplicationController
   
   skip_before_filter :process_authentication, :only => [ :new, :create ]
   skip_authorization_check :only => [ :new, :create ]

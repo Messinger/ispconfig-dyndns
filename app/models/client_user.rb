@@ -1,6 +1,9 @@
 
 class ClientUser 
-  include User
+  include UserHelper::GeneralUser
+  
+  attr_accessor :login_id, :password
+  attr_accessor :first_name, :last_name, :email
   
   attr_accessor :client_id, :id
   
@@ -24,5 +27,9 @@ class ClientUser
   def set_id(id)
     @id = id
   end
-  
+
+  def is_admin?
+    false
+  end
+
 end

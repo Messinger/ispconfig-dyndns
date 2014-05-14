@@ -15,7 +15,7 @@ RailsDynamicDomain::Application.routes.draw do
     delete "/sessions/current" => "sessions#destroy"
   end
 
-  resources :local_users, :path => "user"
+  resources :users
   
   scope '/admin' do
     match '/login', to: 'sessions#adminlogin',          :as => :admin_login, :via => :get

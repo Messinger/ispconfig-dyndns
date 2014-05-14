@@ -1,6 +1,6 @@
 class IspClientUser < PresentationModel
   extend Ispremote::Soap
-  include UserHelper::User
+  include UserHelper::GeneralUser
   
   attr_accessor :userid,:sys_userid, :sys_groupid, :sys_perm_user, :sys_perm_group, :sys_perm_other, :username, :passwort, :modules, :startmodule
   attr_accessor :app_theme, :typ, :active, :language, :groups, :default_group, :client_id, :id_rsa, :ssh_rsa

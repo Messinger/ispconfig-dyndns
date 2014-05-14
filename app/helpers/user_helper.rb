@@ -4,7 +4,7 @@ module UserHelper
   CLIENT_TYPE = "clientuser"
   USER_TYPE = "user"
 
-  module User
+  module GeneralUser
     
     @@base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
     @@salt_length=8
@@ -15,7 +15,7 @@ module UserHelper
 
     module_function
 
-    def encrypt_password(passwd,salt = nil)
+    def encrypt_password(apasswd,salt = nil)
       if salt.blank?
         s = ''
         prng = Random.new
@@ -24,7 +24,7 @@ module UserHelper
         end
         salt = "1$#{s}"
       end
-      passwd.crypt("$#{salt}$")
+      apasswd.crypt("$#{salt}$")
     end
 
   end
