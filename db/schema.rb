@@ -11,7 +11,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140513184832) do
+ActiveRecord::Schema.define(version: 20140514211836) do
+
+  create_table "dns_zone_a_records", force: true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.integer  "dns_zone_id"
+    t.integer  "user_id",     null: false
+    t.datetime "lastset"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dns_zone_a_records", ["dns_zone_id"], name: "index_dns_zone_a_records_on_dns_zone_id"
+  add_index "dns_zone_a_records", ["name", "dns_zone_id"], name: "arecord_idx", unique: true
+
+  create_table "dns_zone_aaaa_records", force: true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.integer  "dns_zone_id"
+    t.integer  "user_id",     null: false
+    t.datetime "lastset"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dns_zone_aaaa_records", ["dns_zone_id"], name: "index_dns_zone_aaaa_records_on_dns_zone_id"
+  add_index "dns_zone_aaaa_records", ["name", "dns_zone_id"], name: "aaaarecord_idx", unique: true
+
+  create_table "dns_zones", force: true do |t|
+    t.string   "name",               null: false
+    t.string   "isp_dnszone_origin", null: false
+    t.integer  "isp_dnszone_id",     null: false
+    t.integer  "isp_client_user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dns_zones", ["isp_client_user_id"], name: "index_dns_zones_on_isp_client_user_id"
+  add_index "dns_zones", ["isp_dnszone_id"], name: "index_dns_zones_on_isp_dnszone_id", unique: true
+  add_index "dns_zones", ["isp_dnszone_origin"], name: "index_dns_zones_on_isp_dnszone_origin", unique: true
+  add_index "dns_zones", ["name"], name: "index_dns_zones_on_name", unique: true
 
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
