@@ -2,8 +2,9 @@ class IspDnszonesController < ApplicationController
   authorize_resource :class => IspDnszone
 
   def index
-    @ispclient = current_user.client
-    @ispdnszones = IspDnszone.dns_zone_get_by_user current_user,@ispclient.default_dnsserver
+    cu = ClientUserDecorator.new(current_user)
+    @ispclient = cu.client
+    @ispdnszones = IspDnszone.dns_zone_get_by_user cu,@ispclient.default_dnsserver
   end
 
   def show
