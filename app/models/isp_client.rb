@@ -1,6 +1,6 @@
 class IspClient < PresentationModel
   extend Ispremote::Soap
-  include UserHelper::User
+  include UserHelper::GeneralUser
   
   operations :client_get
 
