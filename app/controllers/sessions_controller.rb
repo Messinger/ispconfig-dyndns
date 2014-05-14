@@ -103,9 +103,14 @@ class SessionsController < ApplicationController
   def user_authenticate
     username = params[:user][:login_id]
     password = params[:user][:password]
-    lu = LocalUser.find_by_login_id username
+    lu = User.find_by_login_id username
+    logger.debug("User: #{lu.inspect}")
     return lu if lu.nil?
-    
+    logger.debug("Check pw")
+    if lu.is_password?(password) && lu.active == true
+        return lu
+    end
+    return nil
   end
   
   def clientuser_authenticate
@@ -123,10 +128,7 @@ class SessionsController < ApplicationController
       # here no notfound errors for security reasons
       cl = nil
     end
-    
-    return ClientUserDecorator.new(cl) unless cl.nil?
-    return cl
-
+    cl
   end
 
 end
