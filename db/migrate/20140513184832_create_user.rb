@@ -6,7 +6,7 @@ class CreateUser < ActiveRecord::Migration
       t.string :login_id, :null => false
       t.string :email, :null => false
       t.string :password, :null => false
-      t.boolean :active
+      t.boolean :active, :default => false
       t.timestamps
     end
     add_index :users, :login_id, :unique => true

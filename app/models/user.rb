@@ -1,9 +1,7 @@
 class User < ActiveRecord::Base
   include UserHelper::GeneralUser
-  
-  before_validation :check_active
-  
-  attr_accessible :first_name, :last_name, :email, :login_id, :password, :active
+    
+  attr_accessible :first_name, :last_name, :email, :login_id, :password
   
   validates :first_name, :presence => true
   validates :last_name, :presence => true
@@ -40,8 +38,4 @@ class User < ActiveRecord::Base
     end
   end
   
-  def check_active
-    self.active = false if self.active.nil?
-  end
-
 end
