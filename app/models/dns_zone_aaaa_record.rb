@@ -1,8 +1,5 @@
 class DnsZoneAaaaRecord < ActiveRecord::Base
-  belongs_to :dns_zone
-  belongs_to :user
+  belongs_to :dns_zone_record
   
-  validates :user_id, :presence => true
-  validates :name, :presence => true
   
 end

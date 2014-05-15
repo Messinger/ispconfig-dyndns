@@ -11,33 +11,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140514211836) do
+ActiveRecord::Schema.define(version: 20140515065929) do
 
   create_table "dns_zone_a_records", force: true do |t|
-    t.string   "name"
     t.string   "address"
-    t.integer  "dns_zone_id"
-    t.integer  "user_id",     null: false
+    t.integer  "dns_zone_record_id",  null: false
+    t.integer  "isp_dns_a_record_id"
     t.datetime "lastset"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "dns_zone_a_records", ["dns_zone_id"], name: "index_dns_zone_a_records_on_dns_zone_id"
-  add_index "dns_zone_a_records", ["name", "dns_zone_id"], name: "arecord_idx", unique: true
+  add_index "dns_zone_a_records", ["dns_zone_record_id"], name: "index_dns_zone_a_records_on_dns_zone_record_id"
 
   create_table "dns_zone_aaaa_records", force: true do |t|
-    t.string   "name"
     t.string   "address"
-    t.integer  "dns_zone_id"
-    t.integer  "user_id",     null: false
+    t.integer  "dns_zone_record_id",     null: false
+    t.integer  "isp_dns_aaaa_record_id"
     t.datetime "lastset"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "dns_zone_aaaa_records", ["dns_zone_id"], name: "index_dns_zone_aaaa_records_on_dns_zone_id"
-  add_index "dns_zone_aaaa_records", ["name", "dns_zone_id"], name: "aaaarecord_idx", unique: true
+  add_index "dns_zone_aaaa_records", ["dns_zone_record_id"], name: "index_dns_zone_aaaa_records_on_dns_zone_record_id"
+
+  create_table "dns_zone_records", force: true do |t|
+    t.string   "name",        null: false
+    t.integer  "dns_zone_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dns_zone_records", ["dns_zone_id"], name: "index_dns_zone_records_on_dns_zone_id"
+  add_index "dns_zone_records", ["name", "dns_zone_id"], name: "recordname_idx", unique: true
+  add_index "dns_zone_records", ["user_id"], name: "index_dns_zone_records_on_user_id"
 
   create_table "dns_zones", force: true do |t|
     t.string   "name",               null: false
@@ -74,12 +82,11 @@ ActiveRecord::Schema.define(version: 20140514211836) do
   add_index "settings", ["name"], name: "index_settings_on_name"
 
   create_table "users", force: true do |t|
-    t.string   "last_name",                  null: false
-    t.string   "first_name",                 null: false
-    t.string   "login_id",                   null: false
-    t.string   "email",                      null: false
-    t.string   "password",                   null: false
-    t.boolean  "active",     default: false
+    t.string   "last_name",  null: false
+    t.string   "first_name", null: false
+    t.string   "login_id",   null: false
+    t.string   "email",      null: false
+    t.string   "password",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
