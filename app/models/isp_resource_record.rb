@@ -18,6 +18,16 @@ class IspResourceRecord < PresentationModel
     asession.logout
   end
 
+  def self.find_by_name dnszone,name
+    records = IspResourceRecord.dns_rr_get_all_by_zone dnszone
+    result = []
+    records.each do |record|
+      ori = record.name.sub(dnszone.origin,"")
+      result << record if ori.casecmp(name) == 0
+    end
+    result
+  end
+  
 private
   
   def self.record_object record

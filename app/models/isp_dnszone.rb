@@ -37,5 +37,9 @@ class IspDnszone < PresentationModel
     IspResourceRecord.dns_rr_get_all_by_zone self
   end
 
+  def find_record_by_name name
+    IspResourceRecord.find_by_name self,name
+  end
+
 end
 
