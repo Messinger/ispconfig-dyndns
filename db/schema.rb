@@ -95,11 +95,12 @@ ActiveRecord::Schema.define(version: 20140515084407) do
   add_index "settings", ["name"], name: "index_settings_on_name"
 
   create_table "users", force: true do |t|
-    t.string   "last_name",  null: false
-    t.string   "first_name", null: false
-    t.string   "login_id",   null: false
-    t.string   "email",      null: false
-    t.string   "password",   null: false
+    t.string   "last_name",                  null: false
+    t.string   "first_name",                 null: false
+    t.string   "login_id",                   null: false
+    t.string   "email",                      null: false
+    t.string   "password",                   null: false
+    t.boolean  "active",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
