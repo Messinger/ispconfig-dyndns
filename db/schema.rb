@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140515084407) do
   end
 
   add_index "dns_zone_a_records", ["dns_zone_record_id"], name: "index_dns_zone_a_records_on_dns_zone_record_id"
+  add_index "dns_zone_a_records", ["isp_dns_a_record_id"], name: "index_dns_zone_a_records_on_isp_dns_a_record_id", unique: true
 
   create_table "dns_zone_aaaa_records", force: true do |t|
     t.string   "address"
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140515084407) do
   end
 
   add_index "dns_zone_aaaa_records", ["dns_zone_record_id"], name: "index_dns_zone_aaaa_records_on_dns_zone_record_id"
+  add_index "dns_zone_aaaa_records", ["isp_dns_aaaa_record_id"], name: "index_dns_zone_aaaa_records_on_isp_dns_aaaa_record_id", unique: true
 
   create_table "dns_zone_records", force: true do |t|
     t.string   "name",        null: false
