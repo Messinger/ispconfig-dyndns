@@ -1,5 +1,5 @@
 class DnsZone < ActiveRecord::Base
-  has_many :dns_zone_records
+  has_many :dns_zone_records, :dependent => :destroy
 
   validates :isp_dnszone_id, :presence => true, :uniqueness => true
   validates :isp_dnszone_origin, :presence => true, :uniqueness => true

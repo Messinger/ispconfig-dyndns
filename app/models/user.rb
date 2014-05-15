@@ -10,7 +10,9 @@ class User < ActiveRecord::Base
   validates :password, :presence => true
   validate  :unencrypted, :updated_user_password
   
-  has_many :dns_zone_records
+  has_many :dns_zone_records, :dependent => :destroy
+  has_many :dns_zone_a_records, through: :dns_zone_records
+  has_many :dns_zone_aaaa_records, through: :dns_zone_records
 
   def client_id
     nil
