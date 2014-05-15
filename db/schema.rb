@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140515065929) do
+ActiveRecord::Schema.define(version: 20140515084407) do
+
+  create_table "api_keys", force: true do |t|
+    t.string   "access_token",      null: false
+    t.integer  "token_parent_id",   null: false
+    t.string   "token_parent_type", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "api_keys", ["access_token"], name: "index_api_keys_on_access_token", unique: true
+  add_index "api_keys", ["token_parent_id", "token_parent_type"], name: "tokenparent_idx", unique: true
 
   create_table "dns_zone_a_records", force: true do |t|
     t.string   "address"
