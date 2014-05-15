@@ -10,8 +10,10 @@ class DnsZoneRecord < ActiveRecord::Base
   validates :name, :presence => true
 
   validates :name, uniqueness: {scope: :dns_zone, message: "Name is in use", case_sensitive: false }
+  
+  # validate against IPS Dns Records
+  validates_with DnsIspRecordValidator
 
-  # TODO validate against IPS Dns Records!
 
   after_create :create_assignees
 
