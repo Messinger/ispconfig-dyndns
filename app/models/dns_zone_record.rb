@@ -13,4 +13,14 @@ class DnsZoneRecord < ActiveRecord::Base
 
   # TODO validate against IPS Dns Records!
 
+  after_create :create_assignees
+
+  private
+
+  def create_assignees
+    self.api_key = ApiKey.new
+    self.dns_zone_aaaa_record = DnsZoneAaaaRecord.new
+    self.dns_zone_a_record = DnsZoneARecord.new
+  end
+
 end
