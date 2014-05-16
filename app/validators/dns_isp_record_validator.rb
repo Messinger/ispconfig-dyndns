@@ -2,8 +2,8 @@
 class DnsIspRecordValidator <  ActiveModel::Validator
     
     def validate(record)
-      if record.new_record? || record.name_changed? 
-        return if record.name.nil? 
+      if record.new_record? || record.name_changed? || record.dns_zone_changed? 
+        return if record.name.nil? || record.dns_zone.nil? 
         recs = record.dns_zone.ispdnszone.find_record_by_name record.name
         if recs.length > 0
             record.errors[:base] << "This record name can not used"
