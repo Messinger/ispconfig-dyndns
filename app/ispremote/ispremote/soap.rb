@@ -2,7 +2,7 @@ module Ispremote
 
   module Soap  
     def remoteclient
-      Savon.client :endpoint => Setting.ispconfig_url, :ssl_verify_mode => :none, :namespace => "http://www.w3.org/2003/05/soap-envelope",:strip_namespaces => true, :convert_request_keys_to => :none
+        Savon.client :endpoint => Setting.ispconfig_url, :ssl_verify_mode => :none, :namespace => "http://www.w3.org/2003/05/soap-envelope",:strip_namespaces => true, :convert_request_keys_to => :none, :log_level => :debug
     end
 
     def operations(*operations)
