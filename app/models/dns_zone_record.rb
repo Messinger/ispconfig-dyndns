@@ -8,6 +8,7 @@ class DnsZoneRecord < ActiveRecord::Base
 
   validates :user_id, :presence => true
   validates :name, :presence => true
+  validates :dns_zone, :presence => true
 
   validates :name, uniqueness: {scope: :dns_zone, message: "Name is in use", case_sensitive: false }
   
