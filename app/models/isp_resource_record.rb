@@ -28,7 +28,18 @@ class IspResourceRecord < PresentationModel
     result
   end
   
+  def self.from_dns_zone_record record
+    funcname = "from_"+record.class.name.underscore
+    if self.respond_to?(funcname.to_sym)
+      self.send funcname,record
+    end
+  end
+  
 private
+
+  def self.from_dns_zone_a_record record
+    
+  end
   
   def self.record_object record
     rname = "IspDns#{record[:type].capitalize}Record"
@@ -40,4 +51,3 @@ private
     theclass.new record
   end 
 end
-
