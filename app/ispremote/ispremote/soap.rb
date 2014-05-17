@@ -4,7 +4,7 @@ module Ispremote
     def remoteclient
         Savon.client :endpoint => Setting.ispconfig_url, 
                 :ssl_verify_mode => :none, 
-                :namespace => "https://web03.alwin-it.de:8080/remote/",
+                :namespace => Setting.ispconfig_namespace,
                 :namespace_identifier => :ns1,
                 :strip_namespaces => true, :convert_request_keys_to => :none, 
                 :log_level => :debug, 
