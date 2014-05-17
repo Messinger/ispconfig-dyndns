@@ -24,22 +24,24 @@ class IspDnsARecord < IspResourceRecord
     serverid = client.default_dnsserver
     rec = IspDnsARecord.new
     
-    rec = {
-        :server_id => serverid,
-        :zone => zonerecord.dns_zone.isp_dnszone_id,
-        :type => "a",
-        :data => zonerecord.dns_zone_a_record.address,
-        :name => zonerecord.name,
-        :ttl => "300",
-        :active => "y",
-        :aux => "0",
-        :serial => "1",
-        :stamp => "#{Time.now.to_i}"
+    rec = { :item => [
+        {:key => :server_id, :value => serverid},
+        {:key => :zone, :value => zonerecord.dns_zone.isp_dnszone_id},
+        {:key => :name, :value => zonerecord.name},
+        {:key => :type, :value => "A"},
+        {:key => :data, :value => zonerecord.dns_zone_a_record.address},
+        {:key => :aux, :value => "0"},
+        {:key => :ttl, :value => "300"},
+        {:key => :active, :value => "y"},
+        {:key => :serial, :value => 1},
+        {:key => :stamp, :value => "CURRENT_TIMESTAMP"}
+                     ]
     }
     
-    message = { :session_id => asession.sessionid, :client_id => clientid, :params => rec}
+    message = { :param0 => asession.sessionid, :param1 => clientid, 'param2' => rec}
 
-    p message
+    Rails.logger.debug message
+
     result = super(:message => message)
     result.body
   ensure

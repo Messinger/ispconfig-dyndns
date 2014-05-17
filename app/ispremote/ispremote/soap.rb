@@ -2,7 +2,18 @@ module Ispremote
 
   module Soap  
     def remoteclient
-        Savon.client :endpoint => Setting.ispconfig_url, :ssl_verify_mode => :none, :namespace => "http://www.w3.org/2003/05/soap-envelope",:strip_namespaces => true, :convert_request_keys_to => :none, :log_level => :debug
+        Savon.client :endpoint => Setting.ispconfig_url, 
+                :ssl_verify_mode => :none, 
+                :namespace => "https://web03.alwin-it.de:8080/remote/",
+                :namespace_identifier => :ns1,
+                :strip_namespaces => true, :convert_request_keys_to => :none, 
+                :log_level => :debug, 
+                :pretty_print_xml => true,
+                :log => true,
+                :filters => [:password],
+                :soap_version => 2,
+                :logger => Rails.logger
+                
     end
 
     def operations(*operations)
