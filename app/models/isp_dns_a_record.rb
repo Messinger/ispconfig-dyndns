@@ -24,28 +24,43 @@ class IspDnsARecord < IspResourceRecord
     serverid = client.default_dnsserver
     rec = IspDnsARecord.new
     
-    rec = { :item => [
-        {:key => :server_id, :value => serverid},
-        {:key => :zone, :value => zonerecord.dns_zone.isp_dnszone_id},
-        {:key => :name, :value => zonerecord.name},
-        {:key => :type, :value => "A"},
-        {:key => :data, :value => zonerecord.dns_zone_a_record.address},
-        {:key => :aux, :value => "0"},
-        {:key => :ttl, :value => "300"},
-        {:key => :active, :value => "y"},
-        {:key => :serial, :value => 1},
-        {:key => :stamp, :value => "CURRENT_TIMESTAMP"}
+    rec = { :item => 
+            [
+                {:key => :server_id, :value => serverid, :attributes! => int_attributes},
+                {:key => :zone, :value => zonerecord.dns_zone.isp_dnszone_id, :attributes! => int_attributes },
+                {:key => :name, :value => zonerecord.name, :attributes! => string_attributes},
+                {:key => :type, :value => "a", :attributes! => string_attributes},
+             {:key => :data, :value => zonerecord.dns_zone_a_record.address, :attributes! => string_attributes},
+             {:key => :aux, :value => "0", :attributes! => string_attributes},
+             {:key => :ttl, :value => 86400, :attributes! => string_attributes},
+             {:key => :active, :value => "y", :attributes! => string_attributes},
+             {:key => :serial, :value => 1, :attributes! => string_attributes},
+             {:key => :stamp, :value => Time.now.to_i, :attributes! => string_attributes}
                      ]
     }
     
-    message = { :param0 => asession.sessionid, :param1 => clientid, 'param2' => rec}
+    attribute = { :param2 => { "xsi:type" => "ns2:Map" }, :key => { "xsi:type" => "xsd:string"}, :value => { "xsi:type" => "xsd:string"} }
+    message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "ns2:Map" } } }
+    
 
     Rails.logger.debug message
 
-    result = super(:message => message)
+    #result = super(:message => message, :attributes! => attribute)
+    result = remoteclient.call(:dns_zone_add, :message => message )
     result.body
   ensure
     asession.logout unless asession.nil?
   end
 
+  private
+  
+  def self.int_attributes
+      { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:int" } }
+  end
+
+  def self.string_attributes
+      { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:string" } }
+  end
+  
+  
 end

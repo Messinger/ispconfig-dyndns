@@ -11,8 +11,9 @@ module Ispremote
                 :pretty_print_xml => true,
                 :log => true,
                 :filters => [:password],
-                :soap_version => 2,
-                :logger => Rails.logger
+                :logger => Rails.logger,
+                env_namespace: "SOAP-ENV",
+                :namespaces => {"xmlns:ns2" => "http://xml.apache.org/xml-soap"}
                 
     end
 
