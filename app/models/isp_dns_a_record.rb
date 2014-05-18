@@ -11,7 +11,7 @@ class IspDnsARecord < IspResourceRecord
     asession = IspSession.login
     r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :primary_id => id})
     raise ActiveRecord::RecordNotFound if r == false
-    r = IspDnsAaaaRecord.new flatten_hash(r)
+    r = IspDnsARecord.new flatten_hash(r)
     raise ActiveRecord::RecordNotFound unless r.type.downcase == "a"
     r 
   ensure
@@ -20,27 +20,16 @@ class IspDnsARecord < IspResourceRecord
 
   def self.dns_a_add zonerecord,client
     asession = IspSession.login
-    clientid = client.client_id
-    serverid = client.default_dnsserver
-    rec = IspDnsARecord.new
-    
-    rec = { :item => 
-            [
-            {:key => :server_id, :value => serverid, :attributes! => int_attributes},
-            {:key => :zone, :value => zonerecord.dns_zone.isp_dnszone_id, :attributes! => int_attributes },
-            {:key => :name, :value => zonerecord.name, :attributes! => string_attributes},
-            {:key => :type, :value => "A", :attributes! => string_attributes},
-            {:key => :data, :value => zonerecord.dns_zone_a_record.address, :attributes! => string_attributes},
-            {:key => :aux, :value => "0", :attributes! => string_attributes},
-            {:key => :ttl, :value => "300", :attributes! => string_attributes},
-            {:key => :active, :value => "y", :attributes! => string_attributes},
-            {:key => :serial, :value => 1, :attributes! => string_attributes},
-            {:key => :stamp, :value => Time.now.to_i, :attributes! => string_attributes}
-            ]
-    }
-    
+    clientid = client.client_id.to_s
+    serverid = client.default_dnsserver.to_i
+    recordhash = zonerecord.dns_zone_a_record.to_ispconfig_hash.merge(default_ispconfig_hash)
+    recordhash = recordhash.merge({:server_id => serverid})
+
+    rec = { :item =>
+            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.send("attributes_for_#{v.class.name.underscore}") } }
+          }
     message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "ns2:Map" } } }
-    
+
     Rails.logger.debug message
 
     result = super(:message => message)
@@ -50,14 +39,17 @@ class IspDnsARecord < IspResourceRecord
     asession.logout unless asession.nil?
   end
 
-  private
-  
-  def self.int_attributes
-      { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:int" } }
+  def self.default_ispconfig_hash
+    {
+      :type => "A",
+      :aux => "0",
+      :active => "y",
+      :ttl => "300",
+      :serial => "#{Time.now.to_i}",
+      :stamp =>  "#{Time.now}"
+      }
   end
 
-  def self.string_attributes
-      { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:string" } }
-  end
+  private
 
 end

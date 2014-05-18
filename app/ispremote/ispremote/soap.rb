@@ -6,7 +6,7 @@ module Ispremote
                 :ssl_verify_mode => :none, 
                 :namespace => Setting.ispconfig_namespace,
                 :namespace_identifier => :ns1,
-                :strip_namespaces => true, :convert_request_keys_to => :none, 
+                :strip_namespaces => true, :convert_request_keys_to => :none,
                 :log_level => :debug, 
                 :pretty_print_xml => true,
                 :log => true,
@@ -53,7 +53,7 @@ module Ispremote
       def global(option, *value)
         client.globals[option] = value
       end
-      
+
       def raise_initialization_error!
       raise InitializationError,
         "Expected the model to be initialized with either a WSDL document or the SOAP endpoint and target namespace options.\n" \
@@ -93,6 +93,7 @@ module Ispremote
       _h = r[:item]
       Hash[*_h.map {|v| [v[:key].to_sym,self.value_to_string(v[:value])]}.flatten]
     end
+
   end
 
 end

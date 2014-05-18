@@ -18,6 +18,13 @@ class DnsZoneRecord < ActiveRecord::Base
 
   after_create :create_assignees
 
+  def to_ispconfig_hash
+    {
+      :zone => self.dns_zone.isp_dnszone_id,
+      :name => self.name
+    }
+  end
+
   private
 
   def create_assignees

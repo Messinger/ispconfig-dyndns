@@ -36,6 +36,14 @@ class PresentationModel
     true
   end
   
+  def self.attributes_for_fixnum
+    { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:int" } }
+  end
+
+  def self.attributes_for_string
+    { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:string" } }
+  end
+  
   def self.valid_attribute_set?(attribute_set, instance)
     instance.errors.clear
     
