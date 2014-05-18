@@ -16,7 +16,7 @@ class IspDnszone < PresentationModel
       i = IspDnszone.new(vals)
     end
   ensure 
-    asession.logout
+    asession.logout unless asession.nil?
   end
 
   def self.dns_zone_get id
@@ -26,9 +26,41 @@ class IspDnszone < PresentationModel
     data = flatten_hash r
     IspDnszone.new(data)#[:id],data[:origin],data)
   ensure 
-    asession.logout
+    asession.logout unless asession.nil?
   end
- 
+
+  def update_serial_number isp_client
+    asession = IspSession.login
+    cl = self.client
+    clientid = isp_client.client_id
+    ser = gen_timestamp
+    primaryid = id
+    recordhash = {
+      :server_id => server_id.to_s,
+      :origin => origin.to_s,
+      :ns => ns.to_s,
+      :mbox => mbox.to_s,
+      :serial =>ser,
+      :refresh => refresh.to_s,
+      :expire => expire.to_s,
+      :minimum => minimum.to_s,
+      :ttl => ttl.to_s,
+      :active => active.to_s,
+      :xfer => xfer.to_s,
+      :also_notify => also_notify.to_s,
+      :update_acl => update_acl.to_s,
+      :retry => self.retry.to_s
+    }
+    rec = { :item =>
+            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => IspDnszone.send("attributes_for_#{v.class.name.underscore}") } }
+          }
+    message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
+    res = cl.call :dns_zone_update, :message => message
+    res.body[:dns_zone_update_response][:return]
+  ensure
+    asession.logout unless asession.nil?
+  end
+
   def records
     @records ||= self.retrieve_records
   end  
