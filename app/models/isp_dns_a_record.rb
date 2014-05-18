@@ -44,6 +44,9 @@ class IspDnsARecord < IspResourceRecord
     clientid = client.client_id.to_s
     primaryid = self.id.to_i
     recordhash = arecord.to_ispconfig_hash.merge(IspDnsARecord.default_ispconfig_hash)
+    # overwrite default stamp
+    recordhash[:serial] = gen_timestamp
+
     rec = { :item =>
             recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => IspDnsARecord.send("attributes_for_#{v.class.name.underscore}") } }
           }
@@ -68,7 +71,7 @@ class IspDnsARecord < IspResourceRecord
       :aux => "0",
       :active => "y",
       :ttl => "300",
-      :serial => "#{Time.now.to_i}",
+      :serial => gen_timestamp,
       :stamp =>  "#{Time.now}"
       }
   end

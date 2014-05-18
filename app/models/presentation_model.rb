@@ -43,7 +43,7 @@ class PresentationModel
   def self.attributes_for_string
     { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:string" } }
   end
-  
+
   def self.valid_attribute_set?(attribute_set, instance)
     instance.errors.clear
     
@@ -94,5 +94,27 @@ class PresentationModel
     ]
   end
   
-  
+  def gen_timestamp
+    if self.respond_to? :serial
+      current = self.serial
+      if current.length < 10
+        self.gen_timestamp
+      else
+        cd = current[0..7]
+        if Time.now.strftime("%Y%m%d") == cd
+          number = sprintf("%02d",current[8..-1].to_i+1)
+          cd+number
+        else
+          self.gen_timestamp
+        end
+      end
+    else
+      self.gen_timestamp
+    end
+  end
+
+  def self.gen_timestamp
+    Time.now.strftime("%Y%m%d01")
+  end
+
 end
