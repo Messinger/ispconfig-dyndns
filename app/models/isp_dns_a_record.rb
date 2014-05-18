@@ -39,6 +39,14 @@ class IspDnsARecord < IspResourceRecord
     asession.logout unless asession.nil?
   end
 
+  def dns_a_delete
+    asession = IspSession.login
+    result = super(:message => { :session_id => asession.sessionid, :primary_id => self.id} )
+    result.body[:dns_a_delete_response]
+  ensure
+    asession.logout unless asession.nil?
+  end
+
   def self.default_ispconfig_hash
     {
       :type => "A",
