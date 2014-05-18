@@ -18,11 +18,11 @@ class IspDnsARecord < IspResourceRecord
     asession.logout
   end
 
-  def self.dns_a_add zonerecord,client
+  def self.dns_a_add arecord,client
     asession = IspSession.login
     clientid = client.client_id.to_s
     serverid = client.default_dnsserver.to_i
-    recordhash = zonerecord.dns_zone_a_record.to_ispconfig_hash.merge(default_ispconfig_hash)
+    recordhash = arecord.to_ispconfig_hash.merge(default_ispconfig_hash)
     recordhash = recordhash.merge({:server_id => serverid})
 
     rec = { :item =>
@@ -39,11 +39,11 @@ class IspDnsARecord < IspResourceRecord
     asession.logout unless asession.nil?
   end
 
-  def dns_a_update zonerecord,client
+  def dns_a_update arecord,client
     asession = IspSession.login
     clientid = client.client_id.to_s
     primaryid = self.id.to_i
-    recordhash = zonerecord.dns_zone_a_record.to_ispconfig_hash.merge(IspDnsARecord.default_ispconfig_hash)
+    recordhash = arecord.to_ispconfig_hash.merge(IspDnsARecord.default_ispconfig_hash)
     rec = { :item =>
             recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => IspDnsARecord.send("attributes_for_#{v.class.name.underscore}") } }
           }
