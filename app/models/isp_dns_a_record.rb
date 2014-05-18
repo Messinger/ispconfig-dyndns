@@ -39,6 +39,21 @@ class IspDnsARecord < IspResourceRecord
     asession.logout unless asession.nil?
   end
 
+  def dns_a_update zonerecord,client
+    asession = IspSession.login
+    clientid = client.client_id.to_s
+    primaryid = self.id.to_i
+    recordhash = zonerecord.dns_zone_a_record.to_ispconfig_hash.merge(IspDnsARecord.default_ispconfig_hash)
+    rec = { :item =>
+            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => IspDnsARecord.send("attributes_for_#{v.class.name.underscore}") } }
+          }
+    message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
+    result = super(:message => message)
+    result.body[:dns_a_update_response][:return]
+  ensure
+    asession.logout unless asession.nil?
+  end
+
   def dns_a_delete
     asession = IspSession.login
     result = super(:message => { :session_id => asession.sessionid, :primary_id => self.id} )
