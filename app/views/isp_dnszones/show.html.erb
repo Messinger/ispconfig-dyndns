@@ -1,3 +1,9 @@
+<%= render partial: 'datatables_include' %>
+
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/isp_dnszones/show" %>
+<% end %>
+
 <% content_for :title do %>
     <%= "DNS Records for #{@ispdnszone.origin}" %>
 <% end %>
@@ -6,18 +12,37 @@
 <h2>Records for <%= "#{@ispdnszone.origin}" %></h2>
 </div>
 <div>
-<table id="dnsrecords">
+
+<table id="dnsrecords" class="display">
+
 <thead>
-<tr><th>Name</th><th>Value</th></tr>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Local</th>
+  </tr>
 </thead>
+
+<tfoot>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Local</th>
+  </tr>
+</tfoot>
+
 <tbody>
-<% @ispdnszone.records.each do |record| %>
-<% if record.type == "A" || record.type == "AAAA" || record.type == "CNAME" %>
-<tr><td><%= record.name %><td></td><td><%= record.data %></td></tr>
+<% @ispdnszone.records.each do |record| 
+    localdns = DnsZoneRecord.find_by_name record.name
+    unless localdns.nil?
+      
+    end
+%>
+<% if record.type == "A" || record.type == "AAAA" %>
+<tr><td><%= record.name %></td><td><%= record.data %></td><td><%= localdns %></td></tr>
 <% end %>
 <%end%>
 </tbody>
 </table>
-</div>
 
-<%= @ispdnszone.inspect %>
+</div>

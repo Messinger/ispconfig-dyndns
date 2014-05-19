@@ -1,0 +1,8 @@
+<% content_for :extra_head_content do%>
+<%= stylesheet_link_tag "jquery.dataTables", :media => "all" %> 
+<!-- < % = stylesheet_link_tag "datatable/datatable_list.css", :media => "all" % > -->
+<% end %>
+
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "dataTables/jquery.dataTables" %>
+<% end %>

@@ -11,5 +11,5 @@ class IspDnszonesController < ApplicationController
       @ispdnszone = IspDnszone.dns_zone_get params[:id]
       raise ForbiddenRequest.new if current_user.id != @ispdnszone.sys_userid
   end
-  
+
 end
