@@ -1,3 +1,5 @@
+require 'resolv'
+
 class DnsZoneRecordDecorator < ApplicationDecorator
   delegate_all
 
@@ -26,13 +28,18 @@ class DnsZoneRecordDecorator < ApplicationDecorator
   end
 
   def address=(address)
-    if !address.match(DnsZoneAaaaRecord.ipmatch).nil?
+    
+    case address
+    when Resolv::IPv4::Regex
+      self.ipv4_address=address
+      self.ipv6_address=nil
+    when Resolv::IPv6::Regex
       self.ipv6_address=address
       self.ipv4_address=nil
     else
-      self.ipv4_address=address
-      self.ipv6_address=nil
+      Rails.logger.error("#{address} is not a valid ip")
     end
+
   end
   
   def changed?
@@ -40,13 +47,19 @@ class DnsZoneRecordDecorator < ApplicationDecorator
   end
 
   def valid?
-    model.valid? && self.dns_zone_a_record.valid? || self.dns_zone_aaaa_record.valid?
+    model.valid? && self.dns_zone_a_record.valid? && self.dns_zone_aaaa_record.valid?
   end
   
   def address_errors
     {:dns_zone_record => model.errors, :dns_zone_record_a_record => self.dns_zone_a_record.errors, :dns_zone_record_aaaa_record => self.dns_zone_aaaa_record.errors }    
   end
 
+  def errors
+    return self.dns_zone_a_record.errors unless self.dns_zone_a_record.valid?
+    return self.dns_zone_aaaa_record.errors unless self.dns_zone_aaaa_record.valid?
+    model.errors
+  end
+  
   # always call BEFORE save!
   def update_remote
     return false if !valid?

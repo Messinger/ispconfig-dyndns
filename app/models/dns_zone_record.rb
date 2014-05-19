@@ -12,7 +12,7 @@ class DnsZoneRecord < ActiveRecord::Base
 
   validates :name, uniqueness: {scope: :dns_zone, message: "Name is in use", case_sensitive: false }
   
-  # validate against IPS Dns Records
+  # validate against ISP Dns Records
   validates_with DnsIspRecordValidator
 
 
