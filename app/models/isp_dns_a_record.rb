@@ -20,8 +20,8 @@ class IspDnsARecord < IspResourceRecord
 
   def self.dns_a_add arecord,client
     asession = IspSession.login
-    clientid = client.client_id.to_s
-    serverid = client.default_dnsserver.to_i
+    clientid = client.client_id
+    serverid = client.default_dnsserver
     recordhash = arecord.to_ispconfig_hash.merge(default_ispconfig_hash)
     recordhash = recordhash.merge({:server_id => serverid})
 
@@ -48,7 +48,7 @@ class IspDnsARecord < IspResourceRecord
     recordhash[:serial] = gen_timestamp
 
     rec = { :item =>
-            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => IspDnsARecord.send("attributes_for_#{v.class.name.underscore}") } }
+            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.class.send("attributes_for_#{v.class.name.underscore}") } }
           }
     message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
     result = super(:message => message)

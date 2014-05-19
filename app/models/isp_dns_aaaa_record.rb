@@ -47,7 +47,7 @@ class IspDnsAaaaRecord < IspResourceRecord
     # overwrite default stamp
     recordhash[:serial] = gen_timestamp
     rec = { :item =>
-            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => IspDnsAaaaRecord.send("attributes_for_#{v.class.name.underscore}") } }
+            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.class.send("attributes_for_#{v.class.name.underscore}") } }
           }
     message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
     result = super(:message => message)
