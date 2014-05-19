@@ -1,4 +1,1 @@
-<% if can? :edit, IspDnszone %>
-    <%= current_user.inspect %>
-    <%= link_to "Isp DNS Zones",isp_dnszones_path %>
-<% end %>
+<%= render :partial => "#{current_user.class.name.underscore}_index" %>
