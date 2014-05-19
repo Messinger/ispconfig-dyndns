@@ -1,0 +1,130 @@
+class DnsZoneRecordDecorator < ApplicationDecorator
+  delegate_all
+
+  def access_token
+    self.api_key.access_token
+  end
+  
+  def renew_token
+    self.api_key = ApiKey.new
+  end
+
+  def ipv6_address
+    self.dns_zone_aaaa_record.address
+  end
+  
+  def ipv4_address
+    self.dns_zone_a_record.address
+  end
+
+  def ipv6_address= (address)
+    self.dns_zone_aaaa_record.address = address
+  end
+
+  def ipv4_address= (address)
+    self.dns_zone_a_record.address = address
+  end
+
+  def address=(address)
+    if !address.match(DnsZoneAaaaRecord.ipmatch).nil?
+      self.ipv6_address=address
+      self.ipv4_address=nil
+    else
+      self.ipv4_address=address
+      self.ipv6_address=nil
+    end
+  end
+  
+  def changed?
+    model.changed? || self.dns_zone_a_record.changed? || self.dns_zone_aaaa_record.changed?
+  end
+
+  def valid?
+    model.valid? && self.dns_zone_a_record.valid? || self.dns_zone_aaaa_record.valid?
+  end
+  
+  def address_errors
+    {:dns_zone_record => model.errors, :dns_zone_record_a_record => self.dns_zone_a_record.errors, :dns_zone_record_aaaa_record => self.dns_zone_aaaa_record.errors }    
+  end
+
+  # always call BEFORE save!
+  def update_remote
+    return false if !valid?
+    return true unless changed?
+    
+    ispsession = IspSession.login
+    
+    isp_client = IspClient.client_for_user(dns_zone.isp_client_user_id,ispsession)
+    arec = self.dns_zone_a_record
+    aaaarec = self.dns_zone_aaaa_record
+    
+    resa = true
+    if arec.address_changed?
+      isprecid = arec.isp_dns_a_record_id
+      isprec = IspDnsARecord.dns_a_get(isprecid,ispsession) unless isprecid.blank?
+      if arec.address.nil?
+        unless isprecid.nil?
+          isprec = IspDnsARecord.dns_a_get(isprecid,ispsession)
+          resa = isprec.dns_a_delete
+          arec.isp_dns_a_record_id = nil
+        end
+      else
+        if isprecid.nil?
+          resa = IspDnsARecord.dns_a_add(arec,isp_client,ispsession)
+          arec.isp_dns_a_record_id = resa.to_i
+        else
+          resa = isprec.dns_a_update(arec,isp_client,ispsession)
+        end
+      end
+      arec.lastset = Time.now
+    end
+    
+    resb = true
+    if aaaarec.address_changed?
+      isprecid = aaaarec.isp_dns_aaaa_record_id
+      isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid,ispsession) unless isprecid.blank?
+      if aaaarec.address.nil?
+        unless isprecid.nil?
+          isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid,ispsession)
+          resb = isprec.dns_aaaa_delete
+          aaaarec.isp_dns_aaaa_record_id = nil
+        end
+      else
+        if isprecid.nil?
+          resb = IspDnsAaaaRecord.dns_aaaa_add(aaaarec,isp_client,ispsession)
+          aaaarec.isp_dns_aaaa_record_id = resb.to_i
+        else
+          resb = isprec.dns_aaaa_update(aaaarec,isp_client,ispsession)
+        end
+      end
+      aaaarec.lastset = Time.now      
+    end
+    
+    isp_zone_id = dns_zone.isp_dnszone_id
+    
+    unless isp_zone_id.blank?
+      isp_zone = IspDnszone.dns_zone_get isp_zone_id,ispsession
+      isp_zone.update_serial_number isp_client,ispsession
+    end
+    
+    [resa,resb]
+  ensure
+    ispsession.logout unless ispsession.nil?  
+  end
+    
+  def delete
+    self.ipv6_address = nil
+    self.ipv4_address = nil
+    self.update_remote
+  end
+
+  # before save you must call update_remote!
+  def save
+    return false if !valid?
+    return false if !model.save
+    return false if !self.dns_zone_a_record.save
+    return false if !self.dns_zone_aaaa_record.save
+    return true
+  end
+
+end
