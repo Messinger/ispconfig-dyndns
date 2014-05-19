@@ -10,7 +10,7 @@ class DnsZoneRecord < ActiveRecord::Base
   validates :name, :presence => true
   validates :dns_zone, :presence => true
 
-  validates :name, uniqueness: {scope: :dns_zone, message: "Name is in use", case_sensitive: false }
+  validates :name, uniqueness: {scope: :dns_zone, message: "Name is in use", case_sensitive: false }, :format => { :with => /\A[a-zA-Z0-9]{1}[-A-Za-z0-9]{0,61}[a-zA-Z0-9]{1}\z/ }
   
   # validate against ISP Dns Records
   validates_with DnsIspRecordValidator
