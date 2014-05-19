@@ -105,11 +105,11 @@ class PresentationModel
           number = sprintf("%02d",current[8..-1].to_i+1)
           cd+number
         else
-          self.gen_timestamp
+          self.class.gen_timestamp
         end
       end
     else
-      self.gen_timestamp
+      self.class.gen_timestamp
     end
   end
 
