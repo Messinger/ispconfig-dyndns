@@ -85,7 +85,7 @@ class IspDnsAaaaRecord < IspResourceRecord
       :type => "AAAA",
       :aux => "0",
       :active => "y",
-      :ttl => "300",
+      :ttl => Setting.default_ttl,
       :serial => gen_timestamp,
       :stamp =>  "#{Time.now}"
     }

@@ -19,3 +19,6 @@ remote_user:
 remote_password:
   default:
 
+default_ttl:
+  type: int
+  default: 300
