@@ -19,28 +19,36 @@ class IspDnszone < PresentationModel
     asession.logout unless asession.nil?
   end
 
-  def self.dns_zone_get id
-    asession = IspSession.login 
+  def self.dns_zone_get id,usesession=nil
+    if usesession.nil?
+      asession = IspSession.login
+    else
+      asession = usesession
+    end
     r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :primary_id => id})
     raise ActiveRecord::RecordNotFound if r == false
     data = flatten_hash r
     IspDnszone.new(data)#[:id],data[:origin],data)
   ensure 
-    asession.logout unless asession.nil?
+    asession.logout if !asession.nil? && usesession.nil?
   end
 
-  def update_serial_number isp_client
-    asession = IspSession.login
+  def update_serial_number isp_client,usesession=nil
+    if usesession.nil?
+      asession = IspSession.login
+    else
+      asession = usesession
+    end
     cl = self.client
     clientid = isp_client.client_id
-    ser = gen_timestamp
+    ser = self.gen_timestamp
     primaryid = self.id
     recordhash = {
       :server_id => self.server_id,
       :origin => self.origin,
       :ns => self.ns,
       :mbox => self.mbox,
-      :serial =>self.serial,
+      :serial =>ser,
       :refresh => self.refresh,
       :expire => self.expire,
       :minimum => self.minimum,
@@ -58,7 +66,7 @@ class IspDnszone < PresentationModel
     res = cl.call :dns_zone_update, :message => message
     res.body[:dns_zone_update_response][:return]
   ensure
-    asession.logout unless asession.nil?
+    asession.logout if !asession.nil? && usesession.nil?
   end
 
   def records

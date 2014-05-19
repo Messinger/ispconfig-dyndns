@@ -50,12 +50,16 @@ class IspClient < PresentationModel
     asession.logout if !asession.nil? && usesession.nil?
   end
   
-  def self.client_for_user aclientuser
-    asession = IspSession.login
+  def self.client_for_user aclientuser,usesession=nil
+    if usesession.nil?
+      asession = IspSession.login
+    else
+      asession = usesession
+    end
     client_id = self.client_get_id aclientuser,asession
     self.client_get client_id,asession
   ensure
-    asession.logout unless asession.nil?
+    asession.logout if !asession.nil? && usesession.nil?
   end
   
 end
