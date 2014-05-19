@@ -1,0 +1,2 @@
+class DnsZoneController < ApplicationController
+end
