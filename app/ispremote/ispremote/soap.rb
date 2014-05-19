@@ -83,15 +83,15 @@ module Ispremote
       rd = response.body[resp][:return]
     end
     
-    def value_to_string v
-      return v if v.is_a? String
-      return "#{v}" if v.is_a? Integer
+    def convert_value v
+      return v.to_s if v.instance_of? Nori::StringWithAttributes
+      return v if v.is_a?(String) ||v.is_a?(Integer)
       ""
     end
     
     def flatten_hash r
       _h = r[:item]
-      Hash[*_h.map {|v| [v[:key].to_sym,self.value_to_string(v[:value])]}.flatten]
+      Hash[*_h.map {|v| [v[:key].to_sym,self.convert_value(v[:value])]}.flatten]
     end
 
   end
