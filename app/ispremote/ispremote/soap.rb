@@ -7,7 +7,7 @@ module Ispremote
                 :namespace => Setting.ispconfig_namespace,
                 :namespace_identifier => :ns1,
                 :strip_namespaces => true, :convert_request_keys_to => :none,
-                :log_level => :debug, 
+                :log_level => :warn,
                 :pretty_print_xml => true,
                 :log => true,
                 :filters => [:password],
