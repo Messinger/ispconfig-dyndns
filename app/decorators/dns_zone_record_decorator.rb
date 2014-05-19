@@ -72,7 +72,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
     aaaarec = self.dns_zone_aaaa_record
     
     resa = true
-    if arec.address_changed?
+    if arec.address_changed? || model.name_changed?
       isprecid = arec.isp_dns_a_record_id
       isprec = IspDnsARecord.dns_a_get(isprecid,ispsession) unless isprecid.blank?
       if arec.address.nil?
@@ -93,7 +93,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
     end
     
     resb = true
-    if aaaarec.address_changed?
+    if aaaarec.address_changed? || model.name_changed?
       isprecid = aaaarec.isp_dns_aaaa_record_id
       isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid,ispsession) unless isprecid.blank?
       if aaaarec.address.nil?
@@ -134,9 +134,9 @@ class DnsZoneRecordDecorator < ApplicationDecorator
   # before save you must call update_remote!
   def save
     return false if !valid?
-    return false if !model.save
-    return false if !self.dns_zone_a_record.save
-    return false if !self.dns_zone_aaaa_record.save
+    return false if !model.save(:validate => false)
+    return false if !self.dns_zone_a_record.save(:validate => false)
+    return false if !self.dns_zone_aaaa_record.save(:validate => false)
     return true
   end
 
