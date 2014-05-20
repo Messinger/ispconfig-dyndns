@@ -22,7 +22,12 @@
 %>
 <tr id="ispzone_row_<%=zone.id%>">
   <td><%= link_to zone.origin,isp_dnszone_path(zone) %></td>
-  <td data-id="<%=lzid %>"     id="<%=zone.id%>_local_assigned_to" ><%= localzone.name unless localzone.nil? %></td>
+  <% unless localzone.nil? %>
+  <td data-id="<%=lzid %>"     id="<%=zone.id%>_local_assigned_to" ><%= link_to localzone.name,client_dns_zone_path(localzone) %>
+  <% else %>
+  <td>&nbsp;
+  <% end %>
+  </td>
   <td>
   <%if localzone.nil? %>
     <%= link_to "Add local zone","#", :class => "add-dns-zone", "data-ispzoneid" => zone.id %>

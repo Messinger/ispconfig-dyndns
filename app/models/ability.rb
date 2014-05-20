@@ -15,7 +15,11 @@ class Ability
       can :manage,IspDnsAaaaRecord
       can :manage,IspResourceRecord
       
-      can :manage, DnsZone
+      can :read, DnsZone, :isp_client_user_id => user.id
+      can :destroy, DnsZone, :isp_client_user_id => user.id
+      can :add_dnszone, DnsZone
+      
+      #can :manage, DnsZone
     end
 
   end

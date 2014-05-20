@@ -3,6 +3,7 @@ class Client::DnsZonesController < ApplicationController
   
   def index
     Rails.logger.info "Dnszone index"
+    @dns_zones = DnsZone.accessible_by(current_ability)
   end
 
   def add_dnszone

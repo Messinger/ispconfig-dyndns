@@ -1,0 +1,28 @@
+<%= render partial: 'datatables_include' %>
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/dns_zone/index" %>
+<% end %>
+
+<table class="display" id="dns_zones">
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Assigned records</th>
+<th>&nbsp;</th>
+</tr>
+</thead>
+
+<tbody>
+<% @dns_zones.each do |dns_zone| %>
+<tr>
+<td>
+<%= link_to dns_zone.name, client_dns_zone_path(dns_zone) %>
+</td>
+<td><%= dns_zone.dns_zone_records.count %></td>
+<td>&nbsp;</td>
+</tr>
+<% end %>
+</tbody>
+
+</table>
