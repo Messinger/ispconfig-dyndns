@@ -14,6 +14,8 @@ class Ability
       can :manage,IspDnsARecord
       can :manage,IspDnsAaaaRecord
       can :manage,IspResourceRecord
+      
+      can :manage, DnsZone
     end
 
   end

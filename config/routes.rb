@@ -31,6 +31,10 @@ RailsDynamicDomain::Application.routes.draw do
 
   resources :isp_dnszones, :only => [:index,:show]
   
+  namespace :client do
+    resources :dns_zones
+  end
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
