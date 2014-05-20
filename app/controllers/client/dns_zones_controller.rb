@@ -41,4 +41,20 @@ class Client::DnsZonesController < ApplicationController
     end
   end
 
+  def destroy
+    zoneid = params[:id]
+    
+    dnsz = DnsZone.find zoneid
+    
+    dnszd = DnsZoneDecorator.new dnsz
+    dnszd.cleanup_records
+    dnsz.destroy
+
+    respond_to do |format|
+      format.json {
+        render json: { :state => "Done"}, status: :ok
+      }
+    end
+
+  end
 end

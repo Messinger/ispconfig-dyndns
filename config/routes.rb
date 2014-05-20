@@ -32,7 +32,7 @@ RailsDynamicDomain::Application.routes.draw do
   resources :isp_dnszones, :only => [:index,:show]
   
   namespace :client do
-    resources :dns_zones, :only => [:index,:show]
+    resources :dns_zones, :only => [:index,:show,:destroy]
     resource :dns_zones do
       post 'add_dnszone' => :add_dnszone, :as => :add
     end

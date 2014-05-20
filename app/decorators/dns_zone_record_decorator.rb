@@ -65,6 +65,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
     return false if !valid?
     return true unless changed?
     
+    Rails.logger.debug("Update remote")
     ispsession = IspSession.login
     
     isp_client = IspClient.client_for_user(dns_zone.isp_client_user_id,ispsession)
@@ -77,6 +78,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
       isprec = IspDnsARecord.dns_a_get(isprecid,ispsession) unless isprecid.blank?
       if arec.address.nil?
         unless isprecid.nil?
+          Rails.logger.debug("Delete #{arec} remote")
           isprec = IspDnsARecord.dns_a_get(isprecid,ispsession)
           resa = isprec.dns_a_delete
           arec.isp_dns_a_record_id = nil
@@ -120,12 +122,12 @@ class DnsZoneRecordDecorator < ApplicationDecorator
       isp_zone.update_serial_number isp_client,ispsession
     end
     
-    [resa,resb]
+    [arec,aaaarec]
   ensure
     ispsession.logout unless ispsession.nil?  
   end
     
-  def delete
+  def delete_remote
     self.ipv6_address = nil
     self.ipv4_address = nil
     self.update_remote

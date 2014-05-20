@@ -30,6 +30,21 @@ $ ->
             error: (req,msg,ojb) ->
                 console.log(req)
             }
-        
+
+    $('.drop-dns-zone').click (event) ->
+        event.preventDefault()
+        url = $(this).data("dropurl")
+        $.ajax {
+            url: url
+            type: "DELETE"
+            contentType: "application/json; charset=utf-8"
+            dataType: "json"
+            data: undefined
+            success: (data,status,xhr) ->
+                window.location.reload()
+            error: (req,msg,ojb) ->
+                console.log(req)        
+        }
+    
   $(document).ready(ready)
 
