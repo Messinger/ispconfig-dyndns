@@ -20,6 +20,7 @@ RailsDynamicDomain::Application.routes.draw do
   scope '/admin' do
     match '/login', to: 'sessions#adminlogin',          :as => :admin_login, :via => :get
     match '/sessions', to: 'sessions#create_for_admin', :as => :create_session_for_admin, :via => [:post]
+    match '', to: 'welcome#admin_index', :as => :admin_root, :via => :get
   end
 
   scope '/client' do

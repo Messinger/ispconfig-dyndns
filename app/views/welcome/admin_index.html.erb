@@ -1,0 +1,1 @@
+<% if current_user %>    <%= render :partial => "#{current_user.class.name.underscore}_index" %><% end %><% content_for :additional_javascripts do %><%= javascript_include_tag "pages/welcome/welcome" %><% end %><%= link_to "Login as client user",client_login_path %>
