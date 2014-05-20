@@ -9,9 +9,9 @@ module Ispremote
                 :strip_namespaces => true, :convert_request_keys_to => :none,
                 :log_level => :warn,
                 :pretty_print_xml => true,
-                :log => true,
+                :log => false,
                 :filters => [:password],
-                :logger => Rails.logger,
+                #:logger => Rails.logger,
                 env_namespace: "SOAP-ENV",
                 :namespaces => {"xmlns:ns2" => "http://xml.apache.org/xml-soap"}
                 
