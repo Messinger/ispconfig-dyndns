@@ -83,6 +83,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    error_request :not_found
+  end
+  
   def log_exception ex
   end
   
