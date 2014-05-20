@@ -24,12 +24,14 @@ group :assets do
 end
   
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
-gem 'jquery-turbolinks'
+# gem 'turbolinks'
+# gem 'jquery-turbolinks'
+# and mostly it breaks jquery... :( disabled
 
 group :development do
   # thin is much better than webrick
   gem 'thin'
+  gem 'seed_dump'
 end
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
