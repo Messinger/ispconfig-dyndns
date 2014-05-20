@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   skip_authorization_check :only => [
     :adminlogin, :clientlogin, :userlogin,
     :new, :create,
-    :create_for_admin, :create_for_client, :create_for_user
+    :create_for_admin, :create_for_client, :create_for_user, :destroy
   ]
 
     #skips the check authentication for creation of session

@@ -25,11 +25,11 @@ RailsDynamicDomain::Application.routes.draw do
   scope '/client' do
     match '/login', to: 'sessions#clientlogin',          :as => :client_login, :via => :get
     match '/sessions', to: 'sessions#create_for_client', :as => :create_session_for_client, :via => [:post]
+    resources :isp_dnszones, :only => [:index,:show]
   end
 
   match '/logout', to: 'sessions#destroy', :as => :user_logout, :via => :get
 
-  resources :isp_dnszones, :only => [:index,:show]
   
   namespace :client do
     resources :dns_zones, :only => [:index,:show,:destroy]

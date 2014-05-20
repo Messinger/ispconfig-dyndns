@@ -61,6 +61,8 @@ gem 'devise'
 # helpers
 gem 'draper'
 gem 'foreigner'
+gem 'superfish-rails'
+gem 'simple-navigation'
 
 # soap gedoehns
 

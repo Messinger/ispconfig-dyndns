@@ -17,8 +17,20 @@
 <%= yield(:extra_head_content) %>
 <!-- specific extra header end -->
 
+<script>
+$(document).ready(function(){
+    <% if current_user && current_user.instance_of?(ClientUser) %>
+        $('#js_navigation ul:first-child').addClass("sf-menu");
+        console.log($('#js_navigation ul'));
+        $('.sf-menu').superfish();
+    <% end %>
+  });
+</script>
+
 </head>
+
 <body>
+
 <!-- specific extra body header -->
 <%= yield(:extra_body_start) %>
 <!-- specific extra body end -->
@@ -27,7 +39,18 @@
 <%= render partial: "layouts/top_bar"%>
 
 <div id="mainarea">
+
+<%= render partial: "layouts/navigation"%>
+
+<div id="content">
+<!-- <div class="breadcrumbs">
+<%= render_navigation :renderer => :breadcrumbs, :join_with => ' &raquo; ' %>
+</div>
+
+<div class="clear"></div> -->
+
 <%= yield %>
+</div>
 </div>
 
 </body>
