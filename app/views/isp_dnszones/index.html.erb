@@ -2,6 +2,11 @@
 <%= render partial: 'datatables_include' %>
 <% content_for :additional_javascripts do %>
 <%= javascript_include_tag "pages/isp_dnszones/index" %>
+
+<script>
+  var add_zone_path = "<%= add_client_dns_zones_path %>";
+</script>
+
 <% end %>
 
 <div>
@@ -11,7 +16,15 @@
 </thead>
 <tbody>
 <% @ispdnszones.each do |zone| %>
-<tr><td><%= link_to zone.origin,isp_dnszone_path(zone) %></td><td></td><td></td></tr>
+<% 
+  localzone = DnsZone.find_by_isp_dnszone_id zone.id
+  lzid = ( localzone.nil? ? 0 : localzone.id )
+%>
+<tr id="ispzone_row_<%=zone.id%>">
+  <td><%= link_to zone.origin,isp_dnszone_path(zone) %></td>
+  <td data-id="<%=lzid %>"     id="<%=zone.id%>_local_assigned_to" ><%= localzone.name unless localzone.nil? %></td>
+  <td><%if localzone.nil? %><%= link_to "Add local zone","#", :class => "add-dns-zone", "data-ispzoneid" => zone.id %><% end %></td>
+</tr>
 <% end %>
 </tbody>
 

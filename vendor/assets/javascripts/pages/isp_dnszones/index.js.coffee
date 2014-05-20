@@ -11,7 +11,25 @@ $ ->
                 ]
             )
 
+    $('.add-dns-zone').click (event) ->
+        event.preventDefault()
+        id = $(this).data("ispzoneid")
+        if id == undefined
+            return
+        url = add_zone_path
+        data = "{\"ispzone_id\": \""+id+"\"}"
+        console.log data
+        $.ajax {
+            url: url
+            type: 'POST'
+            contentType: "application/json; charset=utf-8"
+            dataType: "json"
+            data: data
+            success: (data,status,xhr) ->
+                window.location.reload()
+            error: (req,msg,ojb) ->
+                console.log(req)
+            }
+        
   $(document).ready(ready)
-  # turbolinks workaround
-  $(document).on('page:load', ready)
 
