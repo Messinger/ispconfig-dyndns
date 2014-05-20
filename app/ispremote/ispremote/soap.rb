@@ -90,8 +90,14 @@ module Ispremote
     end
     
     def flatten_hash r
-      _h = r[:item]
-      Hash[*_h.map {|v| [v[:key].to_sym,self.convert_value(v[:value])]}.flatten]
+      begin
+        _h = r[:item]
+#        Rails.logger.info "No problems with #{r.inspect}"
+        Hash[*_h.map {|v| [v[:key].to_sym,self.convert_value(v[:value])]}.flatten]
+      rescue => ex
+        Rails.logger.fatal "Got problems with #{r.inspect}"
+        raise ex
+      end
     end
 
   end

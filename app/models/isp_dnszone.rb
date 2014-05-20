@@ -11,9 +11,17 @@ class IspDnszone < PresentationModel
     r = super(:message => {:sessionid => asession.sessionid, :client_id => aclient.client_id,:server_id => serverid})
     r = self.response_to_hash r
     return [] unless r.has_key?(:item)
-    zones = (r[:item]).collect do |zone| 
-      vals = flatten_hash zone 
-      i = IspDnszone.new(vals)
+    if r[:item].is_a? Array
+      zones = (r[:item]).collect do |zone|
+        vals = flatten_hash zone
+        i = IspDnszone.new(vals)
+      end
+    elsif r[:item].is_a? Hash
+      zones = []
+      if r[:item].has_key?(:item)
+        vals = flatten_hash r[:item]
+        zones << IspDnszone.new(vals)
+      end
     end
   ensure 
     asession.logout unless asession.nil?

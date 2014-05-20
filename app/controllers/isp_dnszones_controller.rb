@@ -8,8 +8,8 @@ class IspDnszonesController < ApplicationController
   end
 
   def show
-      @ispdnszone = IspDnszone.dns_zone_get params[:id]
-      raise ForbiddenRequest.new if current_user.id != @ispdnszone.sys_userid
+    @ispdnszone = IspDnszone.dns_zone_get params[:id]
+    raise ForbiddenRequest.new if current_user.id != @ispdnszone.sys_userid
   end
 
 end
