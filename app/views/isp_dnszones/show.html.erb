@@ -19,6 +19,7 @@
   <tr>
     <th>Name</th>
     <th>Value</th>
+    <th>Type</th>
     <th>Local</th>
   </tr>
 </thead>
@@ -27,6 +28,7 @@
   <tr>
     <th>Name</th>
     <th>Value</th>
+    <th>Type</th>
     <th>Local</th>
   </tr>
 </tfoot>
@@ -39,7 +41,7 @@
     end
 %>
 <% if record.type == "A" || record.type == "AAAA" %>
-<tr><td><%= record.name %></td><td><%= record.data %></td><td><%= localdns %></td></tr>
+<tr><td><%= record.name %></td><td><%= record.data %></td><td><%= record.type %></td><td><%= localdns %></td></tr>
 <% end %>
 <%end%>
 </tbody>

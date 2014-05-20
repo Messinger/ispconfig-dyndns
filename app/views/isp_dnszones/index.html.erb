@@ -7,11 +7,11 @@
 <div>
 <table class="display" id="ispdnszones">
 <thead>
-<tr><th>DNS Zone</th></tr>
+<tr><th>DNS Zone</th><th>Local assigned</th><th></th></tr>
 </thead>
 <tbody>
 <% @ispdnszones.each do |zone| %>
-<tr><td><%= link_to zone.origin,isp_dnszone_path(zone) %></td></tr>
+<tr><td><%= link_to zone.origin,isp_dnszone_path(zone) %></td><td></td><td></td></tr>
 <% end %>
 </tbody>
 
