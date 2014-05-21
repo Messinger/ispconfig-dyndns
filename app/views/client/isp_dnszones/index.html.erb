@@ -5,6 +5,7 @@
 
 <script>
   var add_zone_path = "<%= add_client_dns_zones_path %>";
+  var dns_zone_path = "<%= client_dns_zones_path %>";
 </script>
 
 <% end %>
@@ -32,7 +33,7 @@
   <%if localzone.nil? %>
     <%= link_to "Add local zone","#", :class => "add-dns-zone", "data-ispzoneid" => zone.id %>
   <% else %>
-    <%= link_to "Drop this zone","#", :class => "drop-dns-zone", "data-dropurl" => client_dns_zone_path(localzone) %>
+    <%= link_to "Drop this zone","#", :class => "drop-dns-zone", "data-ispzoneid" => zone.id, "data-dropurl" => client_dns_zone_path(localzone) %>
   <% end %></td>
 </tr>
 <% end %>

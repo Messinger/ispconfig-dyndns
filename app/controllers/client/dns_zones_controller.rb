@@ -42,7 +42,7 @@ class Client::DnsZonesController < ApplicationController
     respond_to do |format|
       format.json {
         if dnsz.valid?
-          render json: { :state => "Done"}, status: :ok
+          render json: dnsz, status: :ok
         else
           render json: { :state => "Could not save!"}, status: :bad_request
         end
