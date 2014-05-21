@@ -4,8 +4,16 @@ class Client::DnsZonesController < ApplicationController
   def index
     Rails.logger.info "Dnszone index"
     @dns_zones = DnsZone.accessible_by(current_ability)
+    index_bread
   end
 
+  def show
+    dnsid = params[:id]
+    index_bread
+    @dnszone = DnsZone.accessible_by(current_ability).find dnsid
+    add_breadcrumb "Domainzone '#{@dnszone.name}'",client_dns_zone_path(@dnszone)
+  end
+  
   def add_dnszone
     ispzone_id = params[:ispzone_id]
     
@@ -56,6 +64,14 @@ class Client::DnsZonesController < ApplicationController
         render json: { :state => "Done"}, status: :ok
       }
     end
-
   end
+  
+  private
+  
+  def index_bread
+    cu = ClientUserDecorator.new current_user
+    
+    add_breadcrumb "Local assigned domains for #{cu.full_name}",client_dns_zones_path
+  end
+  
 end

@@ -1,0 +1,30 @@
+<%= render partial: 'datatables_include' %>
+
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/dns_zone/show" %>
+<% end %>
+
+<table id="dnszone_records" class="display">
+  <thead>
+    <tr><th>Name</th><th>Assigned ips</th><th></th></tr>
+  </thead>
+  
+  <tbody>
+  <% @dnszone.dns_zone_records.each do |record| %>
+    <% rdec = DnsZoneRecordDecorator.new record %>
+
+    <% unless rdec.empty? %>
+      <% unless rdec.ipv4_address.blank? %>
+        <tr><td><%= rdec.name %></td><td><%= rdec.ipv4_address %></td><td></td></tr>
+      <% end %>
+      <% unless rdec.ipv6_address.blank? %>
+        <tr><td><%= rdec.name %></td><td><%= rdec.ipv6_address %></td><td></td></tr>
+      <% end %>
+    <% else %>
+      <tr><td><%= rdec.name %></td><td>&nbsp;</td><td></td></tr>
+    <% end %>
+  <% end %>
+  </tbody>
+
+</table>
+
