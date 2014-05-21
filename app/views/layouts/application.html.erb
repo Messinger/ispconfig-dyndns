@@ -43,11 +43,11 @@ $(document).ready(function(){
 <%= render partial: "layouts/navigation"%>
 
 <div id="content">
-<!-- <div class="breadcrumbs">
-<%= render_navigation :renderer => :breadcrumbs, :join_with => ' &raquo; ' %>
-</div>
+  <div class="breadcrumbs">
+    <%= render_navigation :renderer => :breadcrumbs, :join_with => ' &raquo; ' %>
+  </div>
 
-<div class="clear"></div> -->
+<div class="clear"></div>
 
 <%= yield %>
 </div>
