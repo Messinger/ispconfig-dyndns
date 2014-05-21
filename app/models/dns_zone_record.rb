@@ -6,7 +6,6 @@ class DnsZoneRecord < ActiveRecord::Base
   has_one :dns_zone_aaaa_record, :dependent => :destroy
   has_one :api_key, as: :token_parent, :dependent => :destroy
 
-  validates :user_id, :presence => true
   validates :name, :presence => true
   validates :dns_zone, :presence => true
 
