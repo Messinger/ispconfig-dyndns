@@ -47,10 +47,18 @@ class SessionsController < ApplicationController
       raise ex
     end
     
+    if @authtype == UserHelper::USER_TYPE
+      redirect_url = admin_root_path
+    elsif @authtype == UserHelper::CLIENT_TYPE
+      redirect_url = client_root_path
+    else
+      redirect_url = root_path
+    end
+    
     respond_to do |format|
       format.html {
         if authentication_success
-          redirect_to root_path
+          redirect_to redirect_url
         else
           if @authtype == UserHelper::CLIENT_TYPE
             redirect_to client_login_path
@@ -78,10 +86,17 @@ class SessionsController < ApplicationController
   end # create_for_client
 
   def destroy
-    log_out
+    
+    if current_user.nil? || current_user.instance_of?(User)
+      redirect_url = root_path
+    elsif current_user.instance_of? ClientUser
+      redirect_url = client_root_path
+    end
+    log_out unless current_user.nil?
+
     respond_to do |format|
       format.html {
-          redirect_to root_path
+          redirect_to redirect_url
       }
       format.json {
         render :nothing => true, :status => :ok

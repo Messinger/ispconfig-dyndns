@@ -31,5 +31,9 @@ class ClientUser
   def is_admin?
     false
   end
+  
+  def user_type
+    UserHelper::CLIENT_TYPE
+  end
 
 end

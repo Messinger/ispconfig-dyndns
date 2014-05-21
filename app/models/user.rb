@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
   def is_admin?
     false
   end
+  
+  def user_type
+    UserHelper::USER_TYPE
+  end
 
   private
 
