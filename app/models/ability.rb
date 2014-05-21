@@ -20,7 +20,7 @@ class Ability
       can :add_dnszone, DnsZone
 
       can :read, DnsZoneRecord, :dns_zone => {:isp_client_user_id => user.id.to_i}
-      can :edit, DnsZoneRecord, :dns_zone => {:isp_client_user_id => user.id.to_i}, :user_id => nil
+      can :manage, DnsZoneRecord, :dns_zone => {:isp_client_user_id => user.id.to_i}, :user_id => nil
 
     end
 
