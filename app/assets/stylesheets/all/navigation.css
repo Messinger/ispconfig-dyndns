@@ -1,8 +1,12 @@
 #js_navigation 
 {
     float: left;
-    width: 120px;
-/*    background-color: #D6D1B9; */
+    min-width: 120px;
+    width: 5%;
+    background-color: #EEE;
+    min-height: 480px;
+    height: 100%;
+    position: relative;
 }
 
 #js_navigation ul {
