@@ -1,8 +1,7 @@
 #js_navigation 
 {
     float: left;
-    min-width: 120px;
-    width: 5%;
+    width: 100px;
     background-color: #EEE;
     min-height: 480px;
     height: 100%;
