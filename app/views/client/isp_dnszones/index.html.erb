@@ -21,7 +21,7 @@
   lzid = ( localzone.nil? ? 0 : localzone.id )
 %>
 <tr id="ispzone_row_<%=zone.id%>">
-  <td><%= link_to zone.origin,isp_dnszone_path(zone) %></td>
+  <td><%= link_to zone.origin,client_isp_dnszone_path(zone) %></td>
   <% unless localzone.nil? %>
   <td data-id="<%=lzid %>"     id="<%=zone.id%>_local_assigned_to" ><%= link_to localzone.name,client_dns_zone_path(localzone) %>
   <% else %>

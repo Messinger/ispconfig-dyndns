@@ -26,7 +26,6 @@ RailsDynamicDomain::Application.routes.draw do
   scope '/client' do
     match '/login', to: 'sessions#clientlogin',          :as => :client_login, :via => :get
     match '/sessions', to: 'sessions#create_for_client', :as => :create_session_for_client, :via => [:post]
-    resources :isp_dnszones, :only => [:index,:show]
     match '', to: 'welcome#admin_index', :as => :client_root, :via => :get
   end
 
@@ -38,6 +37,7 @@ RailsDynamicDomain::Application.routes.draw do
     resource :dns_zones do
       post 'add_dnszone' => :add_dnszone, :as => :add
     end
+    resources :isp_dnszones, :only => [:index,:show]
   end
   
   # Example of regular route:

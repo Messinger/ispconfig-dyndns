@@ -1,4 +1,4 @@
-class IspDnszonesController < ApplicationController
+class Client::IspDnszonesController < ApplicationController
   authorize_resource :class => IspDnszone
 
   def index
