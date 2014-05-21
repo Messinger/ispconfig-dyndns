@@ -6,8 +6,9 @@ $ ->
         $('#dns_zones').dataTable(
             "order": [[ 0, "asc" ]]
             "columnDefs": [
+                { "width":"20%", "targets" :0 },
                 { "width":"20%", "targets" :1 },
-                { "orderable": false, "width":"20%", "targets": 2 }
+                { "orderable": false, "targets": 2 }
                 ]
             )
   $(document).ready(ready)
