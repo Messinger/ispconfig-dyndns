@@ -20,7 +20,7 @@ class DnsZone < ActiveRecord::Base
   end
 
 
-  def ispdnszone
+  def isp_dnszone
       @ispdnszone ||= IspDnszone.dns_zone_get self.isp_dnszone_id
   end
 
