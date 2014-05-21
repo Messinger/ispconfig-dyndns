@@ -14,9 +14,12 @@ SimpleNavigation::Configuration.run do |navigation|
       sub_nav.item :user_login, content_tag(:span, "Logout"),user_logout_path if current_user
     end
 
-    primary.item :dnszones,content_tag(:span, "DNS Zones"), client_dns_zones_path do |sub_nav|
-      sub_nav.item :isp_dnszones,content_tag(:span, "Isp DNS Zones"),client_isp_dnszones_path
-    end if current_user && current_user.instance_of?(ClientUser)
+    if current_user && current_user.instance_of?(ClientUser)
+      primary.item :dns, content_tag(:span, "DNS"), "#" do |sub_nav|
+        sub_nav.item :dnszones,content_tag(:span, "DNS Zones"), client_dns_zones_path 
+        sub_nav.item :isp_dnszones,content_tag(:span, "ISPConfig DNS Zones"),client_isp_dnszones_path
+      end
+    end
 
   end
 end

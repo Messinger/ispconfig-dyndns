@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   check_authorization
 
   helper_method :current_user
-  
+    
   def initialize
     @current_user = nil
     super
@@ -40,8 +40,12 @@ class ApplicationController < ActionController::Base
   private
   
   def set_authentication_information
+    add_breadcrumb "Home", :root_path
+
     if current_user
-      
+      if current_user.instance_of? ClientUser
+        add_breadcrumb "Client user home", :client_root_path
+      end
     end
     # touch session object so updated_at is set
     session[:lastseen] = Time.now()
@@ -84,6 +88,10 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
+    error_request :not_found
+  end
+  
+  rescue_from ActiveRecord::RecordNotFound do |exception|
     error_request :not_found
   end
   

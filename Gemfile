@@ -63,6 +63,7 @@ gem 'draper'
 gem 'foreigner'
 gem 'superfish-rails'
 gem 'simple-navigation'
+gem 'breadcrumbs_on_rails'
 
 # soap gedoehns
 
