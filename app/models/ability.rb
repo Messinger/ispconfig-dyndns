@@ -9,7 +9,7 @@ class Ability
       return
     end
 
-    if user.is_a? ClientUser
+    if user.instance_of? ClientUser
       can :manage,IspDnszone
       can :manage,IspDnsARecord
       can :manage,IspDnsAaaaRecord
@@ -18,8 +18,10 @@ class Ability
       can :read, DnsZone, :isp_client_user_id => user.id
       can :destroy, DnsZone, :isp_client_user_id => user.id
       can :add_dnszone, DnsZone
-      
-      #can :manage, DnsZone
+
+      can :read, DnsZoneRecord, :dns_zone => {:isp_client_user_id => user.id.to_i}
+      can :edit, DnsZoneRecord, :dns_zone => {:isp_client_user_id => user.id.to_i}, :user_id => nil
+
     end
 
   end
