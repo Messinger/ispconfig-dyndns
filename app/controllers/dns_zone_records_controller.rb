@@ -16,6 +16,25 @@ class DnsZoneRecordsController < ApplicationController
     index_bread
   end
 
+  def new
+    dnszoneid=params[:dns_zone_id]
+    
+    if dnszoneid.blank?
+      @dns_zone = nil
+    else
+      @dns_zone = DnsZone.accessible_by(current_ability).find dnszoneid
+    end
+    @dns_zone_record = DnsZoneRecord.new
+    @dns_zone_record.dns_zone_id = @dns_zone.id unless @dns_zone.nil?
+
+    unless params[:partial].blank?
+      render :partial => 'edit_record' and return
+    else
+      index_bread
+      add_breadcrumb "New DNS Record",new_dns_zone_record_path
+    end
+  end
+
   private
 
   def index_bread
