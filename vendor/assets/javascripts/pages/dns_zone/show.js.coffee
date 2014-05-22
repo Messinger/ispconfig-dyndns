@@ -1,5 +1,6 @@
 $ ->
   ready = ->
+
     ex = document.getElementById('dnszone_records')
     
     if !$.fn.DataTable.fnIsDataTable( ex )

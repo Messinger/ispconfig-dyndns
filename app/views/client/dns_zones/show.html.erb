@@ -4,6 +4,7 @@
 <%= javascript_include_tag "pages/dns_zone/show" %>
 <% end %>
 
+<div id="dnszone_content">
 <table id="dnszone_records" class="display">
   <thead>
     <tr><th>Name</th><th>Assigned ips</th><th></th></tr>
@@ -28,3 +29,8 @@
 
 </table>
 
+</div>
+
+<div id="dnszone_commands">
+<a href="#" id="new_dns_zone_record" class="linkbutton">Add new record</a>
+</div>

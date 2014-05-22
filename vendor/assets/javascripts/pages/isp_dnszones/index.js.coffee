@@ -19,7 +19,6 @@ $ ->
             console.log(req)        
     }
   
-
   add_dns_zone = (event,element) ->
     event.preventDefault()
     nRow = $(element).parents('tr');
@@ -42,6 +41,19 @@ $ ->
         }
 
 
+  make_add_buttons = () ->
+    $("a.add-dns-zone").not('.ui-button')
+        .button()
+        .click (event) ->
+            add_dns_zone(event,this)
+
+  make_drop_buttons = () ->
+    $("a.drop-dns-zone").not('.ui-button')
+        .button()
+        .click (event) ->
+            drop_dns_zone(event,this)
+  
+
   update_dns_row = (row, data, addzone) ->
     curdata = row.data()
   
@@ -50,17 +62,14 @@ $ ->
         curdata[2] = actiontext
         curdata[1] = "&nbsp;"
         row.data(curdata)
-        $('.add-dns-zone').click (event) ->
-            add_dns_zone(event,this)
+        make_add_buttons()
         
     else
         actiontext = '<a class="drop-dns-zone" href="#" data-ispzoneid="'+data.isp_dnszone_id+'" data-dropurl="'+dns_zone_path+'/'+data.id+'">Drop this zone</a>';
         curdata[2] = actiontext
         curdata[1] = '<a href="'+dns_zone_path+'/'+data.id+'">'+data.name+'</a>'
         row.data(curdata)
-        $('.drop-dns-zone').click (event) ->
-            drop_dns_zone(event,this)
-        
+        make_drop_buttons()        
     
   ready = ->
     ex = document.getElementById('ispdnszones')
@@ -73,10 +82,7 @@ $ ->
                 ]
             )
 
-    $('.add-dns-zone').click (event) ->
-        add_dns_zone(event,this)
-
-    $('.drop-dns-zone').click (event) ->
-        drop_dns_zone(event,this)
+    make_add_buttons()
+    make_drop_buttons()
     
   $(document).ready(ready)

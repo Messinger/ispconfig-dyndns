@@ -31,7 +31,7 @@
   </td>
   <td>
   <%if localzone.nil? %>
-    <%= link_to "Add local zone","#", :class => "add-dns-zone", "data-ispzoneid" => zone.id %>
+    <%= link_to "Add local zone","#", :class => "add-dns-zone", "data-ispzoneid" => zone.id  %>
   <% else %>
     <%= link_to "Drop this zone","#", :class => "drop-dns-zone", "data-ispzoneid" => zone.id, "data-dropurl" => client_dns_zone_path(localzone) %>
   <% end %></td>
