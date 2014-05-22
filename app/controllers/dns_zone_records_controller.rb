@@ -35,6 +35,9 @@ class DnsZoneRecordsController < ApplicationController
     end
   end
 
+  def create
+  end
+
   private
 
   def index_bread

@@ -5,7 +5,8 @@
 
 <script>
   var dnszone_id = "<%=@dnszone.id%>";
-  var createrecordurl = "<%= dns_zone_records_path(:dnszoneid=>@dnszone.id)%>";
+  var createrecordurl = "<%= dns_zone_records_path%>";
+  var newrecordurl = "<%= new_dns_zone_record_path(:partial=>true,:dns_zone_id=>@dnszone.id) %>";
 </script>
 <% end %>
 
