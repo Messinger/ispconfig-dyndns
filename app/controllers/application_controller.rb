@@ -88,10 +88,12 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
+    Rails.logger.error "Access denied on #{exception.action} #{exception.subject.inspect}"
     error_request :not_found
   end
   
   rescue_from ActiveRecord::RecordNotFound do |exception|
+    Rails.logger.error "Record not found: #{exception.message}"
     error_request :not_found
   end
   
