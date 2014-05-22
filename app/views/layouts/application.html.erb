@@ -35,23 +35,24 @@ $(document).ready(function(){
 <%= yield(:extra_body_start) %>
 <!-- specific extra body end -->
 
-<div id="logo" style="margin-bottom: 6px;">Logobereich</div>
-<%= render partial: "layouts/top_bar"%>
+  <div id="logo" style="margin-bottom: 6px;">Logobereich</div>
 
-<div id="mainarea">
+  <div id="mainarea">
 
-<%= render partial: "layouts/navigation"%>
+      <%= render partial: "layouts/navigation"%>
 
-<div id="content">
-  <div class="breadcrumbs">
-    <%= render_breadcrumbs  :separator => ' &raquo; ' %>
+    <div id="maincontent">
+      
+      <div class="breadcrumbs">
+        <%= render_breadcrumbs  :separator => ' &raquo; ' %>
+      </div>
+
+      <div class="clear"></div>
+
+    <%= yield %>
+
+    </div>
   </div>
-
-<div class="clear"></div>
-
-<%= yield %>
-</div>
-</div>
 
 </body>
 </html>
