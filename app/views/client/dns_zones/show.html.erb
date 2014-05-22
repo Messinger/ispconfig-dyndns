@@ -2,6 +2,11 @@
 
 <% content_for :additional_javascripts do %>
 <%= javascript_include_tag "pages/dns_zone/show" %>
+
+<script>
+  var dnszone_id = "<%=@dnszone.id%>";
+  var createrecordurl = "<%= dns_zone_records_path(:dnszoneid=>@dnszone.id)%>";
+</script>
 <% end %>
 
 <div id="dnszone_content">
@@ -32,5 +37,40 @@
 </div>
 
 <div id="dnszone_commands">
-<a href="#" id="new_dns_zone_record" class="linkbutton">Add new record</a>
+<a href="#" id="new_dns_zone_record" class="addrecordbutton">Add new record</a>
+</div>
+
+<div id="addrecordbox" style="display:none;">
+<%= form_tag dns_zone_records_path, :id => "new_dns_zone_record" do %>
+  <%= hidden_field_tag("dns_zone_record[dns_zone_id]",@dnszone.id) %>
+  
+  <div class="formbox">
+    <div class="elementlabelbox">
+      <%= label_tag("dns_zone_record[name]","Hostname:") %>
+    </div>
+    <div class="elementbox">
+      <%= text_field_tag("dns_zone_record[name]") %>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="formbox">
+    <div class="elementlabelbox">
+      <%= label_tag("dns_zone_record[dns_zone_a_record][address]","IPV4:") %>
+    </div>
+      <div class="elementbox">
+      <%= text_field_tag("dns_zone_record[dns_zone_a_record][address]") %>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="formbox">
+    <div class="elementlabelbox">
+      <%= label_tag("dns_zone_record[dns_zone_aaaa_record][address]","IPV6:") %>
+    </div>
+    <div class="elementbox">
+      <%= text_field_tag("dns_zone_record[dns_zone_aaaa_record][address]") %>
+    </div>
+  </div>
+  
+
+<% end %>
 </div>
