@@ -9,7 +9,7 @@ $ ->
       $("#formcontent").dialog ({
         autopen: false
         modal: true
-        width: 350
+        width: 380
         buttons: {
           Save: () ->
             f = $('form#new_dns_zone_record')
