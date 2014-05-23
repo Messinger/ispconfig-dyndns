@@ -24,6 +24,16 @@ class Ability
 
     end
 
+    if user.instance_of? User
+      can :create, DnsZoneRecord, :dns_zone => {:is_public => true}
+      can :create, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
+      can :create, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
+
+      can :manage, DnsZoneRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
+      can :manage, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :manage, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+    end
+
   end
 
 end
