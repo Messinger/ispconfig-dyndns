@@ -18,7 +18,12 @@ SimpleNavigation::Configuration.run do |navigation|
       primary.item :dns, content_tag(:span, "DNS"), client_root_path do |sub_nav|
         sub_nav.item :dnszones,content_tag(:span, "DNS Zones"), client_dns_zones_path 
         sub_nav.item :isp_dnszones,content_tag(:span, "ISPConfig DNS Zones"),client_isp_dnszones_path
+        sub_nav.item :dnsrecords, content_tag(:span, "DNS Records"), dns_zone_records_path
       end
+    end
+    
+    if current_user
+      
     end
 
   end
