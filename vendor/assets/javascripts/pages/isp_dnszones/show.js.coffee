@@ -1,9 +1,9 @@
 $ ->
    
   ready = ->
-    ex = document.getElementById('dnsrecords')
+    ex = document.getElementById('dnsrecordstable')
     if !$.fn.DataTable.fnIsDataTable( ex )
-        $('#dnsrecords').dataTable(
+        $('#dnsrecordstable').dataTable(
             "order": [[ 0, "asc" ]]
             "columnDefs": [
                 { "orderable": false, "targets": 3 }

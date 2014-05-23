@@ -13,7 +13,7 @@
 </div>
 <div>
 
-<table id="dnsrecords" class="display">
+<table id="dnsrecordstable" class="display">
 
 <thead>
   <tr>
@@ -24,25 +24,20 @@
   </tr>
 </thead>
 
-<tfoot>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Type</th>
-    <th>Local</th>
-  </tr>
-</tfoot>
-
 <tbody>
-<% @ispdnszone.records.each do |record| 
-    localdns = DnsZoneRecord.find_by_name record.name
-    unless localdns.nil?
-      
-    end
-%>
+<% @ispdnszone.records.each do |record| %>
+<% localdns = DnsZoneRecord.find_by_name record.name %>
+
 <% if record.type == "A" || record.type == "AAAA" %>
-<tr><td><%= record.name %></td><td><%= record.data %></td><td><%= record.type %></td><td><%= localdns %></td></tr>
+<tr><td><%= record.name %></td><td><%= record.data %></td><td><%= record.type %></td>
+<td>
+<% unless localdns.blank? %>
+  <%= localdns.name %>
 <% end %>
+</td>
+</tr>
+<% end %>
+
 <%end%>
 </tbody>
 </table>
