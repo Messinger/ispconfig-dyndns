@@ -32,6 +32,10 @@ class DnsZoneRecord < ActiveRecord::Base
     }
   end
 
+  def as_json(options={})
+    super(:include => [:dns_zone_a_record,:dns_zone_aaaa_record,:api_key])
+  end
+
   private
 
   def create_assignees

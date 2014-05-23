@@ -24,6 +24,16 @@ $ ->
               dataType: "json"
               success: (data,status,xhr)->
                 console.log(data)
+                tapi = $('#dnszone_records').DataTable()
+                tapi.row.add(
+                  [
+                    data["name"]
+                    data["dns_zone_a_record"]["address"]
+                    data["dns_zone_aaaa_record"]["address"]
+                    data["api_key"]["access_token"]
+                    ""
+                  ]
+                ).draw()
               error: (req,msg,obj) ->
                 console.log(req)
             }
