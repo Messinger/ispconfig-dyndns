@@ -43,7 +43,8 @@ class DnsZoneRecordsController < ApplicationController
       dns_zone_record.user = nil
     end
     recparams = params[:dns_zone_record]
-    dns_zone_id = recparams[:dns_zone]
+    logger.debug "Full params: #{params}"
+    dns_zone_id = params[:dns_zone][:id]
     zone = DnsZone.accessible_by(current_ability).find dns_zone_id
     dns_zone_record.dns_zone = zone
     dns_zone_record.name = recparams[:name]
@@ -53,19 +54,21 @@ class DnsZoneRecordsController < ApplicationController
       recd = DnsZoneRecordDecorator.new dns_zone_record
       logger.debug "Parameter: #{recparams}"
       begin
-        aaddr = recparams.has_key?("dns_zone_a_record") ? [:dns_zone_a_record][:address]:""
-        aaaaaddr = recparams.has_key?("dns_zone_aaaa_record") ? [:dns_zone_aaaa_record][:address]:""
+        aaddr = params.has_key?("dns_zone_a_record") ? params[:dns_zone_a_record][:address]:""
+        aaaaaddr = params.has_key?("dns_zone_aaaa_record") ? params[:dns_zone_aaaa_record][:address]:""
         if aaddr.blank? && aaaaaddr.blank?
           recd.address = request.remote_ip
         else
-          recd.ipv4_address = aaddr
-          recd.ipv6_address = aaaaaddr
+          recd.ipv4_address = aaddr.blank? ? nil:aaddr
+          recd.ipv6_address = aaaaaddr.blank? ? nil:aaaaaddr
         end
-        recd.save
+        recd.update_remote
       rescue => ex
         logger.fatal ex
         saved = false
         recd.delete
+      else
+        recd.save
       end
     end
     

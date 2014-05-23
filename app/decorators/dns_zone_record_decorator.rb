@@ -80,7 +80,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
     if arec.address_changed? || model.name_changed?
       isprecid = arec.isp_dns_a_record_id
       isprec = IspDnsARecord.dns_a_get(isprecid,ispsession) unless isprecid.blank?
-      if arec.address.nil?
+      if arec.address.blank?
         unless isprecid.nil?
           Rails.logger.debug("Delete #{arec} remote")
           isprec = IspDnsARecord.dns_a_get(isprecid,ispsession)
@@ -102,7 +102,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
     if aaaarec.address_changed? || model.name_changed?
       isprecid = aaaarec.isp_dns_aaaa_record_id
       isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid,ispsession) unless isprecid.blank?
-      if aaaarec.address.nil?
+      if aaaarec.address.blank?
         unless isprecid.nil?
           isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid,ispsession)
           resb = isprec.dns_aaaa_delete

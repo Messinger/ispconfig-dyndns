@@ -2,10 +2,12 @@
 <%= form_for @dns_zone_record do |f| %>
 
 <% unless @dns_zone_record.dns_zone.blank? %>
-  <%= hidden_field_tag('dns_zone_record[dns_zone]',@dns_zone_record.dns_zone.id) %>
+  <%= hidden_field_tag('dns_zone[id]',@dns_zone_record.dns_zone.id) %>
   <% zsel = "" %>
 <% else %>
-  <% zsel = f.select(:dns_zone, DnsZone.accessible_by(current_ability).collect{|d| ["."+d.name,d.id]}) %>
+  <% fields_for DnsZone.new do |z| %>
+    <% zsel = z.select(:id, DnsZone.accessible_by(current_ability).collect{|d| ["."+d.name,d.id]}) %>
+  <% end %>
 <% end %>
 
   <div class="formbox">
@@ -13,25 +15,26 @@
       <%= f.label(:name,"Hostname:") %>
     </div>
     <div class="elementbox" >
-      <%= text_field_tag("dns_zone_record[name]") %>  <%= zsel %>
+      <%= f.text_field(:name) %>  <%= zsel %>
     </div>
   </div>
   <div class="clear"></div>
+  
   <div class="formbox">
     <div class="elementlabelbox">
-      <%= label_tag("dns_zone_record[dns_zone_a_record][address]","IPV4:") %>
+      <%= label_tag("dns_zone_a_record[address]","IPV4:") %>
     </div>
       <div class="elementbox">
-      <%= text_field_tag("dns_zone_record[dns_zone_a_record][address]") %>
+      <%= text_field_tag("dns_zone_a_record[address]") %>
     </div>
   </div>
   <div class="clear"></div>
   <div class="formbox">
     <div class="elementlabelbox">
-      <%= label_tag("dns_zone_record[dns_zone_aaaa_record][address]","IPV6:") %>
+      <%= label_tag("dns_zone_aaaa_record[address]","IPV6:") %>
     </div>
     <div class="elementbox">
-      <%= text_field_tag("dns_zone_record[dns_zone_aaaa_record][address]") %>
+      <%= text_field_tag("dns_zone_aaaa_record[address]") %>
     </div>
   </div>
   
