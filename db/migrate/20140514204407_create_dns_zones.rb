@@ -6,6 +6,7 @@ class CreateDnsZones < ActiveRecord::Migration
       t.string :isp_dnszone_origin, :null => false
       t.integer :isp_dnszone_id, :null => false
       t.integer :isp_client_user_id, :null => false
+      t.boolean :is_public, :default => false, :null => false
 
       t.timestamps
     end

@@ -61,10 +61,11 @@ ActiveRecord::Schema.define(version: 20140515084407) do
   add_index "dns_zone_records", ["user_id"], name: "index_dns_zone_records_on_user_id"
 
   create_table "dns_zones", force: true do |t|
-    t.string   "name",               null: false
-    t.string   "isp_dnszone_origin", null: false
-    t.integer  "isp_dnszone_id",     null: false
-    t.integer  "isp_client_user_id", null: false
+    t.string   "name",                               null: false
+    t.string   "isp_dnszone_origin",                 null: false
+    t.integer  "isp_dnszone_id",                     null: false
+    t.integer  "isp_client_user_id",                 null: false
+    t.boolean  "is_public",          default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

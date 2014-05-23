@@ -8,7 +8,9 @@ $ ->
             "columnDefs": [
                 { "width":"20%", "targets" :0 },
                 { "width":"20%", "targets" :1 },
-                { "orderable": false, "targets": 2 }
+                { "width":"10%", "targets" :2 },
+                { "orderable": false, "targets": [2,3] }
                 ]
             )
+        
   $(document).ready(ready)
