@@ -32,9 +32,10 @@ $(document).ready(function(){
 
 <body>
 
-<!-- specific extra body header -->
-<%= yield(:extra_body_start) %>
-<!-- specific extra body end -->
+<div id="container">
+  <!-- specific extra body header -->
+  <%= yield(:extra_body_start) %>
+  <!-- specific extra body end -->
 
   <div id="logo" style="margin-bottom: 6px;">Logobereich</div>
 
@@ -54,6 +55,6 @@ $(document).ready(function(){
 
     </div>
   </div>
-
+</div>
 </body>
 </html>
