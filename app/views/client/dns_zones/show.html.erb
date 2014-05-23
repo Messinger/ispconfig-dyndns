@@ -13,23 +13,22 @@
 <div id="dnszone_content">
 <table id="dnszone_records" class="display">
   <thead>
-    <tr><th>Name</th><th>Assigned ips</th><th></th></tr>
+    <tr><th rowspan="2">Name</th><th colspan="2">Assigned Addresses</th><th rowspan="2">Access Token</th><th rowspan="2"></th></tr>
+    <tr><th>IPV4</th><th>IPV6</th></tr>
   </thead>
   
   <tbody>
   <% @dnszone.dns_zone_records.each do |record| %>
     <% rdec = DnsZoneRecordDecorator.new record %>
-
-    <% unless rdec.empty? %>
-      <% unless rdec.ipv4_address.blank? %>
-        <tr><td><%= rdec.name %></td><td><%= rdec.ipv4_address %></td><td></td></tr>
+    
+    <tr><td><%= rdec.name %></td><td><%= rdec.ipv4_address %></td><td><%= rdec.ipv6_address %></td>
+    <td>
+      <% if can? :edit, record %>
+      <%= rdec.access_token %>
       <% end %>
-      <% unless rdec.ipv6_address.blank? %>
-        <tr><td><%= rdec.name %></td><td><%= rdec.ipv6_address %></td><td></td></tr>
-      <% end %>
-    <% else %>
-      <tr><td><%= rdec.name %></td><td>&nbsp;</td><td></td></tr>
-    <% end %>
+    </td><td></td>
+    </tr>
+    
   <% end %>
   </tbody>
 
