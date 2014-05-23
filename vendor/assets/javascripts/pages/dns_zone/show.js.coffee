@@ -1,32 +1,57 @@
 $ ->
     
   show_new_record = (formcontent) ->
-    base = '<div id="formcontent" title="Create new record"></div>'
-    
-    $('body').prepend(base)
-    $("#formcontent").html(formcontent)
-    $("#formcontent").dialog ({
-            autopen: false
-            modal: true
-            width: 350
-            buttons: {
-              Cancel: () ->
-                $(this).dialog("close")
-                $(this).remove()    
+
+    if formcontent != undefined
+      base = '<div id="formcontent" title="Create new record"></div>'
+      $('body').prepend(base)
+      $("#formcontent").html(formcontent)
+      $("#formcontent").dialog ({
+        autopen: false
+        modal: true
+        width: 350
+        buttons: {
+          Save: () ->
+            f = $('form#new_dns_zone_record')
+            res = f.stringifyFormJSON()
+            method = f.attr('method')
+            console.log res+" via "+method+" to "+f.attr('action')
+            $.ajax {
+              url:f.attr('action')
+              type: method
+              data:res
+              contentType: "application/json; charset=utf-8"
+              dataType: "json"
+              success: (data,status,xhr)->
+                console.log(data)
+              error: (req,msg,obj) ->
+                console.log(req)
             }
+            $(this).dialog("close")
+          Cancel: () ->
+            $(this).dialog("close")
+          }
         })
+    else
+      $('form#new_dns_zone_record').clearForm()
+      $('#formcontent').dialog('open')
     
   add_new_record = (event,element) ->
-    console.log "Adding a new record for zone "+dnszone_id+" from "+newrecordurl;
-    $.ajax {
-        url: newrecordurl
-        type: "GET"
-        data: undefined
-        success: (data,status,xhr) ->
-            show_new_record(data)
-        error: (req,msg,ojb) ->
-            console.log(req)        
-        }
+    console.log "Adding a new record for zone "+dnszone_id+" from "+newrecordurl
+    formdiff = $('#formcontent')
+
+    if formdiff.length == 0
+        $.ajax {
+            url: newrecordurl
+            type: "GET"
+            data: undefined
+            success: (data,status,xhr) ->
+                show_new_record(data)
+            error: (req,msg,ojb) ->
+                console.log(req)
+            }
+    else
+      show_new_record(undefined)
     
 
   ready = ->
