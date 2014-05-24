@@ -47,7 +47,7 @@ $ ->
       $('#formcontent').dialog('open')
     
   add_new_record = (event,element) ->
-    console.log "Adding a new record for zone "+dnszone_id+" from "+newrecordurl
+    event.preventDefault()
     formdiff = $('#formcontent')
 
     if formdiff.length == 0
