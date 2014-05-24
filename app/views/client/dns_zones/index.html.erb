@@ -22,7 +22,7 @@
 <%= link_to dns_zone.name, client_dns_zone_path(dns_zone) %>
 </td>
 <td><%= dns_zone.dns_zone_records.count %></td>
-<td><%= check_box_tag "dns_zone_#{dns_zone.id}_public", 1, dns_zone.is_public, "data-dns_zone_id" => dns_zone.id, :class => "dns_zone_public" %></td>
+<td><%= check_box_tag "dns_zone_#{dns_zone.id}_public", 1, dns_zone.is_public, "data-update_url" => client_dns_zone_path(dns_zone),"data-dns_zone_id" => dns_zone.id, :class => "dns_zone_public_box" %></td>
 <td><%= link_to "View isp config record",client_isp_dnszone_path(dns_zone.isp_dnszone_id), :class=>"linkbutton" %> </td>
 </tr>
 <% end %>

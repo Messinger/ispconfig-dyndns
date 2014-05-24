@@ -13,6 +13,28 @@ class Client::DnsZonesController < ApplicationController
     @dnszone = DnsZone.accessible_by(current_ability).find dnsid
     add_breadcrumb "Domainzone '#{@dnszone.name}'",client_dns_zone_path(@dnszone)
   end
+
+  # the one and only flag which may updated is "is_public"
+  # all other data will be ignored
+  def update
+    dnsid = params[:id]
+    @dnszone = DnsZone.accessible_by(current_ability).find dnsid
+
+    is_public = params[:dns_zone][:is_public]
+
+    @dnszone.is_public = is_public
+    saved = @dnszone.save
+
+    respond_to do |format|
+      format.json {
+        if saved
+          render json: @dnszone, status: :ok
+        else
+          render json: @dnszone.errors, status: :bad_request
+        end
+      }
+    end
+  end
   
   def add_dnszone
     ispzone_id = params[:ispzone_id]

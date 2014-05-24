@@ -33,7 +33,7 @@ RailsDynamicDomain::Application.routes.draw do
 
   
   namespace :client do
-    resources :dns_zones, :only => [:index,:show,:destroy]
+    resources :dns_zones, :only => [:index,:show,:destroy,:update]
     resource :dns_zones do
       post 'add_dnszone' => :add_dnszone, :as => :add
     end

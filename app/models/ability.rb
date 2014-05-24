@@ -17,6 +17,7 @@ class Ability
       
       can :read, DnsZone, :isp_client_user_id => user.id
       can :destroy, DnsZone, :isp_client_user_id => user.id
+      can :update, DnsZone, :isp_client_user_id => user.id
       can :add_dnszone, DnsZone
 
       can :read, DnsZoneRecord, :dns_zone => {:isp_client_user_id => user.id.to_i}
