@@ -2,7 +2,12 @@ $ ->
    
   make_delete_buttons = () ->
     $("a.deleterecordbutton").not('.ui-button')
-      .button()
+      .button({
+          icons: {
+              primary: "ui-icon-trash"
+                  }
+          text: false
+          })
       .click (event) ->
         ask_delete_record(event,this)
    
