@@ -83,6 +83,30 @@ class DnsZoneRecordsController < ApplicationController
     end
   end
 
+  def destroy
+    recordid = params[:id]
+    dns_zone_record = DnsZoneRecord.accessible_by(current_ability).find recordid
+
+    recd = DnsZoneRecordDecorator.new dns_zone_record
+    recd.delete_remote
+    del = recd.destroy
+    if current_user.instance_of? ClientUser
+      back = client_dns_zone_path(dns_zone_record.dns_zone)
+    else
+      back = root_path
+    end
+
+    respond_to do |format| {
+      format.json {
+        render json => {"deleted" => recordid}, :status =>ok
+      }
+      format.html {
+        redirect_to back
+      }
+    }
+
+  end
+
   private
 
   def index_bread
