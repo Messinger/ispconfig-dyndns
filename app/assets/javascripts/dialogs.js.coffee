@@ -33,14 +33,20 @@
 @yesnoDialog = (head,text,onyes,parameters) ->
     $('#yesnoDialog').remove()
 
-    myButtons = {}
-
-    myButtons[I18n.t("globals.yestext")] = () ->
-        $(this).dialog("close")
-        onyes(parameters)
-
-    myButtons[I18n.t("globals.notext")] = () ->
-        $(this).dialog("close")
+    myButtons = [{
+          text: I18n.t("globals.yestext")
+          id: "okbutton"
+          icons: {primary:"ui-icon-check"}
+          click: () ->
+            $(this).dialog("close")
+            onyes(parameters)
+        },{
+          text: I18n.t("globals.notext")
+          id: "okbutton"
+          icons: {primary:" ui-icon-cancel"}
+          click: () ->
+            $(this).dialog("close")
+        }]
 
     e = createDialog('yesnoDialog',myButtons,300,200)
     e.html('<div id="yesnocontent"></div>')
