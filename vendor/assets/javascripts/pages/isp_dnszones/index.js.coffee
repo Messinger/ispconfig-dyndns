@@ -43,13 +43,19 @@ $ ->
 
   make_add_buttons = () ->
     $("a.add-dns-zone").not('.ui-button')
-        .button()
+        .button({
+            icons: {primary:"ui-icon-plusthick"}
+            text: false
+            })
         .click (event) ->
             add_dns_zone(event,this)
 
   make_drop_buttons = () ->
     $("a.drop-dns-zone").not('.ui-button')
-        .button()
+        .button({
+            icons:{primary:"ui-icon-trash"}
+            text: false
+            })
         .click (event) ->
             drop_dns_zone(event,this)
   
@@ -65,7 +71,7 @@ $ ->
         make_add_buttons()
         
     else
-        actiontext = '<a class="drop-dns-zone" href="#" data-ispzoneid="'+data.isp_dnszone_id+'" data-dropurl="'+dns_zone_path+'/'+data.id+'">Drop this zone</a>';
+        actiontext = '<a class="drop-dns-zone" href="#" data-ispzoneid="'+data.isp_dnszone_id+'" data-dropurl="'+dns_zone_path+'/'+data.id+'">Drop this local zone</a>';
         curdata[2] = actiontext
         curdata[1] = '<a href="'+dns_zone_path+'/'+data.id+'">'+data.name+'</a>'
         row.data(curdata)
