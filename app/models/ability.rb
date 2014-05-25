@@ -5,8 +5,20 @@ class Ability
     @user = user
     @request = request
 
+    alias_action :update_ip, :update_ipv6, :update_ipv4, :to => :change_ip
+
     if user.nil?
       return
+    end
+
+    if user.instance_of? ApiKey
+      if user.token_parent.instance_of? DnsZoneRecord
+        can :change_ip, DnsZoneRecord, :id => user.token_parent.id
+        can :read, DnsZoneRecord, :id => user.token_parent
+        can :destroy, DnsZoneRecord, :id => user.token_parent
+      elsif user.token_parent.instance_of? User
+
+      end
     end
 
     if user.instance_of? ClientUser
