@@ -25,6 +25,17 @@ class ApplicationController < ActionController::Base
   # a User object if a user is logged in and authorized. If no user is logged in, nil is returned.
   def current_user
     @current_user ||= session[:current_user]
+    if @current_user.nil?
+      # if not logged in check if a apitoken is used
+      apitoken = params[:apitoken]
+      unless apitoken.blank?
+        key = ApiKey.find_by_access_token apitoken
+        unless key.blank?
+          return key
+        end
+      end
+    end
+    return @current_user
   end
 
   # Create and return a request assigened Ability object.
