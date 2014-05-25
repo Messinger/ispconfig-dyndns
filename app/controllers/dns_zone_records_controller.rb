@@ -75,7 +75,7 @@ class DnsZoneRecordsController < ApplicationController
     respond_to do |format|
       format.json {
         if saved
-          render :json => dns_zone_record, :status => :ok
+          render :json => dns_zone_record, :status => :ok, :location => dns_zone_record_path(dns_zone_record)
         else
           render :json => dns_zone_record.errors, :status => :bad_request
         end
@@ -96,14 +96,14 @@ class DnsZoneRecordsController < ApplicationController
       back = root_path
     end
 
-    respond_to do |format| {
+    respond_to do |format|
       format.json {
-        render json => {"deleted" => recordid}, :status =>ok
+        render json: {"deleted" => recordid}, status: :ok
       }
       format.html {
         redirect_to back
       }
-    }
+    end
 
   end
 

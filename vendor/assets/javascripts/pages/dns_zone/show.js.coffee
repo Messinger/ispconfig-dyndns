@@ -1,5 +1,14 @@
 $ ->
-    
+   
+  make_delete_buttons = () ->
+    $("a.deleterecordbutton").not('.ui-button')
+      .button()
+      .click (event) ->
+        ask_delete_record(event,this)
+   
+  get_delete_tag = (id,location) ->
+    '<a class="deleterecordbutton" data-id="'+id+'" data-url="'+location+'" href="#" id="delete_record_'+id+'">Delete</a>'
+
   show_new_record = (formcontent) ->
 
     if formcontent != undefined
@@ -23,7 +32,6 @@ $ ->
               contentType: "application/json; charset=utf-8"
               dataType: "json"
               success: (data,status,xhr)->
-                console.log(data)
                 tapi = $('#dnszone_records').DataTable()
                 tapi.row.add(
                   [
@@ -31,9 +39,10 @@ $ ->
                     data["dns_zone_a_record"]["address"]
                     data["dns_zone_aaaa_record"]["address"]
                     data["api_key"]["access_token"]
-                    ""
+                    get_delete_tag(data["id"],xhr.getResponseHeader('Location'))
                   ]
                 ).draw()
+                make_delete_buttons()
               error: (req,msg,obj) ->
                 console.log(req)
             }
@@ -69,10 +78,21 @@ $ ->
     row = $(element).parents("tr")
     console.log "Delete on "+url+" in "
     console.log row
+    table = $('#dnszone_records').DataTable()
+    $.ajax {
+      url: url
+      type: "DELETE"
+      data: undefined
+      success: (data,status,xhr) ->
+        table
+          .row(row).remove().draw()
+      error: (req,msg,obj) ->
+        console.log(req)
+    }
     
   ask_delete_record = (event,element) ->
     event.preventDefault()
-    yesno = yesnoDialog("Delete","Delete this record?",delete_record,element);
+    yesno = yesnoDialog("Delete","Delete this record?",delete_record,element)
     
   ready = ->
     $(".addrecordbutton")
@@ -80,11 +100,8 @@ $ ->
         .click (event) ->
             add_new_record(event,this)
     
-    $(".deleterecordbutton")
-        .button()
-        .click (event) ->
-            ask_delete_record(event,this)
-
+    make_delete_buttons()
+    
     ex = document.getElementById('dnszone_records')
     
     if !$.fn.DataTable.fnIsDataTable( ex )
