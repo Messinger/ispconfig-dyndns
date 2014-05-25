@@ -64,12 +64,27 @@ $ ->
       show_new_record(undefined)
     
 
+  delete_record = (element) ->
+    url = $(element).data("url")
+    row = $(element).parents("tr")
+    console.log "Delete on "+url+" in "
+    console.log row
+    
+  ask_delete_record = (event,element) ->
+    event.preventDefault()
+    yesno = yesnoDialog("Delete","Delete this record?",delete_record,element);
+    
   ready = ->
     $(".addrecordbutton")
         .button()
         .click (event) ->
             add_new_record(event,this)
     
+    $(".deleterecordbutton")
+        .button()
+        .click (event) ->
+            ask_delete_record(event,this)
+
     ex = document.getElementById('dnszone_records')
     
     if !$.fn.DataTable.fnIsDataTable( ex )

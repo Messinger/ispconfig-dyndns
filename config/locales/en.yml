@@ -25,3 +25,5 @@ en:
   globals:
     logged_in_as: "Logged in as"
     logout: "Logout"
+    yestext: "Yes"
+    notext: "no"
