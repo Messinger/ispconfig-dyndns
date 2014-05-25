@@ -101,7 +101,12 @@ $ ->
     
   ready = ->
     $(".addrecordbutton")
-        .button()
+        .button({
+            icons: {
+                primary: "ui-icon-plusthick"
+                }
+            text: false
+            })
         .click (event) ->
             add_new_record(event,this)
     
