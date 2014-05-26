@@ -12,4 +12,5 @@
  *= require ./all/custom.css
  *= require ./all/topbar.css
  *= require ./all/navigation.css
+ *= require chosen
  */

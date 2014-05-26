@@ -8,7 +8,7 @@
   <% fields_for DnsZone.new do |z| %>
     <% zones = DnsZone.accessible_by(current_ability) %>
     <% defaultzone = zones[0] %>
-    <% zsel = z.select(:id, zones.collect{|d| ["."+d.name,d.id]},:selected => defaultzone) %>
+    <% zsel = z.select(:id, zones.collect{|d| ["."+d.name,d.id]},{:selected => defaultzone, include_blank: false },{class: "chosen-select"}) %>
   <% end %>
 <% end %>
 
@@ -17,7 +17,7 @@
       <%= f.label(:name,"Hostname:") %>
     </div>
     <div class="elementbox" >
-      <%= f.text_field(:name) %>  <%= zsel %>
+      <%= f.text_field(:name) %>  <%= zsel.html_safe %>
     </div>
   </div>
   <div class="clear"></div>

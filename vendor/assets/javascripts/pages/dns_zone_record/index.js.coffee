@@ -42,10 +42,15 @@ $ ->
       base = '<div id="formcontent" title="Create new record"></div>'
       $('body').prepend(base)
       $("#formcontent").html(formcontent)
+      $('select#dns_zone_id').chosen
+        allow_single_deselect: true
+        no_results_text: 'No results matched'
+        disable_search: true
+        width: '150px'
       $("#formcontent").dialog ({
         autopen: false
         modal: true
-        width: 380
+        width: 450
         buttons: {
           Save: () ->
             f = $('form#new_dns_zone_record')
