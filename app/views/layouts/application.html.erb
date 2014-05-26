@@ -19,11 +19,8 @@
 
 <script>
 $(document).ready(function(){
-    <% if current_user && current_user.instance_of?(ClientUser) %>
-        $('#js_navigation ul:first-child').addClass("sf-menu");
-        console.log($('#js_navigation ul'));
-        $('.sf-menu').superfish();
-    <% end %>
+    $('#js_navigation ul:first-child').addClass("sf-menu");
+    $('.sf-menu').superfish();
     $("a.linkbutton").not('.ui-button').button();
     $( document ).tooltip();
   });
