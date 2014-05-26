@@ -48,7 +48,7 @@ class SessionsController < ApplicationController
     end
     
     if @authtype == UserHelper::USER_TYPE
-      redirect_url = admin_root_path
+      redirect_url = root_path
     elsif @authtype == UserHelper::CLIENT_TYPE
       redirect_url = client_root_path
     else
