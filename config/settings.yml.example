@@ -22,3 +22,7 @@ remote_password:
 default_ttl:
   type: int
   default: 300
+
+max_records:
+  type: int
+  default: 20

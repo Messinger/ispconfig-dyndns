@@ -39,13 +39,25 @@ class Ability
 
     if user.instance_of? User
       can :read, DnsZone, :is_public => true
-      can :create, DnsZoneRecord, :dns_zone => {:is_public => true}
-      can :create, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
-      can :create, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
 
-      can :manage, DnsZoneRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
-      can :manage, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
-      can :manage, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :read, DnsZoneRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
+      can :read, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :read, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+
+      if user.dns_zone_records.count < Setting.max_records.to_i
+        can :create, DnsZoneRecord, :dns_zone => {:is_public => true} 
+        can :create, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
+        can :create, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
+      end
+      
+      can :edit, DnsZoneRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
+      can :edit, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :edit, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+
+      can :destroy, DnsZoneRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
+      can :destroy, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :destroy, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      
     end
 
   end
