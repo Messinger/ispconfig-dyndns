@@ -38,6 +38,7 @@ class Ability
     end
 
     if user.instance_of? User
+      can :read, DnsZone, :is_public => true
       can :create, DnsZoneRecord, :dns_zone => {:is_public => true}
       can :create, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
       can :create, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
