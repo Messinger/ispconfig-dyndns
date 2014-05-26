@@ -6,7 +6,9 @@
   <% zsel = "" %>
 <% else %>
   <% fields_for DnsZone.new do |z| %>
-    <% zsel = z.select(:id, DnsZone.accessible_by(current_ability).collect{|d| ["."+d.name,d.id]}) %>
+    <% zones = DnsZone.accessible_by(current_ability) %>
+    <% defaultzone = zones[0] %>
+    <% zsel = z.select(:id, zones.collect{|d| ["."+d.name,d.id]},:selected => defaultzone) %>
   <% end %>
 <% end %>
 

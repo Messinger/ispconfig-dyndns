@@ -1,5 +1,3 @@
-<%= render partial: 'datatables_include' %>
-
 <% content_for :additional_javascripts do %>
 <%= javascript_include_tag "pages/dns_zone/show" %>
 <%= javascript_include_tag "pages/dns_zone/public_switch" %>
@@ -16,30 +14,7 @@
   <%= render partial: "public_switch", locals: {dns_zone: @dnszone, label: true} %>
   </div>
   <div class="clear"></div>
-  <div>
-    <table id="dnszone_records" class="display">
-      <thead>
-        <tr><th rowspan="2">Name</th><th colspan="2">Assigned Addresses</th><th rowspan="2">Access Token</th><th rowspan="2"></th></tr>
-        <tr><th>IPV4</th><th>IPV6</th></tr>
-      </thead>
-      
-      <tbody>
-      <% @dnszone.dns_zone_records.each do |record| %>
-        <% rdec = DnsZoneRecordDecorator.new record %>
-        
-        <tr><td><%= rdec.name %></td><td><%= rdec.ipv4_address %></td><td><%= rdec.ipv6_address %></td>
-        <td>
-          <% if can? :edit, record %>
-          <%= rdec.access_token %>
-          <% end %>
-        </td><td><%= link_to "Delete","#", :class=>"deleterecordbutton", :id => "delete_record_#{record.id}", "data-id" => record.id, "data-url" => dns_zone_record_path(record) %></td>
-        </tr>
-        
-      <% end %>
-      </tbody>
-
-    </table>
-  </div>
+  <%= render :partial => "dns_zone_records/record_list", :locals => {dns_zone_records: @dnszone.dns_zone_records} %>
 </div>
 
 <div id="dnszone_commands">

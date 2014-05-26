@@ -1,1 +1,14 @@
-<%= @dns_zone_records.inspect %>
+<% content_for :additional_javascripts do %>
+
+<script>
+  var createrecordurl = "<%= dns_zone_records_path%>";
+  var newrecordurl = "<%= new_dns_zone_record_path(:partial=>true) %>";
+</script>
+
+<% end %>
+
+<%= render :partial => "dns_zone_records/record_list", :locals => {dns_zone_records: @dns_zone_records} %>
+
+<div id="dnszone_commands">
+<a href="#" id="new_dns_zone_record" class="addrecordbutton">Add new record</a>
+</div>

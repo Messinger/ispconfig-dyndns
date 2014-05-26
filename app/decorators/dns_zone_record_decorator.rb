@@ -31,6 +31,10 @@ class DnsZoneRecordDecorator < ApplicationDecorator
     self.dns_zone_a_record.address.blank? && self.dns_zone_aaaa_record.address.blank?
   end
   
+  def full_name
+    self.name+"."+self.dns_zone.name
+  end
+  
   def address=(address)
     
     case address
