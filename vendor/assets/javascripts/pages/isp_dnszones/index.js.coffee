@@ -4,7 +4,6 @@ $ ->
     event.preventDefault()
     nRow = $(element).parents('tr')
     nRow = $('#ispdnszones').DataTable().row(nRow)
-    console.log (nRow)
     url = $(element).data("dropurl")
     zoneid = $(element).data("ispzoneid")
     $.ajax {
@@ -62,6 +61,7 @@ $ ->
 
   update_dns_row = (row, data, addzone) ->
     curdata = row.data()
+    clean_tool_tips()
   
     if addzone == false
         actiontext = '<a class="add-dns-zone" href="#" data-ispzoneid="'+data+'">Add local zone</a>';
@@ -75,7 +75,9 @@ $ ->
         curdata[2] = actiontext
         curdata[1] = '<a href="'+dns_zone_path+'/'+data.id+'">'+data.name+'</a>'
         row.data(curdata)
-        make_drop_buttons()        
+        make_drop_buttons()
+
+    activate_tool_tips()
     
   ready = ->
     ex = document.getElementById('ispdnszones')

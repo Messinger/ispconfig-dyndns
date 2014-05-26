@@ -89,8 +89,9 @@ $ ->
       type: "DELETE"
       data: undefined
       success: (data,status,xhr) ->
-        table
-          .row(row).remove().draw()
+        clean_tool_tips()
+        table.row(row).remove().draw()
+        activate_tool_tips()
       error: (req,msg,obj) ->
         console.log(req)
     }
