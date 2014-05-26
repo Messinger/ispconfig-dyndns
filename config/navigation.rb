@@ -10,8 +10,7 @@ SimpleNavigation::Configuration.run do |navigation|
     root_url = client_root_path if current_user.instance_of?(ClientUser)
 
     primary.item :home,content_tag(:span, "Home"), root_url do |sub_nav|
-      sub_nav.item :user_login, content_tag(:span, "Login or register"),user_login_path unless current_user
-      sub_nav.item :user_login, content_tag(:span, "Logout"),user_logout_path if current_user
+      sub_nav.item :dns_records, content_tag(:span,"Dns Records"), dns_zone_records_path if !current_user.nil? && current_user.instance_of?(User)
     end
 
     if current_user && current_user.instance_of?(ClientUser)
@@ -23,7 +22,11 @@ SimpleNavigation::Configuration.run do |navigation|
     end
     
     if current_user
-      
+      primary.item :user_login, content_tag(:span, "Logout"),user_logout_path
+    end
+    
+    if !current_user
+      primary.item :user_login, content_tag(:span, "Login or register"),user_login_path unless current_user
     end
 
   end

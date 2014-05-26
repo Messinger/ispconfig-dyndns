@@ -20,7 +20,11 @@
 <script>
 $(document).ready(function(){
     $('#js_navigation ul:first-child').addClass("sf-menu");
-    $('.sf-menu').superfish();
+    try {
+    	$('.sf-menu').superfish();
+    } catch (ex) {
+    	console.log(ex)
+    }
     $("a.linkbutton").not('.ui-button').button();
     $( document ).tooltip();
   });
