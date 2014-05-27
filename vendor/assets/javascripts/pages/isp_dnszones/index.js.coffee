@@ -1,7 +1,6 @@
 $ ->
 
-  drop_dns_zone = (event,element) ->
-    event.preventDefault()
+  drop_dns_zone = (element) ->
     nRow = $(element).parents('tr')
     nRow = $('#ispdnszones').DataTable().row(nRow)
     url = $(element).data("dropurl")
@@ -18,6 +17,10 @@ $ ->
             console.log(req)        
     }
   
+  ask_drop_dns_zone = (event,element) ->
+    event.preventDefault()
+    yesno = yesnoDialog("Delete this assignment?","Deleting this zone assignment will delete all associated DNS Records to.<br>Are you sure?",drop_dns_zone,element)
+
   add_dns_zone = (event,element) ->
     event.preventDefault()
     nRow = $(element).parents('tr');
@@ -56,7 +59,7 @@ $ ->
             text: false
             })
         .click (event) ->
-            drop_dns_zone(event,this)
+            ask_drop_dns_zone(event,this)
   
 
   update_dns_row = (row, data, addzone) ->
