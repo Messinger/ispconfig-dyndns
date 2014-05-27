@@ -1,8 +1,6 @@
 class IspSession
   extend Ispremote::Soap
 
-  attr_accessor :sessionid
-
   operations :login, :logout
 
   def initialize sid

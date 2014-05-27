@@ -26,7 +26,7 @@ SimpleNavigation::Configuration.run do |navigation|
     end
     
     if !current_user
-      primary.item :user_login, content_tag(:span, "Login or register"),user_login_path unless current_user
+      primary.item :user_login, content_tag(:span, "Login or register"),user_session_path unless current_user
     end
 
   end

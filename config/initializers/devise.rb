@@ -14,7 +14,7 @@ Devise.setup do |config|
   config.mailer_sender = 'wwwadmin@alwin-it.de'
 
   # Configure the class responsible to send e-mails.
-  # config.mailer = 'Devise::Mailer'
+  config.mailer = 'Devise::Mailer'
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
@@ -33,7 +33,7 @@ Devise.setup do |config|
   # config.authentication_keys = [ :email ]
 
   # Configure parameters from the request object used for authentication. Each entry
-  # given should be a request method and it will automatically be passed to the
+  # given should be a request method a:only_pathnd it will automatically be passed to the
   # find_for_authentication method and considered in your model lookup. For instance,
   # if you set :request_keys to [:subdomain], :subdomain will be used on authentication.
   # The same considerations mentioned for authentication_keys also apply to request_keys.

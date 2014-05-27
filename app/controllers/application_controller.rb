@@ -7,12 +7,14 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
-  before_filter :set_authentication_information
+  before_action :authenticate_user!
+  
+#  before_filter :set_authentication_information
   before_filter :process_authentication
 
-  check_authorization
+  check_authorization :unless => :devise_controller? 
 
-  helper_method :current_user
+#  helper_method :current_user
     
   def initialize
     @current_user = nil
@@ -23,20 +25,20 @@ class ApplicationController < ActionController::Base
   #
   # == Returns
   # a User object if a user is logged in and authorized. If no user is logged in, nil is returned.
-  def current_user
-    @current_user ||= session[:current_user]
-    if @current_user.nil?
-      # if not logged in check if a apitoken is used
-      apitoken = params[:apitoken]
-      unless apitoken.blank?
-        key = ApiKey.find_by_access_token apitoken
-        unless key.blank?
-          return key
-        end
-      end
-    end
-    return @current_user
-  end
+ # def current_user
+ #   @current_user ||= session[:current_user]
+ #   if @current_user.nil?
+ #     # if not logged in check if a apitoken is used
+ #     apitoken = params[:apitoken]
+ #     unless apitoken.blank?
+ #       key = ApiKey.find_by_access_token apitoken
+ #       unless key.blank?
+ #         return key
+ #       end
+ #     end
+ #   end
+ #   return @current_user
+ # end
 
   # Create and return a request assigened Ability object.
   #
@@ -50,44 +52,45 @@ class ApplicationController < ActionController::Base
 
   private
   
-  def set_authentication_information
-    add_breadcrumb "Home", :root_path
-
-    if current_user
-      if current_user.instance_of? ClientUser
-        add_breadcrumb "Client user home", :client_root_path
-      end
-    end
-    # touch session object so updated_at is set
-    session[:lastseen] = Time.now()
-    # remove outdated sessions
-    Session.sweep(24.hours)
-  end
+#  def set_authentication_information
+#    add_breadcrumb "Home", :root_path
+#
+#    if current_user
+#      if current_user.instance_of? ClientUser
+#        add_breadcrumb "Client user home", :client_root_path
+#      end
+#    end
+#    # touch session object so updated_at is set
+#    session[:lastseen] = Time.now()
+#    # remove outdated sessions
+#    Session.sweep(24.hours)
+#  end
   
   def process_authentication
-    if(is_authenticated_session)
-      return true
-    else
-      respond_with_no_valid_authentication_found
-      return false
-    end
+    Rails.logger.debug(session.inspect)
+#    if(is_authenticated_session)
+#      return true
+#    else
+#      respond_with_no_valid_authentication_found
+#      return false
+#    end
   end
   
   def is_authenticated_session
     return !current_user.nil?
   end
 
-  def respond_with_no_valid_authentication_found
-    respond_to do |format|
-      format.html {
-        redirect_to user_login_path and return
-        # TODO flash out a message
-      }
-      format.json {
-        render(nothing: true, status: :unauthorized)
-      }
-    end
-  end
+#  def respond_with_no_valid_authentication_found
+#    respond_to do |format|
+#      format.html {
+#        redirect_to user_login_path and return
+#        # TODO flash out a message
+#      }
+#      format.json {
+#        render(nothing: true, status: :unauthorized)
+#      }
+#    end
+#  end
   
   rescue_from RequestException do |exception|
     if exception.is_a? SecurityException
