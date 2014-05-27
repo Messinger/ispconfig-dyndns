@@ -1,4 +1,5 @@
 RailsDynamicDomain::Application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -9,14 +10,6 @@ RailsDynamicDomain::Application.routes.draw do
   match 'settings',             :controller => 'settings', :action => 'index',       :via => :get
   match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
 
-  scope '/user' do
-    match '/login', to: 'sessions#userlogin',          :as => :user_login, :via => :get
-    match '/sessions', to: 'sessions#create_for_user', :as => :create_session_for_user, :via => [:post]
-    delete "/sessions/current" => "sessions#destroy"
-  end
-
-  resources :users
-  
   scope '/admin' do
     match '/login', to: 'sessions#adminlogin',          :as => :admin_login, :via => :get
     match '/sessions', to: 'sessions#create_for_admin', :as => :create_session_for_admin, :via => [:post]
