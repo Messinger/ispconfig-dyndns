@@ -17,8 +17,12 @@ class ApplicationController < ActionController::Base
 #  helper_method :current_user
     
   def initialize
-    @current_user = nil
+    @current_client_user = nil
     super
+  end
+
+  def current_client_user
+    @current_client_user ||= session[:current_client_user]
   end
   
   # The current logged in user

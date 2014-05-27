@@ -10,15 +10,7 @@ RailsDynamicDomain::Application.routes.draw do
   match 'settings',             :controller => 'settings', :action => 'index',       :via => :get
   match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
 
-  scope '/admin' do
-    match '/login', to: 'sessions#adminlogin',          :as => :admin_login, :via => :get
-    match '/sessions', to: 'sessions#create_for_admin', :as => :create_session_for_admin, :via => [:post]
-    match '', to: 'welcome#admin_index', :as => :admin_root, :via => :get
-  end
-
   scope '/client' do
-    match '/login', to: 'sessions#clientlogin',          :as => :client_login, :via => :get
-    match '/sessions', to: 'sessions#create_for_client', :as => :create_session_for_client, :via => [:post]
     match '', to: 'welcome#admin_index', :as => :client_root, :via => :get
   end
 
@@ -26,6 +18,8 @@ RailsDynamicDomain::Application.routes.draw do
 
   
   namespace :client do
+    match '/login', to: 'sessions#clientlogin',          :as => :login, :via => :get
+    match '/sessions', to: 'sessions#create_for_client', :as => :create_session, :via => [:post]
     resources :dns_zones, :only => [:index,:show,:destroy,:update]
     resource :dns_zones do
       post 'add_dnszone' => :add_dnszone, :as => :add
