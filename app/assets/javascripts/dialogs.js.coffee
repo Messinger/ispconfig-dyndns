@@ -48,7 +48,7 @@
             $(this).dialog("close")
         }]
 
-    e = createDialog('yesnoDialog',myButtons,300,200)
+    e = createDialog('yesnoDialog',myButtons,350,350)
     e.html('<div id="yesnocontent"></div>')
 
     e.dialog("option","title",head)
