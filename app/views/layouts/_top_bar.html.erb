@@ -1,7 +1,7 @@
 <div id="topbar">
 	<ul>
-      <% unless current_user.nil? %>
-        <li><%= I18n.t('globals.logged_in_as') %>&nbsp;<strong><%= current_user.login_id %></strong></li>
+      <% unless current_account.nil? %>
+        <li><%= I18n.t('globals.logged_in_as') %>&nbsp;<strong><%= current_account.login_id %></strong></li>
         <% end %>
   </ul>
 </div>
