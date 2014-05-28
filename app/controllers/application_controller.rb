@@ -7,9 +7,16 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
  
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
   
   check_authorization :unless => :devise_controller? 
+  
+  before_filter :set_authentication_information
+  before_filter :process_authentication
+
+  check_authorization
+
+  helper_method :current_account
     
   def initialize
     @current_client_user = nil
@@ -36,7 +43,42 @@ class ApplicationController < ActionController::Base
 
   private
   
+  def set_authentication_information
+    add_breadcrumb "Home", :root_path
+
+    if current_client_user
+      add_breadcrumb "Client user home", :client_root_path
+    end
+    # touch session object so updated_at is set
+    session[:lastseen] = Time.now()
+    Session.sweep(24.hours)
+  end
   
+  def process_authentication
+    if(is_authenticated_session)
+      return true
+    else
+      respond_with_no_valid_authentication_found
+      return false
+    end
+  end
+  
+  def is_authenticated_session
+    return !current_account.nil?
+  end
+
+  def respond_with_no_valid_authentication_found
+    respond_to do |format|
+      format.html {
+        redirect_to new_user_session_path and return
+        # TODO flash out a message
+      }
+      format.json {
+        render(nothing: true, status: :unauthorized)
+      }
+    end
+  end
+
   rescue_from RequestException do |exception|
     if exception.is_a? SecurityException
       security_error_request exception
