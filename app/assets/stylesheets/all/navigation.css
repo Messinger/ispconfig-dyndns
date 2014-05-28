@@ -46,3 +46,21 @@
 {
     font-size: 10pt;
 }
+
+.breadcrumbs {
+    font-size: 8pt; 
+}
+.breadcrumbs .title 
+{
+    float: left;
+    margin-right: 5px; 
+}
+
+.breadcrumbs a {
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover 
+{
+    text-decoration: underline; 
+}
