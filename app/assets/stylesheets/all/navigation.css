@@ -1,10 +1,17 @@
+
 #js_navigation 
 {
-    background-color: #EEE;
-    min-height: 480px;
-    width: 120px;
-    position: absolute;
-    left: 2px;
+    background-color: #F5F5F5;
+    border-right: 1px solid #EEEEEE;
+    bottom: 0;
+    display: block;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 20px;
+    position: fixed;
+    top: 51px;
+    z-index: 1000;
 }
 
 #js_navigation ul {
@@ -19,8 +26,6 @@
 #js_navigation ul ul ul
 {
     text-decoration: none;
-/*    :color = !normal_link_color
-    &:hover, &:active */
     text-decoration: underline;
 }
 
@@ -40,23 +45,4 @@
 #js_navigation li
 {
     font-size: 10pt;
-}
-
-.breadcrumbs {
-    font-size: 8pt; 
-    padding-bottom: 30px;
-}
-.breadcrumbs .title 
-{
-    float: left;
-    margin-right: 5px; 
-}
-
-.breadcrumbs a {
-    text-decoration: none;
-}
-
-.breadcrumbs a:hover 
-{
-    text-decoration: underline; 
 }
