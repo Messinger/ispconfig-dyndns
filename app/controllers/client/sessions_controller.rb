@@ -53,7 +53,7 @@ class Client::SessionsController < ApplicationController
   def destroy
       
     redirect_url = client_root_path
-    log_out unless current_client_user.nil?
+    reset_session unless current_client_user.nil?
 
     respond_to do |format|
       format.html {
@@ -72,7 +72,7 @@ class Client::SessionsController < ApplicationController
   def authenticate_and_start_local_session
     user = send "#{@authtype}_authenticate"
     return false if user.nil?
-    authenticate_local_client_session(user)
+    session[:current_client_user] = user
     return true
   end
   
