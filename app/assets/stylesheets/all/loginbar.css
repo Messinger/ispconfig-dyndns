@@ -23,19 +23,16 @@
 
 #loginbar a
 {
-  color: #000000;
   text-decoration: none;
 }
 
 #loginbar a:hover
 {
-  color: #E20074;
-  text-decoration: underline;
+    text-decoration: none;
 }
 
 #loginbar strong
 {
-    color:#e20074;
     font-weight:bold;
 }
 
