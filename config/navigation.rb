@@ -22,7 +22,7 @@ SimpleNavigation::Configuration.run do |navigation|
     end
     
     if current_user
-      primary.item :user_login, content_tag(:span, "Logout"),destroy_user_session_path
+      primary.item :user_login, content_tag(:span, "Logout"),destroy_user_session_path, :method => :delete
     end
     
     if current_client_user
