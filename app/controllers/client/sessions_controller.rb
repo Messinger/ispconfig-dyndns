@@ -1,6 +1,5 @@
 
 class Client::SessionsController < ApplicationController
-  include Client::SessionsHelper
   skip_authorization_check :only => [
     :clientlogin,
     :new, :create,
