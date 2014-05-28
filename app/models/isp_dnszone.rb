@@ -1,6 +1,9 @@
 class IspDnszone < PresentationModel
   extend Ispremote::Soap
 
+  attr_accessor :sys_userid, :sys_groupid, :origin, :sys_perm_user, :sys_perm_group, :sys_perm_other, :server_id, :ns, :mbox, :serial, :refresh
+  attr_accessor :retry, :expire, :minimum, :ttl, :active, :xfer, :also_notify, :update_acl, :records
+
   operations :dns_zone_get_by_user, :dns_zone_get
   
   def self.dns_zone_get_by_user aclient,serverid
