@@ -18,11 +18,20 @@ class ApplicationController < ActionController::Base
   
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
-  helper_method :current_account, :current_client_user
+  helper_method :current_account, :current_client_user, :current_api_key
     
   def initialize
     @current_client_user = nil
+    @current_api_key = nil
     super
+  end
+
+  def current_api_key
+    return @current_api_key unless @current_api_key.nil?
+    unless params[:accesstoken].nil?
+      @current_api_key = ApiKey.find_by_access_token params[:accesstoken]
+    end
+    @current_api_key
   end
 
   def current_client_user
@@ -30,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
   
   def current_account
-    current_user || current_client_user
+    current_user || current_client_user || current_api_key
   end
   
   # Create and return a request assigened Ability object.

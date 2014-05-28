@@ -12,13 +12,9 @@ class Ability
     end
 
     if user.instance_of? ApiKey
-      if user.token_parent.instance_of? DnsZoneRecord
-        can :change_ip, DnsZoneRecord, :id => user.token_parent.id
-        can :read, DnsZoneRecord, :id => user.token_parent
-        can :destroy, DnsZoneRecord, :id => user.token_parent
-      elsif user.token_parent.instance_of? User
-
-      end
+      can :change_ip, DnsZoneRecord, :id => user.dns_zone_record.id
+      can :read, DnsZoneRecord, :id => user.dns_zone_record
+      can :destroy, DnsZoneRecord, :id => user.dns_zone_record
     end
 
     if user.instance_of? ClientUser
@@ -26,7 +22,7 @@ class Ability
       can :manage,IspDnsARecord
       can :manage,IspDnsAaaaRecord
       can :manage,IspResourceRecord
-      
+
       can :read, DnsZone, :isp_client_user_id => user.id
       can :destroy, DnsZone, :isp_client_user_id => user.id
       can :update, DnsZone, :isp_client_user_id => user.id
@@ -49,7 +45,7 @@ class Ability
         can :create, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
         can :create, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true} }
       end
-      
+
       can :edit, DnsZoneRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
       can :edit, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :edit, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
@@ -57,7 +53,7 @@ class Ability
       can :destroy, DnsZoneRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
       can :destroy, DnsZoneARecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :destroy, DnsZoneAaaaRecord, :dns_zone_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
-      
+
     end
 
   end
