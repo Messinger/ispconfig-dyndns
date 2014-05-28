@@ -32,5 +32,17 @@ RailsDynamicDomain::Application.configure do
   config.log_level = :debug
   
   config.action_mailer.default_url_options = { :host => PRIVATE_DATA['url_host'] }
+  config.action_mailer.delivery_method = PRIVATE_DATA['mailer_method'].to_sym
+
+  if config.action_mailer.delivery_method == :smtp
+    config.action_mailer.smtp_settings = {
+      address: PRIVATE_DATA['mailer_address'],
+      port: PRIVATE_DATA['mailer_port'],
+      domain: PRIVATE_DATA['mailer_domain'],
+      enable_starttls_auto: true,
+      user_name: PRIVATE_DATA['mailer_user_name'],
+      password: PRIVATE_DATA['mailer_password']
+    }
+  end
 
 end

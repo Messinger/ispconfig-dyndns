@@ -4,6 +4,7 @@ defaults: &defaults
     secret_key: 'somethingsecure' # 'rake secret' to generate a token
     url_host: "example.test"
     devise_mailer_sender: "devise@example.com"
+    mailer_method: "smtp" # sendmail or smtp
     mailer_address: "smtpout.secureserver.net" # for example, this is godaddy.com
     mailer_port: 80
     mailer_domain: "example.com"
