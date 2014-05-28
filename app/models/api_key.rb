@@ -1,7 +1,7 @@
 class ApiKey < ActiveRecord::Base
-  belongs_to :token_parent
+  belongs_to :dns_zone_record
 
-  validates :token_parent, :presence => true
+  validates :dns_zone_record, :presence => true
   validates :access_token, :uniqueness => true
   before_create :generate_access_token
   
