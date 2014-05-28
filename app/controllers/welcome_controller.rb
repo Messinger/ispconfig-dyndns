@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
 
   skip_before_filter :process_authentication
-  skip_authorization_check :only => [ :index, :admin_index ]
+  skip_authorization_check :only => [ :index, :admin_index, :user_index ]
 
   def index
   end
@@ -10,6 +10,9 @@ class WelcomeController < ApplicationController
     if current_account && !current_account.instance_of?(ClientUser)
       raise ForbiddenRequest.new
     end
+  end
+
+  def user_index
   end
 
 end

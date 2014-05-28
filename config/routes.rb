@@ -13,6 +13,10 @@ RailsDynamicDomain::Application.routes.draw do
   scope '/client' do
     match '', to: 'welcome#admin_index', :as => :client_root, :via => :get
   end
+  
+  scope '/user' do
+    match '', to: 'welcome#user_index', :as => :user, :via => :get
+  end
 
   
   namespace :client do
