@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   has_many :dns_zone_a_records, through: :dns_zone_records
   has_many :dns_zone_aaaa_records, through: :dns_zone_records
   
+  validates :first_name, :presence => true
+  validates :last_name, :presence => true
+
   def is_admin?
     false
   end
