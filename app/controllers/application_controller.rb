@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     @current_client_user ||= session[:current_client_user]
   end
   
+  def current_account
+    current_user || current_client_user
+  end
+  
   # Create and return a request assigened Ability object.
   #
   # It gets the current running request as second parameter so CanCan may check against values in request.
@@ -27,7 +31,7 @@ class ApplicationController < ActionController::Base
   # == Returns
   # A Ability object containing valid security rules
   def current_ability
-    @current_ability ||= Ability.new(current_user, request)
+    @current_ability ||= Ability.new(current_account, request)
   end
 
   private
