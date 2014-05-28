@@ -68,7 +68,6 @@ gem 'superfish-rails'
 gem 'simple-navigation'
 gem 'breadcrumbs_on_rails'
 gem 'i18n-js'
-gem 'chosen-rails'
 
 # soap gedoehns
 
