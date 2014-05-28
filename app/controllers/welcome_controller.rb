@@ -7,7 +7,7 @@ class WelcomeController < ApplicationController
   end
 
   def admin_index
-    if current_user && !current_user.instance_of?(ClientUser)
+    if current_account && !current_account.instance_of?(ClientUser)
       raise ForbiddenRequest.new
     end
   end

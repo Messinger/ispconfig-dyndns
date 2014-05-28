@@ -14,12 +14,11 @@ RailsDynamicDomain::Application.routes.draw do
     match '', to: 'welcome#admin_index', :as => :client_root, :via => :get
   end
 
-  match '/logout', to: 'sessions#destroy', :as => :user_logout, :via => :get
-
   
   namespace :client do
     match '/login', to: 'sessions#clientlogin',          :as => :login, :via => :get
     match '/sessions', to: 'sessions#create_for_client', :as => :create_session, :via => [:post]
+    match '/logout', to: 'sessions#destroy', :as => :logout, :via => :get
     resources :dns_zones, :only => [:index,:show,:destroy,:update]
     resource :dns_zones do
       post 'add_dnszone' => :add_dnszone, :as => :add

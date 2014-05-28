@@ -51,11 +51,9 @@ class Client::SessionsController < ApplicationController
   end # create_for_client
 
   def destroy
-    
-    if current_user.instance_of? ClientUser
-      redirect_url = client_root_path
-    end
-    log_out unless current_user.nil?
+      
+    redirect_url = client_root_path
+    log_out unless current_client_user.nil?
 
     respond_to do |format|
       format.html {

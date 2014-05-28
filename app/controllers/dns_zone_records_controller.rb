@@ -37,11 +37,8 @@ class DnsZoneRecordsController < ApplicationController
 
   def create
     dns_zone_record = DnsZoneRecord.new
-    if current_user.instance_of? User
-      dns_zone_record.user = current_user
-    else
-      dns_zone_record.user = nil
-    end
+    # if ClientUser is logged in current user returns nil
+    dns_zone_record.user = current_user
     recparams = params[:dns_zone_record]
     logger.debug "Full params: #{params}"
     dns_zone_id = params[:dns_zone][:id]
@@ -90,7 +87,7 @@ class DnsZoneRecordsController < ApplicationController
     recd = DnsZoneRecordDecorator.new dns_zone_record
     recd.delete_remote
     del = recd.destroy
-    if current_user.instance_of? ClientUser
+    if current_client_user
       back = client_dns_zone_path(dns_zone_record.dns_zone)
     else
       back = root_path
@@ -111,8 +108,8 @@ class DnsZoneRecordsController < ApplicationController
 
   def index_bread
 
-    if current_user.instance_of? ClientUser
-      cu = ClientUserDecorator.new current_user
+    if current_client_user
+      cu = ClientUserDecorator.new current_client_user
       add_breadcrumb "Local domains for #{cu.full_name}",client_dns_zones_path
       add_breadcrumb "Local records for #{cu.full_name}",dns_zone_records_path
     end
