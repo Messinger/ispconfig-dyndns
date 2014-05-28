@@ -1,1 +1,5 @@
-<h2>ISP Controll client user</h2>
+<% cl = ClientUserDecorator.new current_client_user %>
+<h1 class="page-header">ISP Controll client user <%= cl.full_name %> </h1>
+
+<%= link_to "ISPConfig domains known", client_isp_dnszones_path, :class => "linkbutton" %> <%= link_to "Local mapped domains", client_dns_zones_path, :class => "linkbutton" %>
+

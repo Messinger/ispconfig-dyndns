@@ -9,6 +9,8 @@
 </script>
 <% end %>
 
+<h1 class="page-header">DNS Zone &quot;<%= @dnszone.name%>&quot; </h1>
+
 <div id="dnszone_content">
   <div style="margin-bottom: 10px;">
   <%= render partial: "public_switch", locals: {dns_zone: @dnszone, label: true} %>
