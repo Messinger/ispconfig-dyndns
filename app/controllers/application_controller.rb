@@ -11,12 +11,12 @@ class ApplicationController < ActionController::Base
   
   check_authorization :unless => :devise_controller? 
   
-  before_filter :set_authentication_information
-  before_filter :process_authentication
+  unless :devise_controller?
+    before_filter :set_authentication_information
+    before_filter :process_authentication
+  end
 
-  check_authorization
-
-  helper_method :current_account
+  helper_method :current_account, :current_client_user
     
   def initialize
     @current_client_user = nil
@@ -61,7 +61,8 @@ class ApplicationController < ActionController::Base
       respond_with_no_valid_authentication_found
       return false
     end
-  end
+  end 
+
   
   def is_authenticated_session
     return !current_account.nil?
@@ -84,7 +85,8 @@ class ApplicationController < ActionController::Base
       security_error_request exception
     else
       log_exception exception
-      exception_request exception
+      exception_request exception  include Client::SessionsHelper
+
     end
   end
 
