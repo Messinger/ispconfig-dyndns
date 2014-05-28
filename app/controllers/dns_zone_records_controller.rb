@@ -16,6 +16,21 @@ class DnsZoneRecordsController < ApplicationController
     index_bread
   end
 
+  def show
+    recordid = params[:id]
+    @dns_zone_record = DnsZoneRecord.accessible_by(current_ability).find recordid
+
+    respond_to do |format|
+      format.json {
+        render :json => @dns_zone_record.as_json({:simple => true}), :status => :ok
+      }
+      format.html {
+      }
+    end
+
+
+  end
+
   def new
     dnszoneid=params[:dns_zone_id]
     

@@ -1,0 +1,30 @@
+<% recd = DnsZoneRecordDecorator.new @dns_zone_record %>
+<% content_for :title do %>
+<%=recd.full_name%>
+<% end %>
+<h1 class="page-header"><%=recd.full_name%></h1>
+
+<div class="row">
+
+<div class="col-md-4" >
+<strong>IPV4</strong>
+</div>
+<div class="col-md-8" >
+<%= recd.ipv4_address %> &nbsp;
+</div>
+
+<div class="col-md-4" >
+<strong>IPV6</strong>
+</div>
+<div class="col-md-8" >
+<%= recd.ipv6_address %> &nbsp;
+</div>
+
+<div class="col-md-4" >
+<strong>Access token</strong>
+</div>
+<div class="col-md-8" >
+<%= recd.access_token %> &nbsp;
+</div>
+
+</div>

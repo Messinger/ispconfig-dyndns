@@ -33,7 +33,21 @@ class DnsZoneRecord < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(:include => [:dns_zone_a_record,:dns_zone_aaaa_record,:api_key,:dns_zone])
+    simple = options[:simple]
+
+    unless simple.nil?
+      options = options.merge({:only=>[:name,:id],
+                               :include => {
+                                            :dns_zone_a_record => {:only => [:address]},
+                                            :dns_zone_aaaa_record=> {:only => [:address]},
+                                            :api_key => {:only => [:access_token]},
+                                            :dns_zone => {:only => [:name]}
+                                            }
+                              })
+    else
+      options = options.merge({:include => [:dns_zone_a_record,:dns_zone_aaaa_record,:api_key,:dns_zone]})
+    end
+    super(options)
   end
 
   private
