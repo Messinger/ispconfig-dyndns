@@ -2,10 +2,10 @@ class IspClientUser < PresentationModel
   extend Ispremote::Soap
   include UserHelper::GeneralUser
   
+  operations :client_get_by_username
+  
   attr_accessor :userid,:sys_userid, :sys_groupid, :sys_perm_user, :sys_perm_group, :sys_perm_other, :username, :passwort, :modules, :startmodule
   attr_accessor :app_theme, :typ, :active, :language, :groups, :default_group, :client_id, :id_rsa, :ssh_rsa
-  
-  operations :client_get_by_username
 
   def initialize data
     super data
@@ -19,7 +19,7 @@ class IspClientUser < PresentationModel
     clientvalues = self.flatten_hash(r)
     IspClientUser.new clientvalues
   ensure 
-    asession.logout
+    asession.logout unless asession.nil?
   end
 
   def self.find_by_username username

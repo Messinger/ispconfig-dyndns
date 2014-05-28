@@ -44,13 +44,13 @@ class Client::DnsZonesController < ApplicationController
     end
     
     ispzone = IspDnszone.dns_zone_get(ispzone_id)
-    Rails.logger.info("#{ispzone.inspect} for #{current_user.inspect}")    
+    Rails.logger.info("#{ispzone.inspect} for #{current_client_user.inspect}")    
 
     if ispzone.nil? || !ispzone.instance_of?(IspDnszone)
       raise BadRequest.new
     end
 
-    if ispzone.sys_userid != current_user.id
+    if ispzone.sys_userid != current_client_user.id
       raise NotFound.new
     end
     
@@ -91,7 +91,7 @@ class Client::DnsZonesController < ApplicationController
   private
   
   def index_bread
-    cu = ClientUserDecorator.new current_user
+    cu = ClientUserDecorator.new current_client_user
     
     add_breadcrumb "Local assigned domains for #{cu.full_name}",client_dns_zones_path
   end

@@ -72,6 +72,5 @@ gem 'chosen-rails'
 
 gem 'savon'
 
-# rails4
-gem 'protected_attributes'
 gem 'activerecord-session_store'
+

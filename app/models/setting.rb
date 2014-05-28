@@ -1,12 +1,8 @@
 # Model holding all settings defined in settings.yml
 class Setting < ActiveRecord::Base
-  #defined attributes of an instance
-  attr_accessible :name, :value
-  
 
   PASSWORD_DISPLAY_HOLDER = "*********"
 
-  cattr_accessor :available_settings
   @@available_settings = YAML::load(File.open("#{Rails.root}/config/settings.yml"))
   
   

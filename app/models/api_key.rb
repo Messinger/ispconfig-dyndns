@@ -1,5 +1,5 @@
 class ApiKey < ActiveRecord::Base
-  belongs_to :token_parent, polymorphic: true
+  belongs_to :token_parent
 
   validates :token_parent, :presence => true
   validates :access_token, :uniqueness => true

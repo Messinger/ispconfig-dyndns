@@ -9,8 +9,6 @@ class PresentationModel
   include ActiveModel::Conversion
   extend  ActiveModel::Naming
   
-  attr_accessor :id
-  
   def set_id(id)
     @id = id
   end

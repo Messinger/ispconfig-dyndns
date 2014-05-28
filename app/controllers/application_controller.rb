@@ -6,38 +6,31 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+ 
+  #before_action :authenticate_user!
   
-  before_filter :set_authentication_information
-  before_filter :process_authentication
+  check_authorization :unless => :devise_controller? 
+  
+  unless :devise_controller?
+    before_filter :set_authentication_information
+    before_filter :process_authentication
+  end
 
-  check_authorization
-
-  helper_method :current_user
+  helper_method :current_account, :current_client_user
     
   def initialize
-    @current_user = nil
+    @current_client_user = nil
     super
   end
-  
-  # The current logged in user
-  #
-  # == Returns
-  # a User object if a user is logged in and authorized. If no user is logged in, nil is returned.
-  def current_user
-    @current_user ||= session[:current_user]
-    if @current_user.nil?
-      # if not logged in check if a apitoken is used
-      apitoken = params[:apitoken]
-      unless apitoken.blank?
-        key = ApiKey.find_by_access_token apitoken
-        unless key.blank?
-          return key
-        end
-      end
-    end
-    return @current_user
-  end
 
+  def current_client_user
+    @current_client_user ||= session[:current_client_user]
+  end
+  
+  def current_account
+    current_user || current_client_user
+  end
+  
   # Create and return a request assigened Ability object.
   #
   # It gets the current running request as second parameter so CanCan may check against values in request.
@@ -45,7 +38,7 @@ class ApplicationController < ActionController::Base
   # == Returns
   # A Ability object containing valid security rules
   def current_ability
-    @current_ability ||= Ability.new(current_user, request)
+    @current_ability ||= Ability.new(current_account, request)
   end
 
   private
@@ -53,14 +46,11 @@ class ApplicationController < ActionController::Base
   def set_authentication_information
     add_breadcrumb "Home", :root_path
 
-    if current_user
-      if current_user.instance_of? ClientUser
-        add_breadcrumb "Client user home", :client_root_path
-      end
+    if current_client_user
+      add_breadcrumb "Client user home", :client_root_path
     end
     # touch session object so updated_at is set
     session[:lastseen] = Time.now()
-    # remove outdated sessions
     Session.sweep(24.hours)
   end
   
@@ -71,16 +61,17 @@ class ApplicationController < ActionController::Base
       respond_with_no_valid_authentication_found
       return false
     end
-  end
+  end 
+
   
   def is_authenticated_session
-    return !current_user.nil?
+    return !current_account.nil?
   end
 
   def respond_with_no_valid_authentication_found
     respond_to do |format|
       format.html {
-        redirect_to user_login_path and return
+        redirect_to new_user_session_path and return
         # TODO flash out a message
       }
       format.json {
@@ -88,13 +79,14 @@ class ApplicationController < ActionController::Base
       }
     end
   end
-  
+
   rescue_from RequestException do |exception|
     if exception.is_a? SecurityException
       security_error_request exception
     else
       log_exception exception
-      exception_request exception
+      exception_request exception  include Client::SessionsHelper
+
     end
   end
 

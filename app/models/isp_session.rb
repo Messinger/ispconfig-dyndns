@@ -1,14 +1,20 @@
 class IspSession
   extend Ispremote::Soap
 
-  attr_accessor :sessionid
-
   operations :login, :logout
 
   def initialize sid
     self.sessionid = sid
   end
 
+  def sessionid=(sid)
+    @sessionid = sid
+  end
+  
+  def sessionid
+    @sessionid
+  end
+  
   def self.login
     loginresponse = super(:message => {:username => Setting.remote_user, :password => Setting.remote_password })
     IspSession.new loginresponse.hash[:envelope][:body][:login_response][:return]
@@ -26,4 +32,3 @@ class IspSession
   end
 
 end
-

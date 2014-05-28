@@ -1,4 +1,5 @@
 RailsDynamicDomain::Application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -9,30 +10,15 @@ RailsDynamicDomain::Application.routes.draw do
   match 'settings',             :controller => 'settings', :action => 'index',       :via => :get
   match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
 
-  scope '/user' do
-    match '/login', to: 'sessions#userlogin',          :as => :user_login, :via => :get
-    match '/sessions', to: 'sessions#create_for_user', :as => :create_session_for_user, :via => [:post]
-    delete "/sessions/current" => "sessions#destroy"
-  end
-
-  resources :users
-  
-  scope '/admin' do
-    match '/login', to: 'sessions#adminlogin',          :as => :admin_login, :via => :get
-    match '/sessions', to: 'sessions#create_for_admin', :as => :create_session_for_admin, :via => [:post]
-    match '', to: 'welcome#admin_index', :as => :admin_root, :via => :get
-  end
-
   scope '/client' do
-    match '/login', to: 'sessions#clientlogin',          :as => :client_login, :via => :get
-    match '/sessions', to: 'sessions#create_for_client', :as => :create_session_for_client, :via => [:post]
     match '', to: 'welcome#admin_index', :as => :client_root, :via => :get
   end
 
-  match '/logout', to: 'sessions#destroy', :as => :user_logout, :via => :get
-
   
   namespace :client do
+    match '/login', to: 'sessions#clientlogin',          :as => :login, :via => :get
+    match '/sessions', to: 'sessions#create_for_client', :as => :create_session, :via => [:post]
+    match '/logout', to: 'sessions#destroy', :as => :logout, :via => :get
     resources :dns_zones, :only => [:index,:show,:destroy,:update]
     resource :dns_zones do
       post 'add_dnszone' => :add_dnszone, :as => :add
