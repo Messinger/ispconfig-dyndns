@@ -11,6 +11,7 @@
  *= require_self
  *= require ./all/custom.css
  *= require ./all/topbar.css
+ *= require ./all/loginbar.css
  *= require ./all/navigation.css
  *= require chosen
  */

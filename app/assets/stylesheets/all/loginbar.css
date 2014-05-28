@@ -1,0 +1,41 @@
+#loginbar {
+  width: 100%;
+  margin: 30px 0 0;
+  padding: 0;
+  font-family: Arial,Geneva,Helvetica,sans-serif;
+  font-size: 0.9em;
+  overflow: hidden;
+  position: relative;
+}
+
+#loginbar ul {
+  float: left;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#loginbar li {
+  display: block;
+  float: left;
+  margin: 0 0 0 12px;
+}
+
+#loginbar a
+{
+  color: #000000;
+  text-decoration: none;
+}
+
+#loginbar a:hover
+{
+  color: #E20074;
+  text-decoration: underline;
+}
+
+#loginbar strong
+{
+    color:#e20074;
+    font-weight:bold;
+}
+
