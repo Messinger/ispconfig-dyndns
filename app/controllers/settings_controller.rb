@@ -1,6 +1,8 @@
 
 class SettingsController < ApplicationController
 
+  authorize_resource :class => Setting
+
   # GET /settings
   # GET /settings.json
 

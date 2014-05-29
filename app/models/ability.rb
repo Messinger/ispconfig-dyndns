@@ -11,6 +11,10 @@ class Ability
       return
     end
 
+    if user.instance_of? Admin
+      can :manage, Setting
+    end
+
     if user.instance_of? ApiKey
       can :change_ip, DnsZoneRecord, :id => user.dns_zone_record.id
       can :read, DnsZoneRecord, :id => user.dns_zone_record

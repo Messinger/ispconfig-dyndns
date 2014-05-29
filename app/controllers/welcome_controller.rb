@@ -7,15 +7,9 @@ class WelcomeController < ApplicationController
   end
 
   def client_index
-    unless current_client_user
-      raise ForbiddenRequest.new
-    end
   end
 
   def admin_index
-    unless current_admin
-      raise ForbiddenRequest.new
-    end
   end
 
   def user_index

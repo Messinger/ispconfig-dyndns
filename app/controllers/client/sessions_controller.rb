@@ -1,6 +1,7 @@
 
 class Client::SessionsController < ApplicationController
   skip_authorization_check :only => [
+    :index,
     :clientlogin,
     :new, :create,
     :create_for_client, :destroy
@@ -9,6 +10,7 @@ class Client::SessionsController < ApplicationController
     #skips the check authentication for creation of session
   skip_before_filter :process_authentication,
     :only => [
+      :index,
     :clientlogin,
     :new, :create,
     :create_for_client
