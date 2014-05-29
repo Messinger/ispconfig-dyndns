@@ -1,1 +1,17 @@
-<% content_for :additional_javascripts do %><%= javascript_include_tag "pages/welcome/welcome" %><% end %><% if current_account %>    <%= render :partial => "#{current_account.class.name.underscore}_index" %><% else %><h1 class="page-header"></h1><% end %><% unless current_account %><%= link_to "Login user",user_session_path, :class => "linkbutton" %><% else %><%= link_to "Your registered host names", dns_zone_records_path, :class => "linkbutton" %><% end %>
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/welcome/welcome" %>
+<% end %>
+
+<% if current_account %>
+    <%= render :partial => "#{current_account.class.name.underscore}_index" %>
+<% else %>
+<h1 class="page-header"></h1>
+<% end %>
+
+<% unless current_account %>
+<%= link_to "Login user",user_session_path, :class => "linkbutton" %>
+<% else %>
+   <% unless current_admin %>
+    <%= link_to "Your registered host names", dns_zone_records_path, :class => "linkbutton" %> 
+  <% end %>
+<% end %>

@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
   
   def current_account
-    current_user || current_client_user || current_api_key
+    current_user || current_admin || current_client_user ||  current_api_key
   end
   
   # Create and return a request assigened Ability object.
@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
       security_error_request exception
     else
       log_exception exception
-      exception_request exception  include Client::SessionsHelper
+      exception_request exception
 
     end
   end

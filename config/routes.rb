@@ -11,11 +11,15 @@ RailsDynamicDomain::Application.routes.draw do
   match 'settings',             :controller => 'settings', :action => 'index',       :via => :get
   match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
 
-  scope '/client' do
-    match '', to: 'welcome#admin_index', :as => :client_root, :via => :get
+  scope '/clients' do
+    match '', to: 'welcome#client_index', :as => :client_root, :via => :get
   end
-  
-  scope '/user' do
+
+  scope '/admins' do
+    match '', to: 'welcome#admin_index', :as => :admin_root, :via => :get
+  end
+
+  scope '/users' do
     match '', to: 'welcome#user_index', :as => :user, :via => :get
   end
 
