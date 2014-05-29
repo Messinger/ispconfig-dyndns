@@ -12,8 +12,10 @@ defaults: &defaults
     mailer_password: "123123"
     ga_tracker: "UA-xxxxxxxx-X"
     ga_tracker_domain: "example.test"
-    twitter_consumer_key: xxxxx # register your application at dev.twitter.co,
-    twitter_consumer_secret: xxxx
+    twitter_consumer_key: # register your application at dev.twitter.co,
+    twitter_consumer_secret:
+    facebook_app_key:
+    facebook_app_secret:
     legal_disclaimer_link: "http://ourdisclaimer.com/?i=YOUR-SITE-NAME"
 
 development:
