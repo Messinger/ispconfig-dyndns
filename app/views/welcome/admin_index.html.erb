@@ -6,3 +6,7 @@
 <%= javascript_include_tag "pages/welcome/welcome" %>
 <% end %>
 
+<% unless current_admin %>
+<h1 class="page-header"></h1>
+<%= link_to "Login as admin",new_admin_session_path, :class => "linkbutton" %>
+<% end %>
