@@ -16,8 +16,15 @@ defaults: &defaults
     twitter_app_secret:
     facebook_app_key:
     facebook_app_secret:
+    google_oauth2_app_key:
+    google_oauth2_app_secret:
     legal_disclaimer_link: "http://ourdisclaimer.com/?i=YOUR-SITE-NAME"
-    omni_auths: []
+    # write as yml array the omni auth provider wanted
+    # omni_auths:
+    #   - "facebook"
+    #   - "google_oauth2"
+    #
+    omni_auths:
 
 development:
     <<: *defaults
