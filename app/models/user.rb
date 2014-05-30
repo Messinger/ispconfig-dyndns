@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
     # Get the identity and user if they exist
     identity = Identity.find_for_oauth(auth)
 
+    Rails.logger.debug("Auth: #{auth.inspect}")
+
     # If a signed_in_resource is provided it always overrides the existing user
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
@@ -44,7 +46,7 @@ class User < ActiveRecord::Base
       # Get the existing user by email if the provider gives us a verified email.
       # If no verified email was provided we assign a temporary email and ask the
       # user to verify it on the next step via UsersController.finish_signup
-      email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email || auth.extra.raw_info.email_verified)
+      email_is_verified = !auth.info.email.blank? # && (auth.info.verified || auth.info.verified_email || auth.extra.raw_info.email_verified)
       email = auth.info.email if email_is_verified
       user = User.where(:email => email).first if email
 

@@ -18,6 +18,8 @@ defaults: &defaults
     facebook_app_secret:
     google_oauth2_app_key:
     google_oauth2_app_secret:
+    github_app_key:
+    github_app_secret:
     legal_disclaimer_link: "http://ourdisclaimer.com/?i=YOUR-SITE-NAME"
     # write as yml array the omni auth provider wanted
     # omni_auths:
