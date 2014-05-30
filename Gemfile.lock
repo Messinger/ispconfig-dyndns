@@ -113,6 +113,9 @@ GEM
       rack (~> 1.0)
     omniauth-facebook (1.6.0)
       omniauth-oauth2 (~> 1.1)
+    omniauth-google-oauth2 (0.2.4)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
@@ -227,6 +230,7 @@ DEPENDENCIES
   mysql2
   omniauth
   omniauth-facebook
+  omniauth-google-oauth2
   omniauth-twitter
   rails (= 4.1.0)
   sass-rails (~> 4.0.0)
