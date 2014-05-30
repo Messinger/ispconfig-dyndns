@@ -1,5 +1,5 @@
 
-<div id="loginbar">
+<div id="loginbar" class="buttonbar">
     <ul>
 
 <%- if controller_name != 'sessions' %>
@@ -22,10 +22,5 @@
   <li><%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name), :class => "linkbutton" %></li>
 <% end -%>
 
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <li><%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), :class => "linkbutton" %></li>
-  <% end -%>
-<% end -%>
-    </ul>
+</ul>
 </div>

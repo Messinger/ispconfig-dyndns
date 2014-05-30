@@ -1,0 +1,25 @@
+<h2 class="page-header">Sign up</h2>
+
+<div class="row">
+<div class="col-sm-2">
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :name %><br/>
+  <%= f.text_field :name %></div>
+
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, autofocus: true %></div>
+
+  <div><%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off" %></div>
+
+  <div><%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
+
+  <div><%= f.submit "Sign up" %></div>
+<% end %>
+</div>
+  <%= render partial: "devise/shared/auth_providers" %>
+</div>
+<%= render "devise/shared/links" %>
