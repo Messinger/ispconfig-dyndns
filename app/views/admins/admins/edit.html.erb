@@ -4,6 +4,8 @@
 
 <h2 class="page-header">Edit your Data</h2>
 
+<%= error_messages! @admin %>
+
 <%= form_for(@admin, :url => admin_update_path) do |f| %>
 
 <div class="row">
