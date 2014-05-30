@@ -4,7 +4,13 @@ class ApiKey < ActiveRecord::Base
   validates :dns_zone_record, :presence => true
   validates :access_token, :uniqueness => true
   before_create :generate_access_token
-  
+
+  has_one :user, :through => :dns_zone_record
+
+  def active_for_authentication?
+    self.user.active_for_authentication?
+  end
+
 private
   
   def generate_access_token

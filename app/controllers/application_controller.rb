@@ -29,7 +29,8 @@ class ApplicationController < ActionController::Base
   def current_api_key
     return @current_api_key unless @current_api_key.nil?
     unless params[:accesstoken].nil?
-      @current_api_key = ApiKey.find_by_access_token params[:accesstoken]
+      api_key = ApiKey.find_by_access_token params[:accesstoken]
+      @current_api_key = api_key if api_key && api_key.active_for_authentication?
     end
     @current_api_key
   end
