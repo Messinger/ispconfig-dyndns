@@ -75,4 +75,16 @@ class User < ActiveRecord::Base
     self.email && self.email !~ TEMP_EMAIL_REGEX
   end
 
+  def send_reset_password_instructions
+    Rails.logger.debug "Send reset passwords: #{self}"
+    unless self.identity.nil?
+      self.clear_reset_password_token
+      self.save(validate: false)
+      errors[:email] << "Password reset not possible for this email"
+      return "Not possible!"
+    end
+    super
+
+  end
+
 end
