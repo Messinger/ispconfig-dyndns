@@ -29,6 +29,10 @@ SimpleNavigation::Configuration.run do |navigation|
       end
     end
 
+    if current_admin
+      primary.item :admin_data, content_tag(:span, "Account"), admin_edit_path
+    end
+
     if current_account
       primary.item :user_logout, content_tag(:span, "Logout"), send("destroy_#{current_account.class.name.underscore}_session_path"), :method => :delete
     end

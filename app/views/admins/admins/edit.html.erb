@@ -1,0 +1,59 @@
+<%= content_for :additional_javascripts do %>
+<%= javascript_include_tag 'pages/admins/edit' %>
+<% end %>
+
+<h2 class="page-header">Edit your Data</h2>
+
+<%= form_for(@admin, :url => admin_update_path) do |f| %>
+
+<div class="row">
+
+<div class="col-sm-2 col-md-2">
+<%= f.label :email %>
+</div>
+<div class="col-sm-2 col-md-2">
+<%= f.email_field :email, :autofocus => true %>
+</div>
+
+
+</div>
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-sm-5 col-md-5">
+        <strong>Leave passwords blank if you don't want to change it</strong>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2 col-md-2">
+        <%= f.label :password %>
+    </div>
+    <div class="col-sm-2 col-md-2">
+        <%= f.password_field :password, :autocomplete => false %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2 col-md-2">
+        <%= f.label :password_confirmation %>
+    </div>
+    <div class="col-sm-2 col-md-2">
+        <%= f.password_field :password_confirmation, :autocomplete => false %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2 col-md-2">
+        <%= f.label :current_password %>
+    </div>
+    <div class="col-sm-2 col-md-2">
+        <%= f.password_field :current_password, :autocomplete => false %>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+
+<%= link_to "Update","#",:class => "linkbutton", :id => "submit_admin_form" %>
+
+</div>
+<% end %>

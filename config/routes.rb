@@ -18,6 +18,8 @@ RailsDynamicDomain::Application.routes.draw do
 
   scope '/admins' do
     match '', to: 'welcome#admin_index', :as => :admin_root, :via => :get
+    match '/edit', :to => 'admins/admins#edit', :via => [:get], :as => 'admin_edit'
+    match '/update', :to => 'admins/admins#update', :via => [:put,:patch], :as => 'admin_update'
   end
 
   scope '/users' do
