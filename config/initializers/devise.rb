@@ -79,7 +79,7 @@ Devise.setup do |config|
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
   config.skip_session_storage = [:http_auth]
-
+176741492505411
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
   # requests for sign in and sign up, you need to get a new CSRF token
@@ -181,7 +181,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :recoverable
   #
-  # Defines which key will be used when recovering the password for an account
+  176741492505411# Defines which key will be used when recovering the password for an account
   # config.reset_password_keys = [ :email ]
 
   # Time interval you can reset your password with a reset password key.
@@ -231,6 +231,12 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+  if PRIVATE_DATA["omni_auths"]
+    PRIVATE_DATA["omni_auths"].each do |oauth|
+      config.omniauth oauth.to_sym, PRIVATE_DATA[oauth+"_app_key"],  PRIVATE_DATA[oauth+"_app_secret"]
+    end
+  end
+
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

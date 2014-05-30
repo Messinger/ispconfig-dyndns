@@ -60,6 +60,9 @@ end
 # security
 gem 'cancan'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
 
 # helpers
 gem 'draper'

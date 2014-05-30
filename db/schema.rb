@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140529110944) do
+ActiveRecord::Schema.define(version: 20140530064505) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -98,6 +98,16 @@ ActiveRecord::Schema.define(version: 20140529110944) do
   add_index "dns_zones", ["isp_dnszone_origin"], name: "index_dns_zones_on_isp_dnszone_origin", unique: true
   add_index "dns_zones", ["name"], name: "index_dns_zones_on_name", unique: true
 
+  create_table "identities", force: true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id"
+
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
     t.text     "data"
@@ -136,10 +146,9 @@ ActiveRecord::Schema.define(version: 20140529110944) do
     t.integer  "failed_attempts",        default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.string   "last_name",                           null: false
-    t.string   "first_name",                          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
