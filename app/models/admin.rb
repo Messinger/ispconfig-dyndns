@@ -15,6 +15,41 @@ class Admin < ActiveRecord::Base
     @login || self.username || self.email
   end
 
+  def update_values(params,*options)
+    current_password = params.delete(:current_password)
+    new_password_error = false
+
+    if params[:password].blank? ||  params[:password] != params[:password_confirmation] 
+      if params[:password] != params[:password_confirmation]
+        new_password_error = true
+      end
+      params.delete(:password)
+      params.delete(:password_confirmation)
+    end
+
+    Rails.logger.debug "Password #{current_password} is #{valid_password?(current_password)}"
+    result = if valid_password?(current_password) && !new_password_error
+      update_attributes(params, *options)
+      Rails.logger.debug "Current values #{self.inspect}"
+    else
+      self.assign_attributes(params, *options)
+      self.valid?
+      if new_password_error
+        self.errors.add(:password_confirmation,"must same as password")
+      end
+      if !valid_password?(current_password)
+        self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
+      end
+      false
+    end
+
+    self.password = nil
+    self.password_confirmation = nil
+
+    result
+
+  end
+
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
