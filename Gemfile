@@ -74,6 +74,8 @@ gem 'simple-navigation'
 gem 'breadcrumbs_on_rails'
 gem 'i18n-js'
 
+gem 'logging-rails', :require => 'logging/rails'
+
 # soap gedoehns
 
 gem 'savon'

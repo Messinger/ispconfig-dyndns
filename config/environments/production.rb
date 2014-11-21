@@ -92,4 +92,10 @@ RailsDynamicDomain::Application.configure do
     }
   end
 
+
+  # Set the logging destination(s)
+  config.log_to = %w[file]
+
+  # Show the logging configuration on STDOUT
+  config.show_log_configuration = false
 end
