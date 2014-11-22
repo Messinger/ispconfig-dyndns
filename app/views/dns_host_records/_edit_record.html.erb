@@ -27,7 +27,7 @@
       <%= label_tag("dns_host_a_record[address]","IPV4:") %>
     </div>
       <div class="elementbox">
-      <%= text_field_tag("dns_host_a_record[address]") %>
+      <%= text_field_tag("dns_host_a_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv4_address) %>
     </div>
   </div>
   <div class="clear"></div>
@@ -36,9 +36,8 @@
       <%= label_tag("dns_host_aaaa_record[address]","IPV6:") %>
     </div>
     <div class="elementbox">
-      <%= text_field_tag("dns_host_aaaa_record[address]") %>
+      <%= text_field_tag("dns_host_aaaa_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv6_address )  %>
     </div>
   </div>
-  
 
 <% end %>

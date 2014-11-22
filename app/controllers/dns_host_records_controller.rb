@@ -16,6 +16,25 @@ class DnsHostRecordsController < ApplicationController
     index_bread
   end
 
+  def edit
+    recordid = params[:id]
+    @dns_host_record = DnsHostRecord.accessible_by(current_ability).find(recordid)
+    @dns_host_record = @dns_host_record.decorate
+    debug("Edit #{@dns_host_record}")
+    respond_to do |format|
+      format.json {
+        render :json => @dns_host_record.as_json({:simple => true}), :status => :ok
+      }
+      format.html {
+        unless params[:partial].blank?
+          render :partial => 'edit_record' and return
+        else
+          edit_bread
+        end
+      }
+    end
+  end
+  
   def show
     recordid = params[:id]
     @dns_host_record = DnsHostRecord.accessible_by(current_ability).find(recordid).decorate
@@ -133,13 +152,12 @@ class DnsHostRecordsController < ApplicationController
   end
 
   def show_bread
-    
     index_bread
-    
-    if current_client_user
-      cu = ClientUserDecorator.new current_client_user
-      add_breadcrumb "Details about #{@dns_host_record.full_name}", dns_host_record_path(@dns_host_record)
-    end
-    
+    add_breadcrumb "Details about #{@dns_host_record.full_name}", dns_host_record_path(@dns_host_record)
+  end
+
+  def edit_bread
+    show_bread
+    add_breadcrumb "Edit #{@dns_host_record.full_name}", edit_dns_host_record_path(@dns_host_record)
   end
 end

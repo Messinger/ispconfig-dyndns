@@ -150,4 +150,8 @@ class DnsHostRecordDecorator < ApplicationDecorator
     return true
   end
 
+  def as_json(options={})
+    model.as_json options
+  end
+  
 end
