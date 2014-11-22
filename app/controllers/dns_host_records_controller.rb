@@ -18,7 +18,7 @@ class DnsHostRecordsController < ApplicationController
 
   def show
     recordid = params[:id]
-    @dns_host_record = DnsHostRecord.accessible_by(current_ability).find recordid
+    @dns_host_record = DnsHostRecord.accessible_by(current_ability).find(recordid).decorate
 
     respond_to do |format|
       format.json {
