@@ -14,6 +14,7 @@ class Ability
     if user.instance_of? Admin
       can :manage, Setting
       can :manage, Admin, :id => user.id
+      can :manage, User
     end
 
     if user.instance_of? ApiKey

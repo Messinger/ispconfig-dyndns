@@ -22,9 +22,13 @@ RailsDynamicDomain::Application.routes.draw do
     match '/update', :to => 'admins/admins#update', :via => [:put,:patch], :as => 'admin_update'
   end
 
-  scope '/users' do
-    match '', to: 'welcome#user_index', :as => :user, :via => :get
+  namespace 'admins' do
+    resources :users, :only => [:index, :show, :destroy]
   end
+
+#  scope '/users' do
+   match '', to: 'welcome#user_index', :as => :user, :via => :get
+#  end
 
   
   namespace :client do
