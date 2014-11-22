@@ -2,7 +2,7 @@ class Client::DnsZonesController < ApplicationController
   authorize_resource :class => DnsZone
   
   def index
-    Rails.logger.info "Dnszone index"
+    info "Dnszone index"
     @dns_zones = DnsZone.accessible_by(current_ability)
     index_bread
   end

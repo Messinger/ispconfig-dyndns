@@ -1,7 +1,9 @@
 require 'isp_exceptions/isp_exceptions'
+require 'logging/applogger'
 
 class ApplicationController < ActionController::Base
   include IspExceptions
+  include Applogger
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -23,6 +25,8 @@ class ApplicationController < ActionController::Base
   def initialize
     @current_client_user = nil
     @current_api_key = nil
+    @logger = getlogger("ApplicationController::#{self.class.logger_name}")
+    @logger.debug "Finished initialize"
     super
   end
 
@@ -63,6 +67,7 @@ class ApplicationController < ActionController::Base
     end
     # touch session object so updated_at is set
     session[:lastseen] = Time.now()
+    @logger.debug "Sweep sessions"
     Session.sweep(24.hours)
   end
   
@@ -103,12 +108,12 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    Rails.logger.error "Access denied on #{exception.action} #{exception.subject.inspect}"
+    error "Access denied on #{exception.action} #{exception.subject.inspect}"
     error_request :not_found
   end
   
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    Rails.logger.error "Record not found: #{exception.message}"
+    error "Record not found: #{exception.message}"
     error_request :not_found
   end
   
