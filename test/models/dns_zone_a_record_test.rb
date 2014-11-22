@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DnsZoneARecordTest < ActiveSupport::TestCase
+class DnsHostARecordTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -43,21 +43,21 @@ class Ability
       can :read, DnsZone, :is_public => true
 
       can :read, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
-      can :read, DnsZoneARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :read, DnsHostARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :read, DnsZoneAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
 
       if user.dns_host_records.count < Setting.max_records.to_i
         can :create, DnsHostRecord, :dns_zone => {:is_public => true} 
-        can :create, DnsZoneARecord, :dns_host_record => { :dns_zone => {:is_public => true} }
+        can :create, DnsHostARecord, :dns_host_record => { :dns_zone => {:is_public => true} }
         can :create, DnsZoneAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true} }
       end
 
       can :edit, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
-      can :edit, DnsZoneARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :edit, DnsHostARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :edit, DnsZoneAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
 
       can :destroy, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
-      can :destroy, DnsZoneARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :destroy, DnsHostARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :destroy, DnsZoneAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
 
     end

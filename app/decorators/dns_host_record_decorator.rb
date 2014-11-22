@@ -16,7 +16,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
   
   def ipv4_address
-    self.dns_zone_a_record.address
+    self.dns_host_a_record.address
   end
 
   def ipv6_address= (address)
@@ -24,11 +24,11 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def ipv4_address= (address)
-    self.dns_zone_a_record.address = address
+    self.dns_host_a_record.address = address
   end
 
   def empty?
-    self.dns_zone_a_record.address.blank? && self.dns_zone_aaaa_record.address.blank?
+    self.dns_host_a_record.address.blank? && self.dns_zone_aaaa_record.address.blank?
   end
   
   def full_name
@@ -51,19 +51,19 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
   
   def changed?
-    model.changed? || self.dns_zone_a_record.changed? || self.dns_zone_aaaa_record.changed?
+    model.changed? || self.dns_host_a_record.changed? || self.dns_zone_aaaa_record.changed?
   end
 
   def valid?
-    model.valid? && self.dns_zone_a_record.valid? && self.dns_zone_aaaa_record.valid?
+    model.valid? && self.dns_host_a_record.valid? && self.dns_zone_aaaa_record.valid?
   end
   
   def address_errors
-    {:dns_zone_record => model.errors, :dns_zone_record_a_record => self.dns_zone_a_record.errors, :dns_zone_record_aaaa_record => self.dns_zone_aaaa_record.errors }    
+    {:dns_zone_record => model.errors, :dns_zone_record_a_record => self.dns_host_a_record.errors, :dns_zone_record_aaaa_record => self.dns_zone_aaaa_record.errors }    
   end
 
   def errors
-    return self.dns_zone_a_record.errors unless self.dns_zone_a_record.valid?
+    return self.dns_host_a_record.errors unless self.dns_host_a_record.valid?
     return self.dns_zone_aaaa_record.errors unless self.dns_zone_aaaa_record.valid?
     model.errors
   end
@@ -77,7 +77,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
     ispsession = IspSession.login
     
     isp_client = IspClient.client_for_user(dns_zone.isp_client_user_id,ispsession)
-    arec = self.dns_zone_a_record
+    arec = self.dns_host_a_record
     aaaarec = self.dns_zone_aaaa_record
     
     resa = true
@@ -145,7 +145,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
   def save
     return false if !valid?
     return false if !model.save(:validate => false)
-    return false if !self.dns_zone_a_record.save(:validate => false)
+    return false if !self.dns_host_a_record.save(:validate => false)
     return false if !self.dns_zone_aaaa_record.save(:validate => false)
     return true
   end

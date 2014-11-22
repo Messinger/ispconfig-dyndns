@@ -37,7 +37,7 @@ class IspResourceRecord < PresentationModel
   
 private
 
-  def self.from_dns_zone_a_record record
+  def self.from_dns_host_a_record record
     
   end
   

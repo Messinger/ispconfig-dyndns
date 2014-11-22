@@ -56,7 +56,7 @@ class DnsHostRecordsController < ApplicationController
     # if ClientUser is logged in current user returns nil
     dns_host_record.user = current_user
     recparams = params[:dns_host_record]
-    logger.error "Full params: #{params}"
+    logger.debug "Full params: #{params}"
     dns_zone_id = params[:dns_zone][:id]
     zone = DnsZone.accessible_by(current_ability).find dns_zone_id
     dns_host_record.dns_zone = zone
@@ -67,7 +67,7 @@ class DnsHostRecordsController < ApplicationController
       recd = DnsHostRecordDecorator.new dns_host_record
       logger.debug "Parameter: #{recparams}"
       begin
-        aaddr = params.has_key?("dns_zone_a_record") ? params[:dns_zone_a_record][:address]:""
+        aaddr = params.has_key?("dns_host_a_record") ? params[:dns_host_a_record][:address]:""
         aaaaaddr = params.has_key?("dns_zone_aaaa_record") ? params[:dns_zone_aaaa_record][:address]:""
         if aaddr.blank? && aaaaaddr.blank?
           recd.address = request.remote_ip
