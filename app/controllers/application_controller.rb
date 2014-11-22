@@ -13,11 +13,9 @@ class ApplicationController < ActionController::Base
   
   check_authorization :unless => :devise_controller? 
   
-  unless :devise_controller?
-    before_filter :set_authentication_information
-    before_filter :process_authentication
-  end
-  
+  before_filter :set_authentication_information, unless: :devise_controller?
+  before_filter :process_authentication, unless: :devise_controller?
+ 
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   helper_method :current_account, :current_client_user, :current_api_key
@@ -27,6 +25,7 @@ class ApplicationController < ActionController::Base
     @current_api_key = nil
     @logger = getlogger("ApplicationController::#{self.class.logger_name}")
     @logger.debug "Finished initialize"
+    @logger.debug "Is devise-controller: #{devise_controller?}"
     super
   end
 
@@ -67,7 +66,6 @@ class ApplicationController < ActionController::Base
     end
     # touch session object so updated_at is set
     session[:lastseen] = Time.now()
-    @logger.debug "Sweep sessions"
     Session.sweep(24.hours)
   end
   
