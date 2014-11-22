@@ -45,7 +45,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
       self.ipv6_address=address
       self.ipv4_address=nil
     else
-      Rails.logger.error("#{address} is not a valid ip")
+      logger.error("#{address} is not a valid ip")
     end
 
   end
@@ -73,7 +73,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
     return false if !valid?
     return true unless changed?
     
-    Rails.logger.debug("Update remote")
+    logger.debug("Update remote")
     ispsession = IspSession.login
     
     isp_client = IspClient.client_for_user(dns_zone.isp_client_user_id,ispsession)
@@ -86,7 +86,7 @@ class DnsZoneRecordDecorator < ApplicationDecorator
       isprec = IspDnsARecord.dns_a_get(isprecid,ispsession) unless isprecid.blank?
       if arec.address.blank?
         unless isprecid.nil?
-          Rails.logger.debug("Delete #{arec} remote")
+          logger.debug("Delete #{arec} remote")
           isprec = IspDnsARecord.dns_a_get(isprecid,ispsession)
           resa = isprec.dns_a_delete
           arec.isp_dns_a_record_id = nil
