@@ -7,10 +7,10 @@ class DnsHostRecordsController < ApplicationController
     zone_id = params[:zone_id]
     if zone_id.blank?
       @zone = nil
-      @dns_host_records = DnsHostRecord.accessible_by(current_ability)
+      @dns_host_records = DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability))
     else
       @zone = DnsZone.accessible_by(current_ability).find zone_id
-      @dns_host_records = DnsHostRecord.accessible_by(current_ability).where(:dns_zone_id => @zone)
+      @dns_host_records = DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability).where(:dns_zone_id => @zone))
     end
 
     index_bread

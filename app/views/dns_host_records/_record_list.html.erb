@@ -12,12 +12,11 @@
       
       <tbody>
       <% dns_host_records.each do |record| %>
-        <% rdec = DnsHostRecordDecorator.new record %>
         
-        <tr><td><%= rdec.full_name %></td><td><%= rdec.ipv4_address %></td><td><%= rdec.ipv6_address %></td>
+        <tr><td><%= record.full_name %></td><td><%= record.ipv4_address %></td><td><%= record.ipv6_address %></td>
         <td>
           <% if can? :edit, record %>
-          <%= rdec.access_token %>
+          <%= record.access_token %>
           <% end %>
         </td><td><%= link_to "Delete","#", :class=>"deleterecordbutton", :id => "delete_record_#{record.id}", "data-id" => record.id, "data-url" => dns_host_record_path(record) %></td>
         </tr>
