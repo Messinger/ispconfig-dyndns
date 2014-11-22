@@ -24,7 +24,7 @@
 <td>
 <%= link_to dns_zone.name, client_dns_zone_path(dns_zone) %>
 </td>
-<td><%= dns_zone.dns_zone_records.count %></td>
+<td><%= dns_zone.dns_host_records.count %></td>
 <td><%= render partial: "public_switch", locals: {dns_zone: dns_zone, label: false} %></td>
 <td><%= link_to "View isp config record",client_isp_dnszone_path(dns_zone.isp_dnszone_id), :class=>"linkbutton" %> </td>
 </tr>

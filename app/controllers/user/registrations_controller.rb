@@ -24,7 +24,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 
     recordid = user.id
 
-    user.dns_zone_records.each do |record|
+    user.dns_host_records.each do |record|
       rd = DnsZoneRecordDecorator.new record
       rd.delete_remote
     end

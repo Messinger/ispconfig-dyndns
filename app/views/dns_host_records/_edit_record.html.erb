@@ -1,8 +1,8 @@
 
-<%= form_for @dns_zone_record do |f| %>
+<%= form_for @dns_host_record do |f| %>
 
-<% unless @dns_zone_record.dns_zone.blank? %>
-  <%= hidden_field_tag('dns_zone[id]',@dns_zone_record.dns_zone.id) %>
+<% unless @dns_host_record.dns_zone.blank? %>
+  <%= hidden_field_tag('dns_zone[id]',@dns_host_record.dns_zone.id) %>
   <% zsel = "" %>
 <% else %>
   <% fields_for DnsZone.new do |z| %>

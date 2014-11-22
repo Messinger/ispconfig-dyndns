@@ -1,4 +1,4 @@
-class DnsZoneRecord < ActiveRecord::Base
+class DnsHostRecord < ActiveRecord::Base
   belongs_to :dns_zone
   belongs_to :user
 

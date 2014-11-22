@@ -41,7 +41,7 @@ RailsDynamicDomain::Application.routes.draw do
     resources :isp_dnszones, :only => [:index,:show]
   end
 
-  resources :dns_zone_records
+  resources :dns_host_records
 
   # for omniauth
   match '/profile/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup

@@ -1,16 +1,16 @@
-class DnsZoneRecordsController < ApplicationController
-  authorize_resource :class => DnsZoneRecord
+class DnsHostRecordsController < ApplicationController
+  authorize_resource :class => DnsHostRecord
 
   def index
-    Rails.logger.info "DnszoneRecord index"
+    debug "DnszoneRecord index"
 
     zone_id = params[:zone_id]
     if zone_id.blank?
       @zone = nil
-      @dns_zone_records = DnsZoneRecord.accessible_by(current_ability)
+      @dns_host_records = DnsHostRecord.accessible_by(current_ability)
     else
       @zone = DnsZone.accessible_by(current_ability).find zone_id
-      @dns_zone_records = DnsZoneRecord.accessible_by(current_ability).where(:dns_zone_id => @zone)
+      @dns_host_records = DnsHostRecord.accessible_by(current_ability).where(:dns_zone_id => @zone)
     end
 
     index_bread
@@ -18,11 +18,11 @@ class DnsZoneRecordsController < ApplicationController
 
   def show
     recordid = params[:id]
-    @dns_zone_record = DnsZoneRecord.accessible_by(current_ability).find recordid
+    @dns_host_record = DnsHostRecord.accessible_by(current_ability).find recordid
 
     respond_to do |format|
       format.json {
-        render :json => @dns_zone_record.as_json({:simple => true}), :status => :ok
+        render :json => @dns_host_record.as_json({:simple => true}), :status => :ok
       }
       format.html {
       }
@@ -39,31 +39,32 @@ class DnsZoneRecordsController < ApplicationController
     else
       @dns_zone = DnsZone.accessible_by(current_ability).find dnszoneid
     end
-    @dns_zone_record = DnsZoneRecord.new
-    @dns_zone_record.dns_zone_id = @dns_zone.id unless @dns_zone.nil?
+    @dns_host_record = DnsHostRecord.new
+    debug "New Record: #{@dns_host_record}"
+    @dns_host_record.dns_zone_id = @dns_zone.id unless @dns_zone.nil?
 
     unless params[:partial].blank?
       render :partial => 'edit_record' and return
     else
       index_bread
-      add_breadcrumb "New DNS Record",new_dns_zone_record_path
+      add_breadcrumb "New DNS Record",new_dns_host_record_path
     end
   end
 
   def create
-    dns_zone_record = DnsZoneRecord.new
+    dns_host_record = DnsHostRecord.new
     # if ClientUser is logged in current user returns nil
-    dns_zone_record.user = current_user
-    recparams = params[:dns_zone_record]
-    logger.debug "Full params: #{params}"
+    dns_host_record.user = current_user
+    recparams = params[:dns_host_record]
+    logger.error "Full params: #{params}"
     dns_zone_id = params[:dns_zone][:id]
     zone = DnsZone.accessible_by(current_ability).find dns_zone_id
-    dns_zone_record.dns_zone = zone
-    dns_zone_record.name = recparams[:name]
-    saved = dns_zone_record.save
+    dns_host_record.dns_zone = zone
+    dns_host_record.name = recparams[:name]
+    saved = dns_host_record.save
     
     if saved
-      recd = DnsZoneRecordDecorator.new dns_zone_record
+      recd = DnsHostRecordDecorator.new dns_host_record
       logger.debug "Parameter: #{recparams}"
       begin
         aaddr = params.has_key?("dns_zone_a_record") ? params[:dns_zone_a_record][:address]:""
@@ -87,9 +88,9 @@ class DnsZoneRecordsController < ApplicationController
     respond_to do |format|
       format.json {
         if saved
-          render :json => dns_zone_record, :status => :ok, :location => dns_zone_record_path(dns_zone_record)
+          render :json => dns_host_record, :status => :ok, :location => dns_host_record_path(dns_host_record)
         else
-          render :json => dns_zone_record.errors, :status => :bad_request
+          render :json => dns_host_record.errors, :status => :bad_request
         end
       }
     end
@@ -97,13 +98,13 @@ class DnsZoneRecordsController < ApplicationController
 
   def destroy
     recordid = params[:id]
-    dns_zone_record = DnsZoneRecord.accessible_by(current_ability).find recordid
+    dns_host_record = DnsHostRecord.accessible_by(current_ability).find recordid
 
-    recd = DnsZoneRecordDecorator.new dns_zone_record
+    recd = DnsHostRecordDecorator.new dns_host_record
     recd.delete_remote
     del = recd.destroy
     if current_client_user
-      back = client_dns_zone_path(dns_zone_record.dns_zone)
+      back = client_dns_zone_path(dns_host_record.dns_zone)
     else
       back = root_path
     end
@@ -126,7 +127,7 @@ class DnsZoneRecordsController < ApplicationController
     if current_client_user
       cu = ClientUserDecorator.new current_client_user
       add_breadcrumb "Local domains for #{cu.full_name}",client_dns_zones_path
-      add_breadcrumb "Local records for #{cu.full_name}",dns_zone_records_path
+      add_breadcrumb "Local records for #{cu.full_name}",dns_host_records_path
     end
 
   end

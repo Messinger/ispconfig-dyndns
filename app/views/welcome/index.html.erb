@@ -12,6 +12,6 @@
 <%= link_to "Login user",user_session_path, :class => "linkbutton" %>
 <% else %>
    <% unless current_admin %>
-    <%= link_to "Your registered host names", dns_zone_records_path, :class => "linkbutton" %> 
+    <%= link_to "Your registered host names", dns_host_records_path, :class => "linkbutton" %> 
   <% end %>
 <% end %>

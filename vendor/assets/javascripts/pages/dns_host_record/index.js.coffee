@@ -48,7 +48,7 @@ $ ->
         width: 450
         buttons: {
           Save: () ->
-            f = $('form#new_dns_zone_record')
+            f = $('form#new_dns_host_record')
             res = f.stringifyFormJSON()
             method = f.attr('method')
             console.log res+" via "+method+" to "+f.attr('action')
@@ -79,7 +79,7 @@ $ ->
           }
         })
     else
-      $('form#new_dns_zone_record').clearForm(true)
+      $('form#new_dns_host_record').clearForm(true)
       $('#formcontent').dialog('open')
 
   add_new_record = (event,element) ->

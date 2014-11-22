@@ -4,8 +4,8 @@
 
 <script>
   var dnszone_id = "<%=@dnszone.id%>";
-  var createrecordurl = "<%= dns_zone_records_path%>";
-  var newrecordurl = "<%= new_dns_zone_record_path(:partial=>true,:dns_zone_id=>@dnszone.id) %>";
+  var createrecordurl = "<%= dns_host_records_path%>";
+  var newrecordurl = "<%= new_dns_host_record_path(:partial=>true,:dns_zone_id=>@dnszone.id) %>";
 </script>
 <% end %>
 
@@ -16,10 +16,10 @@
   <%= render partial: "public_switch", locals: {dns_zone: @dnszone, label: true} %>
   </div>
   <div class="clear"></div>
-  <%= render :partial => "dns_zone_records/record_list", :locals => {dns_zone_records: @dnszone.dns_zone_records} %>
+  <%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: @dnszone.dns_host_records} %>
 </div>
 
 <div id="dnszone_commands">
-<a href="#" id="new_dns_zone_record" class="addrecordbutton">Add new record</a>
+<a href="#" id="new_dns_host_record" class="addrecordbutton">Add new record</a>
 </div>
 

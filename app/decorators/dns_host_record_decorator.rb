@@ -1,6 +1,6 @@
 require 'resolv'
 
-class DnsZoneRecordDecorator < ApplicationDecorator
+class DnsHostRecordDecorator < ApplicationDecorator
   delegate_all
 
   def access_token
