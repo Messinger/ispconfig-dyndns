@@ -13,7 +13,7 @@
       <tbody>
       <% dns_host_records.each do |record| %>
         
-        <tr><td><%= record.full_name %></td><td><%= record.ipv4_address %></td><td><%= record.ipv6_address %></td>
+        <tr><td><%= link_to record.full_name,dns_host_record_path(record) %></td><td><%= record.ipv4_address %></td><td><%= record.ipv6_address %></td>
         <td>
           <% if can? :edit, record %>
           <%= record.access_token %>

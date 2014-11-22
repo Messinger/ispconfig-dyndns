@@ -25,6 +25,7 @@ class DnsHostRecordsController < ApplicationController
         render :json => @dns_host_record.as_json({:simple => true}), :status => :ok
       }
       format.html {
+        show_bread
       }
     end
 
@@ -98,13 +99,12 @@ class DnsHostRecordsController < ApplicationController
 
   def destroy
     recordid = params[:id]
-    dns_host_record = DnsHostRecord.accessible_by(current_ability).find recordid
+    recd = DnsHostRecord.accessible_by(current_ability).find(recordid).decorate
 
-    recd = DnsHostRecordDecorator.new dns_host_record
     recd.delete_remote
     del = recd.destroy
     if current_client_user
-      back = client_dns_zone_path(dns_host_record.dns_zone)
+      back = client_dns_zone_path(recd.dns_zone)
     else
       back = root_path
     end
@@ -132,4 +132,14 @@ class DnsHostRecordsController < ApplicationController
 
   end
 
+  def show_bread
+    
+    index_bread
+    
+    if current_client_user
+      cu = ClientUserDecorator.new current_client_user
+      add_breadcrumb "Details about #{@dns_host_record.full_name}", dns_host_record_path(@dns_host_record)
+    end
+    
+  end
 end
