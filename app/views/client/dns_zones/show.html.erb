@@ -16,7 +16,7 @@
   <%= render partial: "public_switch", locals: {dns_zone: @dnszone, label: true} %>
   </div>
   <div class="clear"></div>
-  <%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: @dnszone.dns_host_records} %>
+  <%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: DnsHostRecordDecorator.decorate_collection(@dnszone.dns_host_records)} %>
 </div>
 
 <div id="dnszone_commands">
