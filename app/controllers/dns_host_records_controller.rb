@@ -68,7 +68,7 @@ class DnsHostRecordsController < ApplicationController
       logger.debug "Parameter: #{recparams}"
       begin
         aaddr = params.has_key?("dns_host_a_record") ? params[:dns_host_a_record][:address]:""
-        aaaaaddr = params.has_key?("dns_zone_aaaa_record") ? params[:dns_zone_aaaa_record][:address]:""
+        aaaaaddr = params.has_key?("dns_host_aaaa_record") ? params[:dns_host_aaaa_record][:address]:""
         if aaddr.blank? && aaaaaddr.blank?
           recd.address = request.remote_ip
         else

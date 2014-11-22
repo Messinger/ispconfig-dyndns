@@ -59,6 +59,18 @@ ActiveRecord::Schema.define(version: 20140530064505) do
   add_index "dns_host_a_records", ["dns_host_record_id"], name: "index_dns_host_a_records_on_dns_host_record_id"
   add_index "dns_host_a_records", ["isp_dns_a_record_id"], name: "index_dns_host_a_records_on_isp_dns_a_record_id", unique: true
 
+  create_table "dns_host_aaaa_records", force: true do |t|
+    t.string   "address"
+    t.integer  "dns_host_record_id",     null: false
+    t.integer  "isp_dns_aaaa_record_id"
+    t.datetime "lastset"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dns_host_aaaa_records", ["dns_host_record_id"], name: "index_dns_host_aaaa_records_on_dns_host_record_id"
+  add_index "dns_host_aaaa_records", ["isp_dns_aaaa_record_id"], name: "index_dns_host_aaaa_records_on_isp_dns_aaaa_record_id", unique: true
+
   create_table "dns_host_records", force: true do |t|
     t.string   "name",        null: false
     t.integer  "dns_zone_id"
@@ -70,18 +82,6 @@ ActiveRecord::Schema.define(version: 20140530064505) do
   add_index "dns_host_records", ["dns_zone_id"], name: "index_dns_host_records_on_dns_zone_id"
   add_index "dns_host_records", ["name", "dns_zone_id"], name: "recordname_idx", unique: true
   add_index "dns_host_records", ["user_id"], name: "index_dns_host_records_on_user_id"
-
-  create_table "dns_zone_aaaa_records", force: true do |t|
-    t.string   "address"
-    t.integer  "dns_host_record_id",     null: false
-    t.integer  "isp_dns_aaaa_record_id"
-    t.datetime "lastset"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "dns_zone_aaaa_records", ["dns_host_record_id"], name: "index_dns_zone_aaaa_records_on_dns_host_record_id"
-  add_index "dns_zone_aaaa_records", ["isp_dns_aaaa_record_id"], name: "index_dns_zone_aaaa_records_on_isp_dns_aaaa_record_id", unique: true
 
   create_table "dns_zones", force: true do |t|
     t.string   "name",                               null: false

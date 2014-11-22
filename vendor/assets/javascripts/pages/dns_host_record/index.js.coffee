@@ -64,7 +64,7 @@ $ ->
                   [
                     data["name"]+"."+data["dns_zone"]["name"]
                     data["dns_host_a_record"]["address"]
-                    data["dns_zone_aaaa_record"]["address"]
+                    data["dns_host_aaaa_record"]["address"]
                     data["api_key"]["access_token"]
                     get_delete_tag(data["id"],xhr.getResponseHeader('Location'))
                   ]

@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :dns_host_records, :dependent => :destroy
   has_many :dns_host_a_records, through: :dns_host_records
-  has_many :dns_zone_aaaa_records, through: :dns_host_records
+  has_many :dns_host_aaaa_records, through: :dns_host_records
   has_one :identity, :dependent => :destroy
   
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update  

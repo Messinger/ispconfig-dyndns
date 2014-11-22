@@ -7,7 +7,7 @@ class DnsIspRecordValidator <  ActiveModel::Validator
       recs = record.dns_zone.isp_dnszone.find_record_by_name record.name
       if recs.length > 0
         irecaid= record.dns_host_a_record.isp_dns_a_record_id.to_s
-        irecaaaaid = record.dns_zone_aaaa_record.isp_dns_aaaa_record_id.to_s
+        irecaaaaid = record.dns_host_aaaa_record.isp_dns_aaaa_record_id.to_s
         aaaarecords = recs.find_all {|rec| rec.instance_of?(IspDnsAaaaRecord) && rec.id == irecaaaaid}
         arecords = recs.find_all {|rec| rec.instance_of?(IspDnsARecord) && rec.id == irecaid}
         if aaaarecords.length == 0 && arecords.length == 0
