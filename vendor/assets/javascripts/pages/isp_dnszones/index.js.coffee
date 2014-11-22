@@ -14,7 +14,7 @@ $ ->
         success: (data,status,xhr) ->
             update_dns_row nRow,zoneid,false
         error: (req,msg,ojb) ->
-            console.log(req)        
+            console.log(req)
     }
   
   ask_drop_dns_zone = (event,element) ->
@@ -23,7 +23,7 @@ $ ->
 
   add_dns_zone = (event,element) ->
     event.preventDefault()
-    nRow = $(element).parents('tr');
+    nRow = $(element).parents('tr')
     nRow = $('#ispdnszones').DataTable().row(nRow)
     id = $(element).data("ispzoneid")
     if id == undefined
@@ -67,14 +67,14 @@ $ ->
     clean_tool_tips()
   
     if addzone == false
-        actiontext = '<a class="add-dns-zone" href="#" data-ispzoneid="'+data+'">Add local zone</a>';
+        actiontext = '<a class="add-dns-zone" href="#" data-ispzoneid="'+data+'">Add local zone</a>'
         curdata[2] = actiontext
         curdata[1] = "&nbsp;"
         row.data(curdata)
         make_add_buttons()
         
     else
-        actiontext = '<a class="drop-dns-zone" href="#" data-ispzoneid="'+data.isp_dnszone_id+'" data-dropurl="'+dns_zone_path+'/'+data.id+'">Drop this local zone</a>';
+        actiontext = '<a class="drop-dns-zone" href="#" data-ispzoneid="'+data.isp_dnszone_id+'" data-dropurl="'+dns_zone_path+'/'+data.id+'">Drop this local zone</a>'
         curdata[2] = actiontext
         curdata[1] = '<a href="'+dns_zone_path+'/'+data.id+'">'+data.name+'</a>'
         row.data(curdata)
