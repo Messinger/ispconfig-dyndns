@@ -44,7 +44,7 @@ class Client::DnsZonesController < ApplicationController
     end
     
     ispzone = IspDnszone.dns_zone_get(ispzone_id)
-    Rails.logger.info("#{ispzone.inspect} for #{current_client_user.inspect}")    
+    debug("#{ispzone.inspect} for #{current_client_user.inspect}")
 
     if ispzone.nil? || !ispzone.instance_of?(IspDnszone)
       raise BadRequest.new
