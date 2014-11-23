@@ -71,6 +71,32 @@ class DnsHostRecordsController < ApplicationController
     end
   end
 
+  def update
+    record = DnsHostRecord.find(params[:id]).decorate
+    debug "Found record #{record}"
+    
+    debug "New values: #{params}"
+    
+    record.ipv4_address = params[:dns_host_a_record][:address] unless params[:dns_host_a_record].blank?
+    record.ipv6_address = params[:dns_host_aaaa_record][:address] unless params[:dns_host_aaaa_record].blank?
+
+    saved = false
+    
+    if record.update_remote
+      saved = record.save
+    end
+      
+    respond_to do |format|
+      format.json {
+        if saved
+          render :json => record.as_json({:simple => true}), :status => :ok, :location => dns_host_record_path(record)
+        else
+          render :json => record.errors, :status => :bad_request
+        end
+      }
+    end
+  end
+  
   def create
     dns_host_record = DnsHostRecord.new
     # if ClientUser is logged in current user returns nil
