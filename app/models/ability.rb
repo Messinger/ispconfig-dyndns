@@ -55,7 +55,11 @@ class Ability
       can :edit, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
       can :edit, DnsHostARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :edit, DnsHostAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
-
+      
+      can :update, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
+      can :update, DnsHostARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      can :update, DnsHostAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+      
       can :destroy, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
       can :destroy, DnsHostARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :destroy, DnsHostAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
