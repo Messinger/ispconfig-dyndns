@@ -7,6 +7,8 @@
 
 <script>
 var editrecordurl = "<%= edit_dns_host_record_path(:partial=>true,:id=>@dns_host_record.id) %>";
+var recordurl = "<%= dns_host_record_path(@dns_host_record) %>";
+window.listurl = "<%= client_dns_zone_path(:id => @dns_host_record.dns_zone.id) %>";
 </script>
 
 <% end %>
@@ -17,12 +19,14 @@ var editrecordurl = "<%= edit_dns_host_record_path(:partial=>true,:id=>@dns_host
 
 <div class="col-md-4">
 <% if can? :edit,@dns_host_record %>
-<a href="#" id="edit_dns_host_record" class="editrecordbutton linkbutton">Edit record</a>
+<a href="#" id="edit_dns_host_record" class="editrecordbutton">Edit record</a>
+<a href="#" id="delete_dns_host_record" class="deleterecordbutton">Delete record</a>
+<% end %>
 </div>
 
 </div>
 
-<div class="row">
+<div class="row" style="padding-top: 10px;">
 
 <div class="col-md-4" >
 <strong>IPV4</strong>
@@ -49,5 +53,3 @@ var editrecordurl = "<%= edit_dns_host_record_path(:partial=>true,:id=>@dns_host
 
 </div>
 
-
-<% end %>
