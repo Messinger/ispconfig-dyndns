@@ -28,3 +28,14 @@ en:
     yestext: "Yes"
     notext: "No"
     canceltext: "Cancel"
+  
+  settings:
+    global:
+      title: "Global settings for Application"
+    table:
+      general: "General settings"
+    labels:
+      mail_from: "Mail should sent as"
+      ispconfig_url: "URL of ispconfig host"
+      remote_user: "ISPConfig Remote User"
+      remote_password: "ISPConfig Remote User Password"
