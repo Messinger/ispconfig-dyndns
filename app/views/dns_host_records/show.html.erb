@@ -15,6 +15,15 @@ var editrecordurl = "<%= edit_dns_host_record_path(:partial=>true,:id=>@dns_host
 
 <div class="row">
 
+<div class="col-md-4">
+<% if can? :edit,@dns_host_record %>
+<a href="#" id="edit_dns_host_record" class="editrecordbutton linkbutton">Edit record</a>
+</div>
+
+</div>
+
+<div class="row">
+
 <div class="col-md-4" >
 <strong>IPV4</strong>
 </div>
@@ -40,9 +49,5 @@ var editrecordurl = "<%= edit_dns_host_record_path(:partial=>true,:id=>@dns_host
 
 </div>
 
-<% if can? :edit,@dns_host_record %>
-<div>
-<a href="#" id="edit_dns_host_record" class="editrecordbutton linkbutton">Edit record</a>
-</div>
 
 <% end %>
