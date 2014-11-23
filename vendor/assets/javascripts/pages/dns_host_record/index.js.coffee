@@ -40,7 +40,7 @@ $ ->
 
     if formcontent != undefined
       base = '<div id="formcontent" title="Create new record"></div>'
-      $('body').prepend(base)
+      $('#centralarea').prepend(base)
       $("#formcontent").html(formcontent)
       $("#formcontent").dialog ({
         autopen: false
