@@ -2,6 +2,21 @@ $ ->
   
   edit_record = (event,source) ->
     event.preventDefault()
+    f = $('form.edit_dns_host_record')
+    res = f.stringifyFormJSON()
+    method = f.attr('method')
+    console.log res+" via "+method+" to "+f.attr('action')
+    $.ajax {
+      url: f.attr('action')
+      type: "PATCH"
+      data:res
+      contentType: "application/json; charset=utf-8"
+      dataType: "json"
+      success: (data,stat,xhr) ->
+        console.log data
+      error: (data,stat,xhr) ->
+        console.log data
+    }
  
   ask_delete_record = (event,source) ->
     event.preventDefault()
@@ -25,7 +40,7 @@ $ ->
     $(".editrecordbutton")
       .button ({
         icons: {
-          primary: "ui-icon-pencil"
+          primary: "ui-icon-disk"
         }
         text: false
       })

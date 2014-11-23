@@ -12,6 +12,7 @@
   <% end %>
 <% end %>
 
+<% if @dns_host_record.new_record? %>
   <div class="formbox">
     <div class="elementlabelbox">
       <%= f.label(:name,"Hostname:") %>
@@ -21,7 +22,10 @@
     </div>
   </div>
   <div class="clear"></div>
-  
+<% else %>
+  <%= f.hidden_field(:name) %>
+<% end %>
+
   <div class="formbox">
     <div class="elementlabelbox">
       <%= label_tag("dns_host_a_record[address]","IPV4:") %>

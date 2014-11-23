@@ -20,7 +20,7 @@ window.listurl = "<%= dns_host_records_path %>";
 <div class="col-md-8">
 
 <% if can? :edit,@dns_host_record %>
-<a href="#" id="edit_dns_host_record" class="editrecordbutton">Edit record</a>
+<a href="#" id="edit_dns_host_record" class="editrecordbutton">Save record</a>
 <a href="#" id="delete_dns_host_record" class="deleterecordbutton">Delete record</a>
 <% end %>
 
@@ -64,7 +64,3 @@ window.listurl = "<%= dns_host_records_path %>";
   </div>
 </div>
 <% end %>
-
-<div id="formcontent" title="Edit record">
-
-</div>
