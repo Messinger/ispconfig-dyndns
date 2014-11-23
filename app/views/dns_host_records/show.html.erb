@@ -29,16 +29,20 @@ var editrecordurl = "<%= edit_dns_host_record_path(:partial=>true,:id=>@dns_host
 <%= @dns_host_record.ipv6_address %> &nbsp;
 </div>
 
+<% if can? :edit,@dns_host_record %>
 <div class="col-md-4" >
 <strong>Access token</strong>
 </div>
 <div class="col-md-8" >
 <%= @dns_host_record.access_token %> &nbsp;
 </div>
+<% end %>
 
 </div>
 
+<% if can? :edit,@dns_host_record %>
 <div>
 <a href="#" id="edit_dns_host_record" class="editrecordbutton linkbutton">Edit record</a>
 </div>
 
+<% end %>
