@@ -8,7 +8,7 @@
 <script>
 var editrecordurl = "<%= edit_dns_host_record_path(:partial=>true,:id=>@dns_host_record.id) %>";
 var recordurl = "<%= dns_host_record_path(@dns_host_record) %>";
-window.listurl = "<%= client_dns_zone_path(:id => @dns_host_record.dns_zone.id) %>";
+window.listurl = "<%= dns_host_records_path %>";
 </script>
 
 <% end %>
@@ -17,39 +17,54 @@ window.listurl = "<%= client_dns_zone_path(:id => @dns_host_record.dns_zone.id) 
 
 <div class="row">
 
-<div class="col-md-4">
+<div class="col-md-8">
+
 <% if can? :edit,@dns_host_record %>
 <a href="#" id="edit_dns_host_record" class="editrecordbutton">Edit record</a>
 <a href="#" id="delete_dns_host_record" class="deleterecordbutton">Delete record</a>
 <% end %>
+
 </div>
 
 </div>
 
 <div class="row" style="padding-top: 10px;">
-
-<div class="col-md-4" >
-<strong>IPV4</strong>
-</div>
-<div class="col-md-8" >
-<%= @dns_host_record.ipv4_address %> &nbsp;
-</div>
-
-<div class="col-md-4" >
-<strong>IPV6</strong>
-</div>
-<div class="col-md-8" >
-<%= @dns_host_record.ipv6_address %> &nbsp;
-</div>
-
 <% if can? :edit,@dns_host_record %>
-<div class="col-md-4" >
-<strong>Access token</strong>
+  <div class="col-md-8">
+    <%= render partial: "edit_record" %>
+    </div>
+<% else %>
+
+  <div class="col-md-2" >
+    <strong>IPV4</strong>
+  </div>
+  <div class="col-md-10" >
+    <%= @dns_host_record.ipv4_address %> &nbsp;
+  </div>
 </div>
-<div class="col-md-8" >
-<%= @dns_host_record.access_token %> &nbsp;
-</div>
+<div class="row">
+  <div class="col-md-2" >
+    <strong>IPV6</strong>
+  </div>
+  <div class="col-md-10" >
+    <%= @dns_host_record.ipv6_address %> &nbsp;
+ </div>
+
 <% end %>
 
 </div>
 
+<% if can? :edit,@dns_host_record %>
+<div class="row">
+  <div class="col-md-2" >
+    <strong>Access token</strong>
+  </div>
+  <div class="col-md-9" >
+    <%= @dns_host_record.access_token %> &nbsp;
+  </div>
+</div>
+<% end %>
+
+<div id="formcontent" title="Edit record">
+
+</div>
