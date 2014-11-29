@@ -30,11 +30,11 @@ $ ->
           click: (event) ->
             event.preventDefault()
             $(this).dialog("close")
-            window.location = "/logout"
+            window.location = window.Constants.LOGOUT_PATH
             return
         }
       ]
-      showBlockBox(I18n.t("globals.session_invalid"),that.jqxhr.statusText,bs)
+      showBlockBox(I18n.t("globals.session_is_invalid"),that.jqxhr.statusText,bs)
       return
 
   window.ajax_error_handler = ajax_error_handler

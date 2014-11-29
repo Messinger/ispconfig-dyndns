@@ -28,6 +28,7 @@ en:
     yestext: "Yes"
     notext: "No"
     canceltext: "Cancel"
+    session_invalid_header: "Session is invalid"
   
   settings:
     global:
