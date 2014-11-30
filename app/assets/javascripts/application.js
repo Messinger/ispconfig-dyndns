@@ -13,8 +13,7 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
-//= require jquery.ui.all
-//= require hoverIntent
+//= require jquery-ui
 //= require i18n
 //= require i18n/translations
 //= require_tree .
