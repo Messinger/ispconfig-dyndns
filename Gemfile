@@ -15,7 +15,7 @@ end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 # using bootstrap
-gem 'bootstrap-sass', '~> 3.1.1.1'
+gem 'bootstrap-sass', '~> 3.3.1'
 
 group :assets do
   # Use Uglifier as compressor for JavaScript assets
