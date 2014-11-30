@@ -69,7 +69,6 @@ gem 'omniauth-github'
 # helpers
 gem 'draper'
 gem 'foreigner'
-gem 'superfish-rails'
 gem 'simple-navigation'
 gem 'breadcrumbs_on_rails'
 gem 'i18n-js'
