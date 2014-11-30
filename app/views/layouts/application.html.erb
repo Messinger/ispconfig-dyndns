@@ -8,6 +8,7 @@
 <%= render partial: "layouts/js_constants" %>
 
 <%= javascript_include_tag "application" %>
+
     <!-- additional javascripts -->
 <%= yield(:additional_javascripts) %>
     <!-- end additional javascripts -->
@@ -19,12 +20,6 @@
 
 <script>
 $(document).ready(function(){
-    $('#js_navigation ul:first-child').addClass("sf-menu");
-    try {
-    	$('.sf-menu').superfish();
-    } catch (ex) {
-    	console.log(ex)
-    }
     $("a.linkbutton").not('.ui-button').button();
     $( document ).tooltip();
   });
@@ -38,26 +33,26 @@ $(document).ready(function(){
   <%= yield(:extra_body_start) %>
   <!-- specific extra body end -->
 
-<div id="logo">Logobereich</div>
+  <!-- <div id="logo">Logobereich</div> -->
 
-<div class="container-fluid">
+<div class="container">
 
-  <div class="row">
 
     <%= render partial: "layouts/navigation"%>
     
-    <div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main" id="centralarea">
+    <!--    <div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main" id="centralarea"> -->
     
-      <div class="breadcrumbs">
-        <%= render_breadcrumbs :separator => ' &raquo; ' %>
+<!--      <div class="breadcrumbs">
+        < %= render_breadcrumbs :separator => ' &raquo; ' %>
       </div>
 
-      <%= render partial: "layouts/messages" %>
+      < %= render partial: "layouts/messages" %>
+-->
+<div class="container-fluid">
+    <%= yield %>
+</div>
 
-      <%= yield %>
-
-    </div>
-  </div>
+      <!--    </div> -->
 </div>
 
 </html>

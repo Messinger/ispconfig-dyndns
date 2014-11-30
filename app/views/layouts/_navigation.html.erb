@@ -1,4 +1,17 @@
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Dynamic Domain</a>
+   </div> 
 
-<div id="js_navigation" class="col-sm-2 col-md-1 sidebar">
-<%= render_navigation expand_all: true %>
-</div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <%= render_navigation expand_all: true, renderer: :list %>
+     </div>
+  </div>
+</nav>
