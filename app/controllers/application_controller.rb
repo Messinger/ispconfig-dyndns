@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
       api_key = ApiKey.find_by_access_token params[:accesstoken]
       @current_api_key = api_key if api_key && api_key.active_for_authentication?
     end
+    debug "Got apikey #{@current_api_key}"
     @current_api_key
   end
 

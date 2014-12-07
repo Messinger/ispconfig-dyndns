@@ -1,6 +1,8 @@
 class DnsHostRecordsController < ApplicationController
   authorize_resource :class => DnsHostRecord
 
+  protect_from_forgery except: :setip
+
   def index
     debug "DnszoneRecord index"
 
