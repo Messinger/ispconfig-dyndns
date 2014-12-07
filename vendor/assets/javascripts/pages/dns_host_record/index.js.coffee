@@ -40,12 +40,12 @@ $ ->
 
     if formcontent != undefined
       base = '<div id="formcontent" title="Create new record"></div>'
-      $('#centralarea').prepend(base)
+      $('#centralarea').append(base)
       $("#formcontent").html(formcontent)
       $("#formcontent").dialog ({
         autopen: false
         modal: true
-        width: 450
+        width: 650
         buttons: {
           Save: () ->
             f = $('form#new_dns_host_record')
