@@ -1,4 +1,4 @@
-$ ->
+(($) ->
 # convert a form into JSON object
 # var res = f.serializeFormJSON();
   $.fn.serializeFormJSON = () ->
@@ -46,3 +46,4 @@ $ ->
       else if tag == 'select' && !(noselect == true)
         this.selectedIndex = -1
     )
+) jQuery
