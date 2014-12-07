@@ -30,7 +30,7 @@ $ ->
           click: (event) ->
             event.preventDefault()
             $(this).dialog("close")
-            window.location = window.Constants.LOGOUT_PATH
+            window.location = window.Constants.LOGIN_PATH
             return
         }
       ]
@@ -52,7 +52,7 @@ $ ->
   $(document).ajaxError (event, jqxhr, settings, thrownError) ->
     eh = ajax_error_handler.get_instance(jqxhr.status,jqxhr,event)
     console.log eh
-    eh.do_action()
+    eh.do_action() unless eh == undefined
     return
 
   return

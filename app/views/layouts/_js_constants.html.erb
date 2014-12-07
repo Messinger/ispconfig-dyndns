@@ -8,6 +8,8 @@ $(function() {
 
     Constants.LOGOUT_PATH = '<%= send("destroy_#{current_account.class.name.underscore}_session_path") unless current_account.nil? %>';
 
+    Constants.LOGIN_PATH = '<%= user_session_path %>';
+
     function Constants() {}
 
     return Constants;
