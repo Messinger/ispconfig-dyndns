@@ -59,10 +59,11 @@ $ ->
               contentType: "application/json; charset=utf-8"
               dataType: "json"
               success: (data,status,xhr)->
+                turl = '<a href="'+xhr.getResponseHeader('Location')+'">'+data["name"]+"."+data["dns_zone"]["name"]+'</a>'
                 tapi = $('#dnszone_records').DataTable()
                 tapi.row.add(
                   [
-                    data["name"]+"."+data["dns_zone"]["name"]
+                    turl
                     data["dns_host_a_record"]["address"]
                     data["dns_host_aaaa_record"]["address"]
                     data["api_key"]["access_token"]
