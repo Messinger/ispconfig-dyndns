@@ -18,7 +18,7 @@ class Ability
     end
 
     if user.instance_of? ApiKey
-      can :change_ip, DnsHostRecord, :id => user.dns_host_record.id
+      can :setip, DnsHostRecord, :id => user.dns_host_record.id
       can :read, DnsHostRecord, :id => user.dns_host_record
       can :destroy, DnsHostRecord, :id => user.dns_host_record
     end

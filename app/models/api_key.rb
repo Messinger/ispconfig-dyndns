@@ -8,7 +8,7 @@ class ApiKey < ActiveRecord::Base
   has_one :user, :through => :dns_host_record
 
   def active_for_authentication?
-    self.user.active_for_authentication?
+    self.user.nil? || self.user.active_for_authentication?
   end
 
 private

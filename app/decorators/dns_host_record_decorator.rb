@@ -49,6 +49,21 @@ class DnsHostRecordDecorator < ApplicationDecorator
     end
 
   end
+
+  def check_update values
+
+    self.ipv4_address = values[:ipv4]
+    self.ipv6_address = values[:ipv6]
+
+    unless values[:ip].blank?
+      self.address = values[:ip]
+    end
+
+    if empty?
+      self.address = values[:remote]
+    end
+
+  end
   
   def changed?
     model.changed? || self.dns_host_a_record.changed? || self.dns_host_aaaa_record.changed?

@@ -96,7 +96,34 @@ class DnsHostRecordsController < ApplicationController
       }
     end
   end
-  
+ 
+  def setip
+    access_token = params[:accesstoken]
+    rec = DnsHostRecord.accessible_by(current_ability)
+    raise BadRequest.new unless rec.size == 1
+
+    rec = rec[0].decorate
+    ipv4 = params[:ipv4]
+    ipv6 = params[:ipv6]
+    ip = params[:ip]
+    remoteip = request.remote_ip
+
+    data = {:ipv4 => ipv4, :ipv6 => ipv6, :ip => ip, :remote => remoteip}
+    rec.check_update data
+    debug rec
+
+    if rec.changed?
+      rec.update_remote
+      rec.save
+      stat = :ok
+    else
+      stat = :not_modified
+    end
+
+    render :json => rec.as_json({:simple => true}), :status => stat, :location => dns_host_record_path(rec)
+    
+  end
+
   def create
     dns_host_record = DnsHostRecord.new
     # if ClientUser is logged in current user returns nil
