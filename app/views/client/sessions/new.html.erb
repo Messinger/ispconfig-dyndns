@@ -1,19 +1,28 @@
 
 <h1 class="page-header">Login as ISPConfig Client User</h1>
 
- <%= form_for(:session, url: @form_target,:html => { :id => 'session-login-form', :autocomplete =>"off" }) do |f| %>
+ <%= form_for(:session, url: @form_target,:html => { :id => 'session-login-form', :autocomplete =>"off",:role => "form", :class => "form-horizontal"}) do |f| %>
   <%= hidden_field_tag "logintype",@logintype %>
-  
-                 <table>
-                <tr>
-                        <td><%= label_tag :user_login_id, t('users.login_id'),:style => "margin-left:6px;"%></td>
-                        <td><%= text_field :user, :login_id, :class => 'input-login_id', :style => "padding-left:2px;" %></td>
-                </tr>
-                <tr>
-                        <td><%= label_tag :user_password, t('users.password'), :style => "display:block;margin-left:6px;padding-top: 6px;"%></td>
-                        <td><%= password_field :user, :password, :class => 'input-login_password', :style => "padding-left:2px;", :autocomplete =>"off" %></td>
-                        </tr>
-        </table>
-  
-  <%= f.submit "Login" %>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <%= label_tag :user_login_id, t('users.login_id'),:class=>"col-sm-2 control-label" %>
+      <div class="col-sm-4">
+      <%= text_field :user, :login_id,:class => "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+    <%= label_tag :user_password, t('users.password'),:class=>"col-sm-2 control-label"%>
+      <div class="col-sm-4">
+      <%= password_field :user, :password,:autocomplete =>"off",:class => "form-control" %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-4">
+        <%= f.submit "Sign in", :class=>"btn btn-default" %>
+      </div>
+    </div>
+
+  </div>
+
  <% end %>
