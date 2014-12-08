@@ -34,6 +34,10 @@ SimpleNavigation::Configuration.run do |navigation|
     end
 
     if current_admin
+      primary.item :users, content_tag(:span,"User management")+content_tag(:span,"",:class => 'caret'), '#', opts do |sub_nav|
+        sub_nav.item :userlist, content_tag(:span, "Known users"), admins_users_path
+        sub_nav.dom_attributes = {:class => 'dropdown-menu', :role => 'menu'}
+      end
       primary.item :admin_data, content_tag(:span, "Account"), admin_edit_path
     end
 

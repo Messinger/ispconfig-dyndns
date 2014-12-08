@@ -1,3 +1,34 @@
-<H2 class="page-header">Known users</h2>
+<%= render partial: 'datatables_include' %>
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/admins/userlist" %>
+<% end %>
 
-<%= @users.inspect %>
+<div class="row">
+<H2 class="page-header">Known users</h2>
+</div>
+<div class="row">
+    <div class="col-sm-offset-1 col-sm-10">
+        <table id="admin_user_list" class="display">
+            <thead>
+                <tr><th rowspan="2">ID</th><th rowspan="2">User email</th><th rowspan="2">Used DNS Records</th><th colspan="2">Identity</th></tr>
+                <tr><th>Auth provider</th><th>Created</th></tr>
+            </thead>
+            <tbody>
+            <% @users.each do |user| %>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.dns_host_records.count %></td>
+                    <% unless user.identity.nil? %>
+                    <td><%= user.identity.provider  %></td>
+                    <td><%= user.identity.created_at %></td>
+                    <% else %>
+                    <td>internal</td>
+                    <td></td>
+                    <% end %>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
