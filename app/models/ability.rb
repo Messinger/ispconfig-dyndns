@@ -5,8 +5,6 @@ class Ability
     @user = user
     @request = request
 
-    alias_action :update_ip, :update_ipv6, :update_ipv4, :to => :change_ip
-
     if user.nil?
       return
     end
@@ -18,9 +16,11 @@ class Ability
     end
 
     if user.instance_of? ApiKey
-      can :setip, DnsHostRecord, :id => user.dns_host_record.id
-      can :read, DnsHostRecord, :id => user.dns_host_record
-      can :destroy, DnsHostRecord, :id => user.dns_host_record
+      unless user.user.access_locked?
+        can :setip, DnsHostRecord, :id => user.dns_host_record.id
+        can :read, DnsHostRecord, :id => user.dns_host_record
+        can :destroy, DnsHostRecord, :id => user.dns_host_record
+      end
     end
 
     if user.instance_of? ClientUser
