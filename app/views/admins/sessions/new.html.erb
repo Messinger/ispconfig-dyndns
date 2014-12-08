@@ -1,40 +1,20 @@
-<h2>Sign in</h2>
+<div class="row">
+<h2 class="page-header">Sign in</h2>
+</div>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:role => "form", :class => "form-horizontal"}) do |f| %>
+<div class="row">
 <div class="col-sm-6">
-  <div class="form-group">
-    <%= f.label :login,:class=>"col-sm-2 control-label" %>
-    <div class="col-sm-4">
-      <%= f.text_field :login, autofocus: true,:class => "form-control" %>
-    </div>
-  </div>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:role => "form", :class => "form-horizontal"}) do |f| %>
+     <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :text_field, focus: true, element: :login} %>
+     <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :password_field, focus: false, element: :password} %>
+     
+     <% if devise_mapping.rememberable? -%>
+         <%= render partial: "layouts/formhelpers/checkbox_helper", :locals => {fo: f, element: :remember_me} %>
+     <% end -%>
+     <%= render partial: "layouts/formhelpers/submit_helper", :locals => {fo: f, defaultbtn: true, label: "Sign in"} %>
 
-  <div class="form-group">
-    <%= f.label :password,:class=>"col-sm-2 control-label" %>
-    <div class="col-sm-4">
-      <%= f.password_field :password, autocomplete: "off",:class => "form-control" %>
-    </div>
-  </div>
-
-  <% if devise_mapping.rememberable? -%>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-4">
-      <div class="checkbox">
-        <label>
-          <%= f.check_box :remember_me %> <%= f.label :remember_me %>
-        </label>
-      </div>
-    </div>
-  </div>
-  <% end -%>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-4">
-      <%= f.submit "Sign in", :class=>"btn btn-default" %>
-    </div>
-  </div>
-
-  </div>
 <% end %>
+</div>
+</div>
 
 <%= render "admins/shared/links" %>
