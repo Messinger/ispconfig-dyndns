@@ -32,7 +32,8 @@ class User < ActiveRecord::Base
     # Get the identity and user if they exist
     identity = Identity.find_for_oauth(auth)
 
-    Rails.logger.debug("Auth: #{auth.inspect}")
+    Logging.logger["User"].debug("Auth raw_info: #{auth.extra.raw_info.inspect}")
+    Logging.logger["User"].debug("Auth info: #{auth.info.inspect}")
 
     # If a signed_in_resource is provided it always overrides the existing user
     # to prevent the identity being locked with accidentally created accounts.
@@ -52,8 +53,25 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
+        _n = nil
+        if  !auth.info.nil?
+          if  !auth.info.name.blank?
+            _n = auth.info.name
+          elsif !auth.info.nickname.blank?
+            _n = auth.info.nickname
+          end
+        end
+        if _n.nil?
+          _n = auth.raw_info.name
+          if _n.blank? && !auth.raw_info.nickname.blank?
+            _n = auth.raw_info.nickname
+          end
+        end
+        if _n.nil?
+          _n = ""
+        end
         user = User.new(
-          name: auth.extra.raw_info.name,
+          name: _n,
           #username: auth.info.nickname || auth.uid,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0,20]
@@ -84,7 +102,7 @@ class User < ActiveRecord::Base
       return "Not possible!"
     end
     super
-
   end
 
+  
 end
