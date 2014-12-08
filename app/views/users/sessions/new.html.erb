@@ -17,23 +17,23 @@
     </div>
 
     <% if devise_mapping.rememberable? -%>
-        <div class="form-group">
-            <div class="col-sm-offset-4 col-sm-4">
-                <div class="checkbox">
-        <label>
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-4">
+        <div class="checkbox">
+          <label>
             <%= f.check_box :remember_me %> <%= f.label :remember_me %>
-        </label>
+          </label>
+        </div>
+      </div>
     </div>
-        </div>
-        </div>
-  <% end %>
+    <% end %>
 
- <div class="form-group">
+  <div class="form-group">
     <div class="col-sm-offset-4 col-sm-4">
-  <%= f.submit "Sign in", :class=>"btn btn-default" %>
+    <%= f.submit "Sign in", :class=>"btn btn-default" %>
     </div>
   </div>
-  </div>
+</div>
 
 <% end %>
 <%= render partial: "devise/shared/auth_providers" %>
