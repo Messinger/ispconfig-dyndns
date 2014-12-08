@@ -5,8 +5,3 @@
 <% content_for :additional_javascripts do %>
 <%= javascript_include_tag "pages/welcome/welcome" %>
 <% end %>
-
-<% unless current_client_user %>
-<h1 class="page-header"></h1>
-<%= link_to "Login as client user",client_login_path, :class => "linkbutton" %>
-<% end %>
