@@ -12,6 +12,12 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <%= render_navigation expand_all: true, renderer: :list %>
-     </div>
+      <% if current_account.nil? %>
+       <ul class="nav navbar-nav navbar-right">
+       <li><a href="<%= client_login_path %>">Domain Admin</a></li>
+       <li><a href="<%= admin_session_path %>">Platform Admin</a></li>
+       </ul>
+      <% end %>
+    </div>
   </div>
 </nav>
