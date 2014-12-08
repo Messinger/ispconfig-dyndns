@@ -1,0 +1,10 @@
+<% _class = "btn" %>
+<% if defined? defaulbtn && defaultbtn == true %>
+    <%    _class += " btn-default" %>
+<% end %>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-4">
+      <%= fo.submit label, :class=>_class %>
+    </div>
+</div>
+
