@@ -1,36 +1,43 @@
+<div class="row">
 <h2 class="page-header">Edit <%= resource_name.to_s.humanize %></h2>
+</div>
+
+<div class="row">
 
 <% if current_user.identity.nil? %>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put,:role => "form", :class => "form-horizontal col-sm-6" }) do |f| %>
+        <div class="col-sm-offset-1 col-sm-11">
+            <%= devise_error_messages! %>
+        </div>
 
-  <div><%= f.label :name %><br/>
-  <%= f.text_field :name %></div>
+        <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :text_field, focus: false, element: :name} %>
+        <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :email_field, focus: true, element: :email} %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
-
-  <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
-
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %></div>
-
-  <div><%= f.submit "Update" %></div>
+  <% if (devise_mapping.confirmable? && resource.pending_reconfirmation?) %>
+    <div class="col-sm-12">Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+<% end %>
+        <div class="col-sm-offset-2 col-sm-10">
+        <em>(leave blank if you don't want to change it)</em>
+        </div>
+        <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :password_field, focus: false, element: :password} %>
+        <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :password_field, focus: false, element: :password_confirmation} %>
+        <div class="col-sm-offset-2 col-sm-10">
+         <em>we need your current password to confirm your changes</em>
+        </div>
+        <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :password_field, focus: false, element: :current_password} %>
+        <%= render partial: "layouts/formhelpers/submit_helper", :locals => {fo: f, defaultbtn: true, label: "Update"} %>
 <% end %>
 
 <% else %>
-    <div>Your'e logged in via <%= current_user.identity.provider.capitalize %>, you can not change your password or user information here.</div>
+    <div class="col-sm-offset-1 col-sm-5">
+        Your'e logged in via <%= current_user.identity.provider.capitalize %>, you can not change your password or user information here.
+    </div>
 <% end %>
 
-<h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<div class="col-sm-6">
+    <%= button_to "Unhappy? Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete,  :class=>"btn btn-danger btn-lg" %>
+
+</div>
+</div>
 
