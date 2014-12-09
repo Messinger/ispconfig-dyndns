@@ -78,9 +78,12 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def errors
-    return self.dns_host_a_record.errors unless self.dns_host_a_record.valid?
-    return self.dns_host_aaaa_record.errors unless self.dns_host_aaaa_record.valid?
-    model.errors
+    _err = Hash.new
+    
+    _err[:dns_host_a_record] = self.dns_host_a_record.errors unless self.dns_host_a_record.valid?
+    _err[:dns_host_aaaa_record] = self.dns_host_aaaa_record.errors unless self.dns_host_aaaa_record.valid?
+    _err.merge(model.errors)
+    _err
   end
   
   # always call BEFORE save!
