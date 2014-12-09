@@ -5,7 +5,6 @@ $ ->
     f = $('form[id^="edit_dns_host_record"]')
     res = f.stringifyFormJSON()
     method = f.attr('method')
-    console.log res+" via "+method+" to "+f.attr('action')
     $.ajax {
       url: f.attr('action')
       type: "PATCH"
@@ -13,9 +12,17 @@ $ ->
       contentType: "application/json; charset=utf-8"
       dataType: "json"
       success: (data,stat,xhr) ->
-        console.log data
+        $('[id^="edit_dns_host_record"]').alertbox().print_success("saved",5)
+        return
       error: (data,stat,xhr) ->
-        console.log data
+        errors = data.responseJSON
+        for sub,val of errors
+          if typeof val == 'object'
+            for key,text of val
+              ele = $('#'+sub+"_"+key)
+              unless ele.length == 0
+                ele.alertbox().print_error(text,10)
+        return
     }
  
   ask_delete_record = (event,source) ->
