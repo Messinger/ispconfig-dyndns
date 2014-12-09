@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   before_filter :process_authentication, unless: :devise_controller?
  
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
 
   helper_method :current_account, :current_client_user, :current_api_key
     
@@ -27,6 +28,17 @@ class ApplicationController < ActionController::Base
     @logger.debug "Finished initialize"
     @logger.debug "Is devise-controller: #{devise_controller?}"
     super
+  end
+
+  def ensure_signup_complete
+    # Ensure we don't go into an infinite loop
+    return if action_name == 'finish_signup'
+
+    # Redirect to the 'finish_signup' page if the user
+    # email hasn't been verified yet
+    if current_user && !current_user.email_verified?
+      redirect_to finish_signup_path(current_user)
+    end
   end
 
   def current_api_key
