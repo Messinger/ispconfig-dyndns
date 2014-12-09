@@ -12,18 +12,20 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def ipv6_address
-    self.dns_host_aaaa_record.address
+    self.dns_host_aaaa_record.address if self.dns_host_aaaa_record.address
   end
   
   def ipv4_address
-    self.dns_host_a_record.address
+    self.dns_host_a_record.address if self.dns_host_a_record
   end
 
   def ipv6_address= (address)
+    self.dns_host_aaaa_record = DnsHostAaaaRecord.new if self.dns_host_aaaa_record.nil?
     self.dns_host_aaaa_record.address = address
   end
 
   def ipv4_address= (address)
+    self.dns_host_a_record = DnsHostARecord.new if self.dns_host_a_record.nil?
     self.dns_host_a_record.address = address
   end
 
@@ -79,10 +81,9 @@ class DnsHostRecordDecorator < ApplicationDecorator
 
   def errors
     _err = Hash.new
-    
     _err[:dns_host_a_record] = self.dns_host_a_record.errors unless self.dns_host_a_record.valid?
     _err[:dns_host_aaaa_record] = self.dns_host_aaaa_record.errors unless self.dns_host_aaaa_record.valid?
-    _err.merge(model.errors)
+    _err[:dns_host_record] = model.errors unless self.valid?
     _err
   end
   
