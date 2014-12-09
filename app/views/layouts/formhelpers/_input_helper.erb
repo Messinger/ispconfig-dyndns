@@ -1,7 +1,7 @@
 <div class="form-group">
-  <%= fo.label element,:class=>"col-sm-2 control-label" %>
+<%= fo.label element,:class=>"col-sm-2 control-label" %>
   <div class="col-sm-10">
-    <%= fo.send(inputtype, element, autofocus: focus,:class => "form-control") %>
+      <%= fo.send(inputtype, element, autofocus: focus,:autocomplete => (inputtype == :password_field ? "off":"on"),:class => "form-control") %>
   </div>
 </div>
 
