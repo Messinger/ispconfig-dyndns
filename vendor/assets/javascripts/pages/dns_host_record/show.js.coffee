@@ -2,7 +2,7 @@ $ ->
   
   edit_record = (event,source) ->
     event.preventDefault()
-    f = $('form.edit_dns_host_record')
+    f = $('form[id^="edit_dns_host_record"]')
     res = f.stringifyFormJSON()
     method = f.attr('method')
     console.log res+" via "+method+" to "+f.attr('action')
