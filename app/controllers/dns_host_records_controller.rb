@@ -138,30 +138,38 @@ class DnsHostRecordsController < ApplicationController
     dns_host_record.name = recparams[:name]
     
     logger.debug "Parameter: #{recparams}"
-    
     recd = DnsHostRecordDecorator.new dns_host_record
-    aaddr = params.has_key?("dns_host_a_record") ? params[:dns_host_a_record][:address]:""
-    aaaaaddr = params.has_key?("dns_host_aaaa_record") ? params[:dns_host_aaaa_record][:address]:""
-    if aaddr.blank? && aaaaaddr.blank?
-      recd.address = request.remote_ip
-    else
-      recd.ipv4_address = aaddr.blank? ? nil:aaddr
-      recd.ipv6_address = aaaaaddr.blank? ? nil:aaaaaddr
-    end
-    saved = recd.save
-    begin
-      saved = recd.update_remote
-    rescue => ex
-      logger.fatal ex
+   
+    if dns_host_record.valid? && dns_host_record.save
+      saved = true
+      aaddr = params.has_key?("dns_host_a_record") ? params[:dns_host_a_record][:address]:""
+      aaaaaddr = params.has_key?("dns_host_aaaa_record") ? params[:dns_host_aaaa_record][:address]:""
+      if aaddr.blank? && aaaaaddr.blank?
+        recd.address = request.remote_ip
+      else
+        recd.ipv4_address = aaddr.blank? ? nil:aaddr
+        recd.ipv6_address = aaaaaddr.blank? ? nil:aaaaaddr
+      end
+      saved = recd.save
+      begin
+        saved = recd.update_remote
+      rescue => ex
+        logger.fatal ex
+        saved = false
+      else
+        saved = recd.save if saved
+      end
+      if saved == false
+        dns_host_record.delete
+      end
+    else 
       saved = false
-    else
-      saved = recd.save if saved
     end
     
     respond_to do |format|
       format.json {
         if saved
-          render :json => dns_host_record, :status => :ok, :location => dns_host_record_path(dns_host_record)
+          render :json => recd.as_json({:simple => true}), :status => :ok, :location => dns_host_record_path(recd)
         else
           render :json => recd.errors, :status => :bad_request
         end

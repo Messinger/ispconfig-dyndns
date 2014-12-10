@@ -8,25 +8,27 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
   
   def renew_token
-    self.api_key = ApiKey.new
+    model.api_key = ApiKey.new
+  end
+
+  def api_key
+    model.api_key ||= ApiKey.new
   end
 
   def ipv6_address
-    self.dns_host_aaaa_record.address if self.dns_host_aaaa_record.address
+    self.dns_host_aaaa_record.address 
   end
   
   def ipv4_address
-    self.dns_host_a_record.address if self.dns_host_a_record
+    self.dns_host_a_record.address
   end
 
   def ipv6_address= (address)
-    self.dns_host_aaaa_record = DnsHostAaaaRecord.new if self.dns_host_aaaa_record.nil?
     self.dns_host_aaaa_record.address = address
   end
 
   def ipv4_address= (address)
-    self.dns_host_a_record = DnsHostARecord.new if self.dns_host_a_record.nil?
-    self.dns_host_a_record.address = address
+    dns_host_a_record.address = address
   end
 
   def empty?
@@ -36,7 +38,15 @@ class DnsHostRecordDecorator < ApplicationDecorator
   def full_name
     self.name+"."+self.dns_zone.name
   end
-  
+ 
+  def dns_host_a_record
+    model.dns_host_a_record ||= DnsHostARecord.new
+  end
+
+  def dns_host_aaaa_record
+    model.dns_host_aaaa_record ||= DnsHostAaaaRecord.new
+  end
+
   def address=(address)
     
     case address
@@ -72,7 +82,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def valid?
-    model.valid? && self.dns_host_a_record.valid? && self.dns_host_aaaa_record.valid?
+    model.valid? && (model.dns_host_a_record.nil? || self.dns_host_a_record.valid?) && (model.dns_host_aaaa_record.nil? || self.dns_host_aaaa_record.valid?)
   end
   
   def address_errors
@@ -81,8 +91,8 @@ class DnsHostRecordDecorator < ApplicationDecorator
 
   def errors
     _err = Hash.new
-    _err[:dns_host_a_record] = self.dns_host_a_record.errors unless self.dns_host_a_record.valid?
-    _err[:dns_host_aaaa_record] = self.dns_host_aaaa_record.errors unless self.dns_host_aaaa_record.valid?
+    _err[:dns_host_a_record] = self.dns_host_a_record.errors unless model.dns_host_a_record.nil? && self.dns_host_a_record.valid?
+    _err[:dns_host_aaaa_record] = self.dns_host_aaaa_record.errors unless model.dns_host_aaaa_record.nil? && self.dns_host_aaaa_record.valid?
     _err[:dns_host_record] = model.errors unless self.valid?
     _err
   end
