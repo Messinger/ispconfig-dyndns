@@ -52,6 +52,7 @@ $ ->
             res = f.stringifyFormJSON()
             method = f.attr('method')
             console.log res+" via "+method+" to "+f.attr('action')
+            that = this
             $.ajax {
               url:f.attr('action')
               type: method
@@ -71,10 +72,15 @@ $ ->
                   ]
                 ).draw()
                 make_delete_buttons()
-              error: (req,msg,obj) ->
-                console.log(req)
+                $(that).dialog("close")
+              error: (data,stat,xhr) ->
+                for sub,val of data.responseJSON
+                  for key,text of val
+                    ele = $('#'+sub+"_"+key)
+                    unless ele.length == 0
+                      ele.alertbox().print_error(text[0],10)
+                return
             }
-            $(this).dialog("close")
           Cancel: () ->
             $(this).dialog("close")
           }
