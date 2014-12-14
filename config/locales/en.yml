@@ -33,6 +33,7 @@ en:
   settings:
     global:
       title: "Global settings for Application"
+      head: "Application settings"
     table:
       general: "General settings"
     labels:
@@ -40,3 +41,5 @@ en:
       ispconfig_url: "URL of ispconfig host"
       remote_user: "ISPConfig Remote User"
       remote_password: "ISPConfig Remote User Password"
+      max_records: "Max records per user"
+      default_ttl: "Default TTL in seconds"

@@ -38,6 +38,7 @@ SimpleNavigation::Configuration.run do |navigation|
         sub_nav.item :userlist, content_tag(:span, "Known users"), admins_users_path
         sub_nav.dom_attributes = {:class => 'dropdown-menu', :role => 'menu'}
       end
+      primary.item :app_settings, content_tag(:span, I18n.t('settings.global.head')),settings_path
       primary.item :admin_data, content_tag(:span, "Account"), admin_edit_path
     end
 
