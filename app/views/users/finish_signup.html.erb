@@ -22,6 +22,14 @@
   <% end %>
 </div>
 <% else %>
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/users/finish_signup" %>
+
+<script>
+window.gettokenurl = "<%= user_confirmation_path %>";
+</script>
+<% end %>
+
     <h2 class="page-header">Confirm email</h2>
     <div id="confirm-token" class="row">
         <%= form_tag(user_confirmation_path, :method => "post", :class => "form-horizontal col-sm-6", :role => "form" ) do |f| %>
