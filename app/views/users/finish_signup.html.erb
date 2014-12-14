@@ -32,10 +32,10 @@ window.gettokenurl = "<%= user_confirmation_path %>";
 
     <h2 class="page-header">Confirm email</h2>
     <div id="confirm-token" class="row">
-        <%= form_tag(user_confirmation_path, :method => "post", :class => "form-horizontal col-sm-6", :role => "form" ) do |f| %>
+        <%= form_tag(user_confirmation_path, :method => "post", :class => "form-horizontal col-sm-5", :role => "form" ) do |f| %>
             <%= hidden_field_tag("user[email]", current_user.unconfirmed_email) %>
             <div class="form-group">
-                <%= label_tag "user[email]","Please confirm your email #{current_user.unconfirmed_email}",:class => "col-sm-7 col-sm-offset-1 control-label" %>
+                <%= label_tag "user[email]","Please confirm your email #{current_user.unconfirmed_email}",:class => "col-sm-10 control-label" %>
             </div>
             <div class="form-group">
               <%= label_tag "confirmation[token]","Enter your token",:class=>"col-sm-2 control-label" %>
@@ -43,17 +43,20 @@ window.gettokenurl = "<%= user_confirmation_path %>";
                   <%= text_field_tag("confirmation[token]",nil, autofocus: true, :class => "form-control") %>
               </div>
             </div>
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-4">
-        <%= 
-            button_tag type: "button", :class=>"btn btn-default", :id => "btn-send-confirmation-token" do
-                content_tag(:strong, "Send token")
-            end
-        %>
-    </div>
-</div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <%= 
+                        button_tag type: "button", :class=>"btn btn-default", :id => "btn-send-confirmation-token" do
+                            content_tag(:strong, "Send token")
+                        end
+                    %>
+                </div>
+            </div>
 
         <% end %>
+        <div class="col-sm-5">
+            <%= button_to "Unhappy? Cancel my account", registration_path(:user), data: { confirm: "Are you sure?" }, method: :delete,  :class=>"btn btn-danger btn-lg" %>
+        </div>
     </div>
 <% end %>
 
