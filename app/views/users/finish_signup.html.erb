@@ -1,7 +1,7 @@
 <% unless current_user.unconfirmed_email? %>
 <div id="add-email" class="container">
   <h2>Set Email</h2>
-  <%= form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form', :class => "form-horizontal col-sm-6"}) do |f| %>
+  <%= form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form', :class => "form-horizontal col-sm-8"}) do |f| %>
     <% if @show_errors && current_user.errors.any? %>
       <div id="error_explanation">
         <% current_user.errors.full_messages.each do |msg| %>
@@ -9,16 +9,9 @@
         <% end %>
       </div>
     <% end %>
-    <div class="form-group">
-      <%= f.label :email %>
-      <div class="controls">
-        <%= f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: email@me.com' %>
-        <p class="help-block">Please confirm your email address. No spam.</p>
-      </div>
-    </div>
-    <div class="actions">
-      <%= f.submit 'Continue', :class => 'btn btn-primary' %>
-    </div>
+    <p class="help-block">Please confirm your email address. No spam.</p>
+    <%= render partial: "layouts/formhelpers/input_helper",locals: {inputtype: :email_field, fo: f,focus: true, element: :email, value: "",placeholder: 'Example: email@me.com' } %>
+    <%= render partial: "layouts/formhelpers/submit_helper",locals: {fo: f, label: 'Continue',defaultbtn: true} %>
   <% end %>
 </div>
 <% else %>
