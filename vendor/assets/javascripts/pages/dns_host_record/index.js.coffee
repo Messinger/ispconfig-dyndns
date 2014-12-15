@@ -38,6 +38,11 @@ $ ->
 
   show_new_record = (formcontent) ->
 
+    viewportWidth = $(window).width()
+    if viewportWidth > 650
+      _width = 650
+    else
+      _width = viewportWidth
     if formcontent != undefined
       base = '<div id="formcontent" title="Create new record"></div>'
       $('#centralarea').append(base)
@@ -45,7 +50,7 @@ $ ->
       $("#formcontent").dialog ({
         autopen: false
         modal: true
-        width: 650
+        width: _width
         buttons: {
           Save: () ->
             f = $('form#new_dns_host_record')
