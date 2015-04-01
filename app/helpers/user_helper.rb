@@ -6,11 +6,11 @@ module UserHelper
 
   module GeneralUser
     
-    @@base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-    @@salt_length=8
+    BASE64_ALPHABET='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    SALT_LENGTH=8
 
     def is_password?(passwd)
-      self.password == encrypt_password(passwd,password[1..@@salt_length+2])
+      self.password == encrypt_password(passwd,password[1..SALT_LENGTH+2])
     end
 
     module_function
@@ -19,8 +19,8 @@ module UserHelper
       if salt.blank?
         s = ''
         prng = Random.new
-        for n in 1..@@salt_length
-          s << @@base64_alphabet[prng.rand(63)]
+        for n in 1..SALT_LENGTH
+          s << BASE64_ALPHABET[prng.rand(63)]
         end
         salt = "1$#{s}"
       end
