@@ -57,6 +57,11 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+group :debug do
+  gem 'debase'
+  gem 'ruby-debug-ide'
+end
+
 # security
 gem 'cancan'
 gem 'devise'
