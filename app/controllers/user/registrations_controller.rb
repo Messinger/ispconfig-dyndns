@@ -8,7 +8,7 @@ class User::RegistrationsController < Devise::RegistrationsController
       flash[:notice]="You can not edit your data"
       respond_to do |format|
         format.json {
-          render json: {"status" => "not possible"}, status: :ok
+          render json: {:status => 'not possible'}, status: :ok
         }
         format.html {
           redirect_to root_path
@@ -34,7 +34,7 @@ class User::RegistrationsController < Devise::RegistrationsController
     
     respond_to do |format|
       format.json {
-        render json: {"deleted" => recordid}, status: :ok
+        render json: {:deleted => recordid}, status: :ok
       }
       format.html {
         redirect_to root_path

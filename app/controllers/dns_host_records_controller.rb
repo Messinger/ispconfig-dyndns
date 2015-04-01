@@ -185,7 +185,7 @@ class DnsHostRecordsController < ApplicationController
 
     respond_to do |format|
       format.json {
-        render json: {"deleted" => recordid}, status: :ok
+        render json: {:deleted => recordid}, status: :ok
       }
       format.html {
         redirect_to back
