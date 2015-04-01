@@ -100,18 +100,12 @@ class DnsHostRecordsController < ApplicationController
   end
  
   def setip
-    access_token = params[:accesstoken]
     rec = DnsHostRecord.accessible_by(current_ability)
     raise BadRequest.new unless rec.size == 1
 
     rec = rec[0].decorate
-    ipv4 = params[:ipv4]
-    ipv6 = params[:ipv6]
-    ip = params[:ip]
-    remoteip = request.remote_ip
 
-    data = {:ipv4 => ipv4, :ipv6 => ipv6, :ip => ip, :remote => remoteip}
-    rec.check_update data
+    rec.check_update({:ipv4 => params[:ipv4], :ipv6 => params[:ipv6], :ip => params[:ip], :remote => request.remote_ip})
     debug rec
 
     if rec.changed?

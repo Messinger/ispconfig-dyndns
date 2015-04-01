@@ -89,6 +89,7 @@ class Client::SessionsController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound => ex
       # here no notfound errors for security reasons
+      info ex
       cl = nil
     end
     cl

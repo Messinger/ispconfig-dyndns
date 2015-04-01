@@ -1,4 +1,5 @@
 # Model holding all settings defined in settings.yml
+# noinspection RubyClassVariableUsageInspection
 class Setting < ActiveRecord::Base
 
   PASSWORD_DISPLAY_HOLDER = "*********"
