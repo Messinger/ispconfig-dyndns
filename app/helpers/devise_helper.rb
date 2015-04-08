@@ -1,5 +1,5 @@
 module DeviseHelper
-  def error_messages! ob
+  def error_messages!(ob)
     return '' if ob.errors.empty?
 
     messages = ob.errors.full_messages.map { |msg| content_tag(:p, msg) }.join
@@ -8,9 +8,9 @@ module DeviseHelper
     class="close" data-dismiss="alert">&times;</button>
       #{messages}
       </div>
-      HTML
+    HTML
 
-      html.html_safe
+    html.html_safe
   end
 
   def devise_error_messages!

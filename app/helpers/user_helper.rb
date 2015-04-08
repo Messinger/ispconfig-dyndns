@@ -1,8 +1,8 @@
 module UserHelper
 
-  ADMIN_TYPE = "admin"
-  CLIENT_TYPE = "clientuser"
-  USER_TYPE = "user"
+  ADMIN_TYPE = 'admin'
+  CLIENT_TYPE = 'clientuser'
+  USER_TYPE = 'user'
 
   module GeneralUser
     
