@@ -19,7 +19,7 @@ module UserHelper
       if salt.blank?
         s = ''
         prng = Random.new
-        for n in 1..SALT_LENGTH
+        SALT_LENGTH.times do
           s << BASE64_ALPHABET[prng.rand(63)]
         end
         salt = "1$#{s}"
