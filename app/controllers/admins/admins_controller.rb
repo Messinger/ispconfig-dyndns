@@ -5,7 +5,6 @@ class Admins::AdminsController < ApplicationController
     @admin = Admin.find current_admin.id
     raise NotFound.new if @admin.nil?
     authorize! :edit, @admin
-    resource = @admin
   end
 
   def update
@@ -16,14 +15,12 @@ class Admins::AdminsController < ApplicationController
 
     res = admin.update_values(admin_params)
 
-    Rails.logger.debug("#{res} - #{admin.inspect}")
-
-    if !res || !admin.valid?
-      @admin = admin
-      render 'edit' and return
-    else
-      sign_in "admin", admin, bypass: true
+    if res && admin.valid?
+      sign_in 'admin', admin, bypass: true
       redirect_to admin_root_path
+    else
+      @admin = admin
+      render 'edit'
     end
 
   end
