@@ -2,7 +2,8 @@ module Ispremote
 
   module Soap  
     def remoteclient
-        Savon.client :endpoint => Setting.ispconfig_url, 
+        # noinspection RubyStringKeysInHashInspection
+        Savon.client :endpoint => Setting.ispconfig_url,
                 :ssl_verify_mode => :none, 
                 :namespace => Setting.ispconfig_namespace,
                 :namespace_identifier => :ns1,
@@ -12,8 +13,8 @@ module Ispremote
                 :log => false,
                 :filters => [:password],
                 #:logger => Rails.logger,
-                env_namespace: "SOAP-ENV",
-                :namespaces => {"xmlns:ns2" => "http://xml.apache.org/xml-soap"}
+                env_namespace: 'SOAP-ENV',
+                :namespaces => {'xmlns:ns2' => 'http://xml.apache.org/xml-soap'}
                 
     end
 
@@ -77,23 +78,23 @@ module Ispremote
       }.tap { |mod| include(mod) }
     end
     
-    def response_to_hash response
+    def response_to_hash(response)
       isp_method = caller[0][/`.*'/][1..-2]
       resp = "#{isp_method}_response".to_sym
-      rd = response.body[resp][:return]
+      response.body[resp][:return]
     end
     
-    def convert_value v
+    def convert_value(v)
       return v.to_s if v.instance_of? Nori::StringWithAttributes
       return v if v.is_a?(String) ||v.is_a?(Integer)
-      ""
+      ''
     end
     
-    def flatten_hash r
+    def flatten_hash(r)
       begin
         _h = r[:item]
 #        Rails.logger.info "No problems with #{r.inspect}"
-        Hash[*_h.map {|v| [v[:key].to_sym,self.convert_value(v[:value])]}.flatten]
+        Hash[*_h.map { |v| [v[:key].to_sym, self.convert_value(v[:value])] }.flatten]
       rescue => ex
         Rails.logger.fatal "Got problems with #{r.inspect}"
         raise ex

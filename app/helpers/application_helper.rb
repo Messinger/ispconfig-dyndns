@@ -4,9 +4,9 @@ module ApplicationHelper
   # [page_title] extra title text
   # == Returns
   # New html title
-  def full_title page_title
+  def full_title(page_title)
     return "#{page_title}".html_safe unless page_title.empty?
-    "IspConfig Dyndns broker"
+    'IspConfig Dyndns broker'
   end
 
   # Much like usual rails route helpers,
