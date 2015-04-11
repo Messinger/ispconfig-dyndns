@@ -1,11 +1,13 @@
 class ApiKey < ActiveRecord::Base
-  belongs_to :dns_host_record
+  belongs_to :dns_entry, polymorphic: true
 
-  validates :dns_host_record, :presence => true
+  validates :dns_entry, :presence => true
   validates :access_token, :uniqueness => true
   before_create :generate_access_token
 
-  has_one :user, :through => :dns_host_record
+  def user
+    self.dns_entry.user
+  end
 
   def active_for_authentication?
     self.user.nil? || self.user.active_for_authentication?
