@@ -5,6 +5,7 @@ $ ->
     f = $('form[id^="edit_dns_host_record"]')
     res = f.stringifyFormJSON()
     method = f.attr('method')
+    start_wait(undefined,1)
     $.ajax {
       url: f.attr('action')
       type: "PATCH"
@@ -12,9 +13,11 @@ $ ->
       contentType: "application/json; charset=utf-8"
       dataType: "json"
       success: (data,stat,xhr) ->
+        stop_wait()
         $('[id^="edit_dns_host_record"]').alertbox().print_success("saved",5)
         return
       error: (data,stat,xhr) ->
+        stop_wait()
         errors = data.responseJSON
         for sub,val of errors
           if typeof val == 'object'
@@ -31,14 +34,17 @@ $ ->
 
 
   delete_record = ->
+    start_wait(undefined,1)
     $.ajax {
       url: recordurl
       type: "DELETE"
       data: undefined
       success: (data,status,xhr) ->
+        stop_wait()
         window.location.href = window.listurl
         return
       error: (req,msg,obj) ->
+        stop_wait()
         console.log(req)
     }
 

@@ -20,15 +20,18 @@ $ ->
     console.log "Delete on "+url+" in "
     console.log row
     table = $('#dnszone_records').DataTable()
+    start_wait()
     $.ajax {
       url: url
       type: "DELETE"
       data: undefined
       success: (data,status,xhr) ->
+        stop_wait()
         clean_tool_tips()
         table.row(row).remove().draw()
         activate_tool_tips()
       error: (req,msg,obj) ->
+        stop_wait()
         console.log(req)
     }
     
@@ -58,6 +61,7 @@ $ ->
             method = f.attr('method')
             console.log res+" via "+method+" to "+f.attr('action')
             that = this
+            start_wait()
             $.ajax {
               url:f.attr('action')
               type: method
@@ -65,6 +69,7 @@ $ ->
               contentType: "application/json; charset=utf-8"
               dataType: "json"
               success: (data,status,xhr)->
+                stop_wait()
                 turl = '<a href="'+xhr.getResponseHeader('Location')+'">'+data["name"]+"."+data["dns_zone"]["name"]+'</a>'
                 tapi = $('#dnszone_records').DataTable()
                 tapi.row.add(
@@ -79,6 +84,7 @@ $ ->
                 make_delete_buttons()
                 $(that).dialog("close")
               error: (data,stat,xhr) ->
+                stop_wait()
                 for sub,val of data.responseJSON
                   for key,text of val
                     ele = $('#'+sub+"_"+key)
