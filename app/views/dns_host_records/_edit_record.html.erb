@@ -40,9 +40,9 @@
   </div>
 
   <div class="form-group">
-    <%= label_tag("dns_host_aaaa_record[address]","IPV6:",:class => "col-sm-4 control-label") %>
+    <%= label_tag("dns_host_ip_aaaa_record[address]","IPV6:",:class => "col-sm-4 control-label") %>
     <div class="col-sm-6">
-        <%= text_field_tag("dns_host_aaaa_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv6_address, :class => "form-control" )  %>
+        <%= text_field_tag("dns_host_ip_aaaa_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv6_address, :class => "form-control" )  %>
     </div>
   </div>
 

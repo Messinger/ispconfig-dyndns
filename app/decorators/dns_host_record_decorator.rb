@@ -16,7 +16,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def ipv6_address
-    self.dns_host_aaaa_record.address
+    self.dns_host_ip_aaaa_record.address
   end
 
   def ipv4_address
@@ -24,7 +24,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def ipv6_address= (address)
-    self.dns_host_aaaa_record.address = address
+    self.dns_host_ip_aaaa_record.address = address
   end
 
   def ipv4_address= (address)
@@ -32,7 +32,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def empty?
-    self.dns_host_ip_a_record.address.blank? && self.dns_host_aaaa_record.address.blank?
+    self.dns_host_ip_a_record.address.blank? && self.dns_host_ip_aaaa_record.address.blank?
   end
 
   def full_name
@@ -43,8 +43,8 @@ class DnsHostRecordDecorator < ApplicationDecorator
     model.dns_host_ip_a_record ||= DnsHostIpARecord.new
   end
 
-  def dns_host_aaaa_record
-    model.dns_host_aaaa_record ||= DnsHostAaaaRecord.new
+  def dns_host_ip_aaaa_record
+    model.dns_host_ip_aaaa_record ||= DnsHostIpAaaaRecord.new
   end
 
   def address=(address)
@@ -78,21 +78,21 @@ class DnsHostRecordDecorator < ApplicationDecorator
   end
 
   def changed?
-    model.changed? || self.dns_host_ip_a_record.changed? || self.dns_host_aaaa_record.changed?
+    model.changed? || self.dns_host_ip_a_record.changed? || self.dns_host_ip_aaaa_record.changed?
   end
 
   def valid?
-    model.valid? && (model.dns_host_ip_a_record.nil? || self.dns_host_ip_a_record.valid?) && (model.dns_host_aaaa_record.nil? || self.dns_host_aaaa_record.valid?)
+    model.valid? && (model.dns_host_ip_a_record.nil? || self.dns_host_ip_a_record.valid?) && (model.dns_host_ip_aaaa_record.nil? || self.dns_host_ip_aaaa_record.valid?)
   end
 
   def address_errors
-    {:dns_zone_record => model.errors, :dns_zone_record_a_record => self.dns_host_ip_a_record.errors, :dns_zone_record_aaaa_record => self.dns_host_aaaa_record.errors}
+    {:dns_zone_record => model.errors, :dns_zone_record_a_record => self.dns_host_ip_a_record.errors, :dns_zone_record_aaaa_record => self.dns_host_ip_aaaa_record.errors}
   end
 
   def errors
     _err = Hash.new
     _err[:dns_host_ip_a_record] = self.dns_host_ip_a_record.errors unless model.dns_host_ip_a_record.nil? && self.dns_host_ip_a_record.valid?
-    _err[:dns_host_aaaa_record] = self.dns_host_aaaa_record.errors unless model.dns_host_aaaa_record.nil? && self.dns_host_aaaa_record.valid?
+    _err[:dns_host_ip_aaaa_record] = self.dns_host_ip_aaaa_record.errors unless model.dns_host_ip_aaaa_record.nil? && self.dns_host_ip_aaaa_record.valid?
     _err[:dns_host_record] = model.errors unless self.valid?
     _err
   end
@@ -107,7 +107,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
 
     isp_client = IspClient.client_for_user(model.dns_zone.isp_client_user_id, ispsession)
     arec = self.dns_host_ip_a_record
-    aaaarec = self.dns_host_aaaa_record
+    aaaarec = self.dns_host_ip_aaaa_record
 
     # noinspection RubyResolve
     if arec.address_changed? || model.name_changed? # xxxx_changed? are automatic rails4 generated calls
@@ -175,7 +175,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
     return false unless valid?
     return false unless model.save(:validate => false)
     return false unless self.dns_host_ip_a_record.save(:validate => false)
-    return false unless self.dns_host_aaaa_record.save(:validate => false)
+    return false unless self.dns_host_ip_aaaa_record.save(:validate => false)
     true
   end
 

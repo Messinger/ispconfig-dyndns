@@ -76,7 +76,7 @@ $ ->
                   [
                     turl
                     data["dns_host_ip_a_record"]["address"]
-                    data["dns_host_aaaa_record"]["address"]
+                    data["dns_host_ip_aaaa_record"]["address"]
                     data["api_key"]["access_token"]
                     get_delete_tag(data["id"],xhr.getResponseHeader('Location'))
                   ]
