@@ -1,6 +1,6 @@
 require 'resolv'
 
-class DnsHostARecord < ActiveRecord::Base
+class DnsHostIpARecord < ActiveRecord::Base
   
   belongs_to :dns_host_record
   

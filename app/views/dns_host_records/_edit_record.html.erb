@@ -33,9 +33,9 @@
 <% end %>
 
   <div class="form-group">
-      <%= label_tag("dns_host_a_record[address]","IPV4:", :class => "col-sm-4 control-label") %>
+      <%= label_tag("dns_host_ip_a_record[address]","IPV4:", :class => "col-sm-4 control-label") %>
       <div class="col-sm-6">
-          <%= text_field_tag("dns_host_a_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv4_address,:class => "form-control") %>
+          <%= text_field_tag("dns_host_ip_a_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv4_address,:class => "form-control") %>
       </div>
   </div>
 

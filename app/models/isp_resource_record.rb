@@ -36,10 +36,6 @@ class IspResourceRecord < PresentationModel
   end
   
 private
-
-  def self.from_dns_host_a_record record
-    
-  end
   
   def self.record_object record
     rname = "IspDns#{record[:type].capitalize}Record"
