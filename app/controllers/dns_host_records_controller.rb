@@ -144,7 +144,7 @@ class DnsHostRecordsController < ApplicationController
         recd.ipv4_address = aaddr.blank? ? nil:aaddr
         recd.ipv6_address = aaaaaddr.blank? ? nil:aaaaaddr
       end
-      saved = recd.save
+      saved = false
       begin
         saved = recd.update_remote
       rescue => ex
