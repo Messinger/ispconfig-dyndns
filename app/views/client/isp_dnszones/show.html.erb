@@ -24,18 +24,11 @@
 </thead>
 
 <tbody>
-<% @ispdnszone.records.each do |record| %>
-<% localdns = DnsHostRecord.find_by_name record.name %>
+<% @ispdnszonerecords.each do |record| %>
 
-<% if record.type == "A" || record.type == "AAAA" %>
-<tr><td><%= record.name %></td><td><%= record.data %></td><td><%= record.type %></td>
-<td>
-<% unless localdns.blank? %>
-  <%= localdns.name %>
-<% end %>
-</td>
-</tr>
-<% end %>
+    <tr>
+        <td><%= record.name %></td><td><%= record.data %></td><td><%= record.type %></td><td><%= record.localdnsname %></td>
+    </tr>
 
 <%end%>
 </tbody>
