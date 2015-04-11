@@ -79,8 +79,8 @@ class DnsHostRecordsController < ApplicationController
     
     debug "New values: #{params}"
     
-    record.ipv4_address = params[:dns_host_a_record][:address] unless params[:dns_host_a_record].blank?
-    record.ipv6_address = params[:dns_host_aaaa_record][:address] unless params[:dns_host_aaaa_record].blank?
+    record.ipv4_address = params[:dns_host_ip_a_record][:address] unless params[:dns_host_ip_a_record].blank?
+    record.ipv6_address = params[:dns_host_ip_aaaa_record][:address] unless params[:dns_host_ip_aaaa_record].blank?
 
     saved = false
     
@@ -136,8 +136,8 @@ class DnsHostRecordsController < ApplicationController
    
     if dns_host_record.valid? && dns_host_record.save
       saved = true
-      aaddr = params.has_key?("dns_host_a_record") ? params[:dns_host_a_record][:address]:""
-      aaaaaddr = params.has_key?("dns_host_aaaa_record") ? params[:dns_host_aaaa_record][:address]:""
+      aaddr = params.has_key?(:dns_host_ip_a_record) ? params[:dns_host_ip_a_record][:address]:""
+      aaaaaddr = params.has_key?("dns_host_ip_aaaa_record") ? params[:dns_host_ip_aaaa_record][:address]:""
       if aaddr.blank? && aaaaaddr.blank?
         recd.address = request.remote_ip
       else

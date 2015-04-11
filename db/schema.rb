@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140530064505) do
+ActiveRecord::Schema.define(version: 20150411202110) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -38,16 +38,17 @@ ActiveRecord::Schema.define(version: 20140530064505) do
   add_index "admins", ["username"], name: "index_admins_on_username", unique: true
 
   create_table "api_keys", force: true do |t|
-    t.string   "access_token",       null: false
-    t.integer  "dns_host_record_id", null: false
+    t.string   "access_token",                             null: false
+    t.integer  "dns_entry_id",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "dns_entry_type", default: "DnsHostRecord", null: false
   end
 
   add_index "api_keys", ["access_token"], name: "index_api_keys_on_access_token", unique: true
-  add_index "api_keys", ["dns_host_record_id"], name: "tokenparent_idx", unique: true
+  add_index "api_keys", ["dns_entry_id", "dns_entry_type"], name: "tokenparent_idx", unique: true
 
-  create_table "dns_host_a_records", force: true do |t|
+  create_table "dns_host_ip_a_records", force: true do |t|
     t.string   "address"
     t.integer  "dns_host_record_id",  null: false
     t.integer  "isp_dns_a_record_id"
@@ -56,10 +57,10 @@ ActiveRecord::Schema.define(version: 20140530064505) do
     t.datetime "updated_at"
   end
 
-  add_index "dns_host_a_records", ["dns_host_record_id"], name: "index_dns_host_a_records_on_dns_host_record_id"
-  add_index "dns_host_a_records", ["isp_dns_a_record_id"], name: "index_dns_host_a_records_on_isp_dns_a_record_id", unique: true
+  add_index "dns_host_ip_a_records", ["dns_host_record_id"], name: "index_dns_host_ip_a_records_on_dns_host_record_id"
+  add_index "dns_host_ip_a_records", ["isp_dns_a_record_id"], name: "index_dns_host_ip_a_records_on_isp_dns_a_record_id", unique: true
 
-  create_table "dns_host_aaaa_records", force: true do |t|
+  create_table "dns_host_ip_aaaa_records", force: true do |t|
     t.string   "address"
     t.integer  "dns_host_record_id",     null: false
     t.integer  "isp_dns_aaaa_record_id"
@@ -68,8 +69,8 @@ ActiveRecord::Schema.define(version: 20140530064505) do
     t.datetime "updated_at"
   end
 
-  add_index "dns_host_aaaa_records", ["dns_host_record_id"], name: "index_dns_host_aaaa_records_on_dns_host_record_id"
-  add_index "dns_host_aaaa_records", ["isp_dns_aaaa_record_id"], name: "index_dns_host_aaaa_records_on_isp_dns_aaaa_record_id", unique: true
+  add_index "dns_host_ip_aaaa_records", ["dns_host_record_id"], name: "index_dns_host_ip_aaaa_records_on_dns_host_record_id"
+  add_index "dns_host_ip_aaaa_records", ["isp_dns_aaaa_record_id"], name: "index_dns_host_ip_aaaa_records_on_isp_dns_aaaa_record_id", unique: true
 
   create_table "dns_host_records", force: true do |t|
     t.string   "name",        null: false

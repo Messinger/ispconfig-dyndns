@@ -2,9 +2,9 @@ class DnsHostRecord < ActiveRecord::Base
   belongs_to :dns_zone
   belongs_to :user
 
-  has_one :dns_host_a_record, :dependent => :destroy
-  has_one :dns_host_aaaa_record, :dependent => :destroy
-  has_one :api_key, :dependent => :destroy
+  has_one :dns_host_ip_a_record, :dependent => :destroy
+  has_one :dns_host_ip_aaaa_record, :dependent => :destroy
+  has_one :api_key, as: :dns_entry, :dependent => :destroy
 
   validates :name, :presence => true
   validates :dns_zone, :presence => true
@@ -38,14 +38,14 @@ class DnsHostRecord < ActiveRecord::Base
     unless simple.nil?
       options = options.merge({:only=>[:name,:id],
                                :include => {
-                                            :dns_host_a_record => {:only => [:address]},
-                                            :dns_host_aaaa_record=> {:only => [:address]},
+                                            :dns_host_ip_a_record => {:only => [:address]},
+                                            :dns_host_ip_aaaa_record=> {:only => [:address]},
                                             :api_key => {:only => [:access_token]},
                                             :dns_zone => {:only => [:name]}
                                             }
                               })
     else
-      options = options.merge({:include => [:dns_host_a_record,:dns_host_aaaa_record,:api_key,:dns_zone]})
+      options = options.merge({:include => [:dns_host_ip_a_record,:dns_host_ip_aaaa_record,:api_key,:dns_zone]})
     end
     super(options)
   end
@@ -54,8 +54,8 @@ class DnsHostRecord < ActiveRecord::Base
 
   def create_assignees
     self.api_key = ApiKey.new
-    self.dns_host_aaaa_record = DnsHostAaaaRecord.new
-    self.dns_host_a_record = DnsHostARecord.new
+    self.dns_host_ip_aaaa_record = DnsHostIpAaaaRecord.new
+    self.dns_host_ip_a_record = DnsHostIpARecord.new
   end
 
 end

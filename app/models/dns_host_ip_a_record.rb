@@ -1,6 +1,6 @@
 require 'resolv'
 
-class DnsHostAaaaRecord < ActiveRecord::Base
+class DnsHostIpARecord < ActiveRecord::Base
   
   belongs_to :dns_host_record
   
@@ -16,10 +16,9 @@ class DnsHostAaaaRecord < ActiveRecord::Base
   def validate_address
     return if self.address.blank?
     
-    if self.address.match(Resolv::IPv6::Regex).nil?
-      errors.add(:address,"not a valid ipv6 address")
+    if self.address.match(Resolv::IPv4::Regex).nil?
+      errors.add(:address,"not a valid ipv4 address")
     end
     
   end
-
 end
