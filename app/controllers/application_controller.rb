@@ -80,8 +80,11 @@ class ApplicationController < ActionController::Base
     if current_client_user
       add_breadcrumb "Client user home", :client_root_path
     end
-    # touch session object so updated_at is set
-    session[:lastseen] = Time.now()
+    # don't need a session when access via api-key
+    unless current_api_key
+      # touch session object so updated_at is set
+      session[:lastseen] = Time.now()
+    end
     Session.sweep(24.hours)
   end
 
