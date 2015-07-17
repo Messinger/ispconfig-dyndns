@@ -8,11 +8,11 @@ module Ispremote
                 :namespace => Setting.ispconfig_namespace,
                 :namespace_identifier => :ns1,
                 :strip_namespaces => true, :convert_request_keys_to => :none,
-                :log_level => :warn,
+                :log_level => :info,
                 :pretty_print_xml => true,
-                :log => false,
+                :log => true,
                 :filters => [:password],
-                #:logger => Rails.logger,
+                :logger => Logging.logger['soap'],
                 env_namespace: 'SOAP-ENV',
                 :namespaces => {'xmlns:ns2' => 'http://xml.apache.org/xml-soap'}
                 
