@@ -46,12 +46,9 @@ class ApplicationController < ActionController::Base
     unless params[:accesstoken].nil?
       api_key = ApiKey.find_by_access_token params[:accesstoken]
       unless api_key.nil?
-        if api_key.active_for_authentication?
-          @current_api_key = api_key if api_key.active_for_authentication?
-        else
-          raise ForbiddenRequest.new "Token not valid or user locked"
-        end
+        @current_api_key = api_key if api_key.active_for_authentication?
       end
+      raise ForbiddenRequest.new "Token not valid or user locked" if @current_api_key.nil?
     end
     debug "Got apikey #{@current_api_key}"
     @current_api_key
@@ -164,7 +161,7 @@ class ApplicationController < ActionController::Base
           render :xml => ex, :status => errorcode
         }
         format.json {
-          render :text => msg, status: errorcode
+          render :json => {:resultText => msg, :resultCode => errorcode}, status: errorcode
         }
         format.any { head errorcode }
       end
