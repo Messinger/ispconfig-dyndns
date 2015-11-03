@@ -34,8 +34,35 @@ class IspResourceRecord < PresentationModel
       self.send funcname,record
     end
   end
-  
-private
+
+  def self.build_remote_add_message(asession,arecord,client)
+
+    clientid = client.client_id.to_s
+    serverid = client.default_dnsserver.to_i
+    recordhash = arecord.to_ispconfig_hash.merge(default_ispconfig_hash)
+    recordhash = recordhash.merge({:server_id => serverid})
+
+    rec = { :item =>
+                recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.send("attributes_for_#{v.class.name.underscore}") } }
+    }
+    { :param0 => asession.sessionid, :param1 => clientid, :param2 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "ns2:Map" } } }
+
+  end
+
+  def build_remote_update_message(asession,arecord,client)
+    clientid = client.client_id.to_s
+    primaryid = self.id.to_i
+    recordhash = arecord.to_ispconfig_hash.merge(IspDnsARecord.default_ispconfig_hash)
+    # overwrite default stamp
+    recordhash[:serial] = gen_timestamp
+
+    rec = { :item =>
+                recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.class.send("attributes_for_#{v.class.name.underscore}") } }
+    }
+    { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
+  end
+
+  private
   
   def self.record_object record
     rname = "IspDns#{record[:type].capitalize}Record"
@@ -45,5 +72,6 @@ private
       theclass = Kernel.const_get("IspResourceRecord")
     end
     theclass.new record
-  end 
+  end
+
 end

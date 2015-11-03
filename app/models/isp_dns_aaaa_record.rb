@@ -14,7 +14,7 @@ class IspDnsAaaaRecord < IspResourceRecord
       asession = usesession
     end
     r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :primary_id => id})
-    raise ActiveRecord::RecordNotFound if r == false
+    raise ActiveRecord::RecordNotFound unless r
     r = IspDnsAaaaRecord.new flatten_hash(r)
     raise ActiveRecord::RecordNotFound unless r.type.downcase == "aaaa"
     r 
@@ -28,19 +28,8 @@ class IspDnsAaaaRecord < IspResourceRecord
     else
       asession = usesession
     end
-    clientid = client.client_id.to_s
-    serverid = client.default_dnsserver.to_i
-    recordhash = arecord.to_ispconfig_hash.merge(default_ispconfig_hash)
-    recordhash = recordhash.merge({:server_id => serverid})
 
-    rec = { :item =>
-            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.send("attributes_for_#{v.class.name.underscore}") } }
-          }
-    message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "ns2:Map" } } }
-
-    Rails.logger.debug message
-
-    result = super(:message => message)
+    result = super(:message => build_remote_add_message(asession,arecord,client))
     result.body[:dns_aaaa_add_response][:return]
 
   ensure
@@ -53,16 +42,7 @@ class IspDnsAaaaRecord < IspResourceRecord
     else
       asession = usesession
     end
-    clientid = client.client_id.to_s
-    primaryid = self.id.to_i
-    recordhash = arecord.to_ispconfig_hash.merge(IspDnsAaaaRecord.default_ispconfig_hash)
-    # overwrite default stamp
-    recordhash[:serial] = gen_timestamp
-    rec = { :item =>
-            recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.class.send("attributes_for_#{v.class.name.underscore}") } }
-          }
-    message = { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
-    result = super(:message => message)
+    result = super(:message => build_remote_update_message(asession,arecord,client))
     result.body[:dns_aaaa_update_response][:return]
   ensure
     asession.logout if !asession.nil? && usesession.nil?
