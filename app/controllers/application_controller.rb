@@ -80,8 +80,8 @@ class ApplicationController < ActionController::Base
     if current_client_user
       add_breadcrumb "Client user home", :client_root_path
     end
-    # don't need a session when access via api-key
-    unless current_api_key
+    # don't need a session when access via api-key or not authenticated
+    if is_authenticated_session && current_api_key.nil?
       # touch session object so updated_at is set
       session[:lastseen] = Time.now()
     end
