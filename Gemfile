@@ -9,7 +9,7 @@ gem 'jquery-ui-rails'
 
 platforms :ruby do
   gem 'sqlite3', group: :sqlite
-  gem 'mysql2', group: :mysql
+  gem 'mysql2', '~> 0.3.18', group: :mysql
 end
 
 # Use SCSS for stylesheets
