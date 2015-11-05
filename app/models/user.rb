@@ -104,5 +104,16 @@ class User < ActiveRecord::Base
     super
   end
 
+  def as_json options={}
+    _res = super options
+    _res.merge!(
+            if identity.nil?
+              {}
+            else
+              {identity: identity.as_json(options.merge({:only => [:id,:provider,:uid]}))}
+            end
+    )
+    _res
+  end
   
 end

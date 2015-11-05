@@ -1,5 +1,5 @@
 RailsDynamicDomain::Application.routes.draw do
-  devise_for :admins
+  devise_for :admins, :controllers => {:sessions => 'admins/sessions'}
   devise_for :users, :controllers => { :registrations => "user/registrations", :omniauth_callbacks => 'user/omniauth_callbacks' }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
