@@ -8,12 +8,12 @@ class Admins::UsersController < ApplicationController
 
     respond_with @users
 
-#    respond_to do |format|
-#      format.json {
-#        render :json => @users.as_json, :status => :ok
-#      }
-#    end
+  end
+
+  def show
+    @user = User.accessible_by(current_ability).find params[:id]
+    @user = {:user => @user.as_json,:domains => @user.dns_host_records}
+    respond_with @user
   end
 
 end
-
