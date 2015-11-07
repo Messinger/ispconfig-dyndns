@@ -5,6 +5,8 @@ class Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :authentication_keys => [:login],
          :reset_password_keys => [ :login ]
 
+  has_one :authentication_token, as: :account, :dependent => :destroy
+
   validates :username, :uniqueness => { :case_sensitive => false }
   
   def login=(login)
@@ -57,6 +59,21 @@ class Admin < ActiveRecord::Base
     else
       where(conditions).first
     end
+  end
+
+
+  def login_json options={}
+    _opts = options.merge(:only => [:id,:email,:username])
+    _res = as_json options
+    _res.merge!({
+                    authentication_token: if authentication_token.blank?
+                                            nil
+                                          else
+                                            authentication_token.token
+                                          end
+                }
+    )
+    _res
   end
 
 end

@@ -1,4 +1,4 @@
-class Admins::SessionsController < Devise::SessionsController
+class User::SessionsController < Devise::SessionsController
   respond_to :json
 
   def create
@@ -6,9 +6,9 @@ class Admins::SessionsController < Devise::SessionsController
     set_flash_message(:notice, :signed_in) if is_flashing_format?
     sign_in(resource_name, resource)
     yield resource if block_given?
-    current_admin.authentication_token = AuthenticationToken.new
+    resource.authentication_token = AuthenticationToken.new
     if request.format.json?
-      render :json => {:success=>true, :current_user => current_admin.login_json}, :status => :ok
+      render :json => {:success=>true, :current_user => current_user.login_json}, :status => :ok
     else
       respond_with resource, location: after_sign_in_path_for(resource)
     end

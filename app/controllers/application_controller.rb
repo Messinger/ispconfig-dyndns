@@ -8,9 +8,11 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  #protect_from_forgery with: :null_session, if: Proc.new {|c| c.request.format.json? }
+  protect_from_forgery with: :null_session, if: Proc.new {|c| c.request.format.json? }
 
   #before_action :authenticate_user!
+
+  before_filter :authenticate_user_from_token!, :unless => :devise_controller?
 
   check_authorization :unless => :devise_controller?
 
@@ -174,13 +176,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def verified_request?
-    if request.content_type == "application/json"
-      return true
-    else
-      return super()
-    end
-  end
+#  def verified_request?
+#    if request.content_type == "application/json"
+#      return true
+#    else
+#      return super()
+#    end
+#  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:last_name, :first_name, :email, :password, :password_confirmation, :remember_me) }
@@ -188,4 +190,25 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:last_name, :first_name, :email, :password, :password_confirmation, :current_password) }
   end
 
+  def authenticate_user_from_token!
+
+    token_value = request.headers['X-AUTHENTICATIONTOKEN']
+
+    token = AuthenticationToken.find_by_token token_value unless token_value.blank?
+
+    if token.nil? || !token.active_for_authentication?
+      raise ForbiddenRequest.new "Token not valid or user locked"
+    end
+
+    #user_token = params[:user_token].presence
+
+    if token.account
+      # Notice we are passing store false, so the user is not
+      # actually stored in the session and a token is needed
+      # for every request. If you want the token to work as a
+      # sign in token, you can simply remove store: false.
+      sign_in(token.account, store: false)
+    end
+
+  end
 end

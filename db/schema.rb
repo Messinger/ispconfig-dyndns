@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150411202110) do
+ActiveRecord::Schema.define(version: 20151107193335) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 20150411202110) do
 
   add_index "api_keys", ["access_token"], name: "index_api_keys_on_access_token", unique: true
   add_index "api_keys", ["dns_entry_id", "dns_entry_type"], name: "tokenparent_idx", unique: true
+
+  create_table "authentication_tokens", force: true do |t|
+    t.string   "token"
+    t.integer  "account_id"
+    t.string   "account_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authentication_tokens", ["account_id", "account_type"], name: "index_authentication_tokens_on_account_id_and_account_type"
+  add_index "authentication_tokens", ["token"], name: "index_authentication_tokens_on_token", unique: true
 
   create_table "dns_host_ip_a_records", force: true do |t|
     t.string   "address"
