@@ -84,11 +84,11 @@ class ApplicationController < ActionController::Base
       add_breadcrumb "Client user home", :client_root_path
     end
     # don't need a session when access via api-key or not authenticated
-    if is_authenticated_session && current_api_key.nil?
+    if is_authenticated_session && current_api_key.nil? && !request.format.json?
       # touch session object so updated_at is set
       session[:lastseen] = Time.now()
     end
-    Session.sweep(24.hours)
+    Session.sweep(1.hours)
   end
 
   def process_authentication
@@ -193,16 +193,16 @@ class ApplicationController < ActionController::Base
   def authenticate_user_from_token!
 
     token_value = request.headers['X-AUTHENTICATIONTOKEN']
+    return if token_value.blank?
+    token = AuthenticationToken.find_by_token token_value
 
-    token = AuthenticationToken.find_by_token token_value unless token_value.blank?
-
-    if token.nil? || !token.active_for_authentication?
+    if !token.nil? && !token.active_for_authentication?
       raise ForbiddenRequest.new "Token not valid or user locked"
     end
 
     #user_token = params[:user_token].presence
 
-    if token.account
+    if token && token.account
       # Notice we are passing store false, so the user is not
       # actually stored in the session and a token is needed
       # for every request. If you want the token to work as a
