@@ -2,6 +2,7 @@ class DnsHostRecordsController < ApplicationController
   authorize_resource :class => DnsHostRecord
 
   protect_from_forgery except: :setip
+  respond_to :json,:html
 
   def index
     debug "DnszoneRecord index"
@@ -16,6 +17,8 @@ class DnsHostRecordsController < ApplicationController
     end
 
     index_bread
+
+    respond_with @dns_host_records
   end
 
   def edit
