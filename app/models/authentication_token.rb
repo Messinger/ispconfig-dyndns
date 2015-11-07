@@ -10,6 +10,10 @@ class AuthenticationToken < ActiveRecord::Base
     end
   end
 
+  def active_for_authentication?
+    self.account.active_for_authentication?
+  end
+
   private
 
   def generate_token

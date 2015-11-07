@@ -195,16 +195,19 @@ class ApplicationController < ActionController::Base
     token_value = request.headers['X-AUTHENTICATIONTOKEN']
 
     token = AuthenticationToken.find_by_token token_value unless token_value.blank?
-    user  = token && token.account
+
+    if token.nil? || !token.active_for_authentication?
+      raise ForbiddenRequest.new "Token not valid or user locked"
+    end
 
     #user_token = params[:user_token].presence
 
-    if user
+    if token.account
       # Notice we are passing store false, so the user is not
       # actually stored in the session and a token is needed
       # for every request. If you want the token to work as a
       # sign in token, you can simply remove store: false.
-      sign_in user, store: false
+      sign_in(token.account, store: false)
     end
 
   end
