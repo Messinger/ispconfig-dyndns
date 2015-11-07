@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
 
   #before_action :authenticate_user!
 
+  before_filter :authenticate_user_from_token!, :unless => :devise_controller?
+
   check_authorization :unless => :devise_controller?
 
   before_filter :set_authentication_information, unless: :devise_controller?
@@ -188,4 +190,22 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:last_name, :first_name, :email, :password, :password_confirmation, :current_password) }
   end
 
+  def authenticate_user_from_token!
+
+    token_value = request.headers['X-AUTHENTICATIONTOKEN']
+
+    token = AuthenticationToken.find_by_token token_value unless token_value.blank?
+    user  = token && token.account
+
+    #user_token = params[:user_token].presence
+
+    if user
+      # Notice we are passing store false, so the user is not
+      # actually stored in the session and a token is needed
+      # for every request. If you want the token to work as a
+      # sign in token, you can simply remove store: false.
+      sign_in user, store: false
+    end
+
+  end
 end

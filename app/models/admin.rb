@@ -61,13 +61,15 @@ class Admin < ActiveRecord::Base
     end
   end
 
-  def as_json options={}
-    _res = super options
+
+  def login_json options={}
+    _opts = options.merge(:only => [:id,:email,:username])
+    _res = as_json options
     _res.merge!({
                     authentication_token: if authentication_token.blank?
-                                            {}
+                                            nil
                                           else
-                                            authentication_token.as_json({:only => [:id,:token]})
+                                            authentication_token.token
                                           end
                 }
     )
