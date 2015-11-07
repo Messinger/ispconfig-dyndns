@@ -117,5 +117,19 @@ class User < ActiveRecord::Base
     )
     _res
   end
-  
+
+  def login_json options={}
+    _opts = options.merge(:only => [:id,:email,:username])
+    _res = as_json options
+    _res.merge!({
+                    authentication_token: if authentication_token.blank?
+                                            nil
+                                          else
+                                            authentication_token.token
+                                          end
+                }
+    )
+    _res
+  end
+
 end
