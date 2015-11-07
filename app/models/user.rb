@@ -115,14 +115,6 @@ class User < ActiveRecord::Base
                              end
                 }
     )
-    _res.merge!({
-                    authentication_token: if authentication_token.blank?
-                                            {}
-                                          else
-                                            authentication_token.as_json({:only => [:id,:token]})
-                                          end
-                }
-    )
     _res
   end
   
