@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :dns_host_ip_a_records, through: :dns_host_records
   has_many :dns_host_ip_aaaa_records, through: :dns_host_records
   has_one :identity, :dependent => :destroy
+  has_one :authentication_token, as: :account, :dependent => :destroy
   
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update  
   
@@ -106,12 +107,21 @@ class User < ActiveRecord::Base
 
   def as_json options={}
     _res = super options
-    _res.merge!(
-            if identity.nil?
-              {}
-            else
-              {identity: identity.as_json(options.merge({:only => [:id,:provider,:uid]}))}
-            end
+    _res.merge!({
+                    identity:if identity.nil?
+                               {}
+                             else
+                               identity.as_json(options.merge({:only => [:id,:provider,:uid]}))
+                             end
+                }
+    )
+    _res.merge!({
+                    authentication_token: if authentication_token.blank?
+                                            {}
+                                          else
+                                            authentication_token.as_json({:only => [:id,:token]})
+                                          end
+                }
     )
     _res
   end
