@@ -86,3 +86,5 @@ gem 'savon'
 
 gem 'activerecord-session_store'
 
+gem 'redis-mutex'
+gem 'redis-rails'
