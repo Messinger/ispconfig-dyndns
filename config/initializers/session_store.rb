@@ -1,5 +1,11 @@
 # Be sure to restart your server when you modify this file.
 
-#RailsDynamicDomain::Application.config.session_store :cookie_store, key: '_rails-dynamic_session'
-RailsDynamicDomain::Application.config.session_store :active_record_store, key: '_rails_dynamic_dns_session', httponly: true
-#ActiveRecord::SessionStore::Session.attr_accessible :data, :session_id
+SESSION_REDIS_HOST = ENV['REDIS_HOST']||'localhost'
+SESSION_REDIS_PORT = ENV['REDIS_PORT']||6379
+
+RailsDynamicDomain::Application.config.session_store :redis_store, servers: {
+  host: SESSION_REDIS_HOST,
+  port: SESSION_REDIS_PORT,
+  namespace: "dyndns_sessions",
+},
+expires_in: 90.minutes, key: '_dyndns_session',  path: ENV['RAILS_RELATIVE_URL_ROOT']||'/', httponly: true, secure: !(Rails.env.development? || Rails.env.test?)
