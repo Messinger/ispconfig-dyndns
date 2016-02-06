@@ -88,7 +88,6 @@ class ApplicationController < ActionController::Base
       # touch session object so updated_at is set
       session[:lastseen] = Time.now()
     end
-    Session.sweep(1.hours)
   end
 
   def process_authentication
