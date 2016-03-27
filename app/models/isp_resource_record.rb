@@ -52,7 +52,7 @@ class IspResourceRecord < PresentationModel
   def build_remote_update_message(asession,arecord,client)
     clientid = client.client_id.to_s
     primaryid = self.id.to_i
-    recordhash = arecord.to_ispconfig_hash.merge(IspDnsARecord.default_ispconfig_hash)
+    recordhash = arecord.to_ispconfig_hash.merge(default_ispconfig_hash)
     # overwrite default stamp
     recordhash[:serial] = gen_timestamp
 
