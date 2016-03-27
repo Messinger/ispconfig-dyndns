@@ -62,6 +62,10 @@ class IspResourceRecord < PresentationModel
     { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
   end
 
+  def default_ispconfig_hash
+    self.class.default_ispconfig_hash
+  end
+  
   private
   
   def self.record_object record
