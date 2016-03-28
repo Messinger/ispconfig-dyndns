@@ -52,7 +52,7 @@ class IspResourceRecord < PresentationModel
   def build_remote_update_message(asession,arecord,client)
     clientid = client.client_id.to_s
     primaryid = self.id.to_i
-    recordhash = arecord.to_ispconfig_hash.merge(IspDnsARecord.default_ispconfig_hash)
+    recordhash = arecord.to_ispconfig_hash.merge(default_ispconfig_hash)
     # overwrite default stamp
     recordhash[:serial] = gen_timestamp
 
@@ -62,6 +62,10 @@ class IspResourceRecord < PresentationModel
     { :param0 => asession.sessionid, :param1 => clientid, :param2 => primaryid, :param3 => rec, :attributes! => { :param0 => {"xsi:type" => "xsd:string"}, :param1 => { "xsi:type" => "xsd:int" }, :param2 => {"xsi:type" => "xsd:string"}, :param3 => {"xsi:type" => "ns2:Map" } } }
   end
 
+  def default_ispconfig_hash
+    self.class.default_ispconfig_hash
+  end
+  
   private
   
   def self.record_object record
