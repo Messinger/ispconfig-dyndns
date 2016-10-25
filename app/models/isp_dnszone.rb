@@ -11,7 +11,9 @@ class IspDnszone < PresentationModel
     r = super(:message => {:sessionid => asession.sessionid, :client_id => aclient.client_id,:server_id => serverid})
     r = self.response_to_hash r
     # wrong serverid or client
-    raise ActiveRecord::RecordNotFound  if r==false || !r.key?(:item)
+    raise ActiveRecord::RecordNotFound  if r==false
+    return [] unless r.key?(:item)
+
     if r[:item].is_a? Array
       zones = (r[:item]).collect do |zone|
         vals = flatten_hash zone
