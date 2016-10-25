@@ -126,7 +126,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
           resa = IspDnsARecord.dns_a_add(arec, isp_client, isp_zone, ispsession)
           arec.isp_dns_a_record_id = resa.to_i
         else
-          isprec.dns_a_update(arec, isp_client, ispsession)
+          isprec.dns_a_update(arec, isp_client, isp_zone, ispsession)
         end
       end
       arec.lastset = Time.now
@@ -147,7 +147,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
           resb = IspDnsAaaaRecord.dns_aaaa_add(aaaarec, isp_client, isp_zone, ispsession)
           aaaarec.isp_dns_aaaa_record_id = resb.to_i
         else
-          isprec.dns_aaaa_update(aaaarec, isp_client, ispsession)
+          isprec.dns_aaaa_update(aaaarec, isp_client, isp_zone, ispsession)
         end
       end
       aaaarec.lastset = Time.now

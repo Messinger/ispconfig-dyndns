@@ -38,14 +38,14 @@ class IspDnsARecord < IspResourceRecord
     asession.logout if !asession.nil? && usesession.nil?
   end
 
-  def dns_a_update arecord,client,usesession=nil
+  def dns_a_update arecord,client, zone, usesession=nil
     if usesession.nil?
       asession = IspSession.login
     else
       asession = usesession
     end
 
-    result = super(:message => build_remote_update_message(asession,arecord,client))
+    result = super(:message => build_remote_update_message(asession,arecord,client,zone))
     result.body[:dns_a_update_response][:return]
   ensure
     asession.logout if !asession.nil? && usesession.nil?
