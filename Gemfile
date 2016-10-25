@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.0'
+gem 'rails', '4.2.7'
+gem 'sprockets-rails','2.1.3'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -13,9 +14,9 @@ platforms :ruby do
 end
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'#, '~> 4.0.0'
 # using bootstrap
-gem 'bootstrap-sass', '~> 3.3.1'
+gem 'bootstrap-sass'#, '~> 3.3.1'
 
 group :assets do
   # Use Uglifier as compressor for JavaScript assets
@@ -36,6 +37,9 @@ group :development do
   gem 'thin'
   gem 'seed_dump'
 end
+
+# using builtin passenger/nginx is best solution
+gem 'passenger'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
