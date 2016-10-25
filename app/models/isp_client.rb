@@ -9,6 +9,10 @@ class IspClient < PresentationModel
     set_id client_id
   end
 
+  def dns_server_list
+    @dns_server_list ||= build_dns_server_list
+  end
+
   # get Client by client ID
   def self.client_get aclientuser, usesession=nil
     if usesession.nil?
@@ -61,5 +65,13 @@ class IspClient < PresentationModel
   ensure
     asession.logout if !asession.nil? && usesession.nil?
   end
-  
+
+  def build_dns_server_list
+    if dns_servers.is_a? String
+      dns_servers.split(',').map!(&:to_i).select { |item| item > 0 }
+    else
+      []
+    end
+  end
+
 end

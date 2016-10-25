@@ -4,7 +4,12 @@ class Client::IspDnszonesController < ApplicationController
   def index
     cu = ClientUserDecorator.new(current_client_user)
     @ispclient = cu.client
-    @ispdnszones = IspDnszone.dns_zone_get_by_user(cu,@ispclient.default_dnsserver)
+    @ispdnszones = []
+    @ispclient.dns_server_list.each do |dnsserver|
+      @ispdnszones << IspDnszone.dns_zone_get_by_user(cu,dnsserver)
+    end
+    @ispdnszones.flatten!
+
     add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path
   end
 
