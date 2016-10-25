@@ -106,6 +106,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
     ispsession = IspSession.login
 
     isp_client = IspClient.client_for_user(model.dns_zone.isp_client_user_id, ispsession)
+    isp_zone = IspDnszone.dns_zone_get(model.dns_zone.isp_dnszone_id,ispsession)
     arec = self.dns_host_ip_a_record
     aaaarec = self.dns_host_ip_aaaa_record
 
@@ -122,7 +123,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
         end
       else
         if isprecid.nil?
-          resa = IspDnsARecord.dns_a_add(arec, isp_client, ispsession)
+          resa = IspDnsARecord.dns_a_add(arec, isp_client, isp_zone, ispsession)
           arec.isp_dns_a_record_id = resa.to_i
         else
           isprec.dns_a_update(arec, isp_client, ispsession)
@@ -143,7 +144,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
         end
       else
         if isprecid.nil?
-          resb = IspDnsAaaaRecord.dns_aaaa_add(aaaarec, isp_client, ispsession)
+          resb = IspDnsAaaaRecord.dns_aaaa_add(aaaarec, isp_client, isp_zone, ispsession)
           aaaarec.isp_dns_aaaa_record_id = resb.to_i
         else
           isprec.dns_aaaa_update(aaaarec, isp_client, ispsession)

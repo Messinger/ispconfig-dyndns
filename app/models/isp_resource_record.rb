@@ -35,12 +35,11 @@ class IspResourceRecord < PresentationModel
     end
   end
 
-  def self.build_remote_add_message(asession,arecord,client)
+  def self.build_remote_add_message(asession,arecord,client,adnszone)
 
     clientid = client.client_id.to_s
-    serverid = client.default_dnsserver.to_i
     recordhash = arecord.to_ispconfig_hash.merge(default_ispconfig_hash)
-    recordhash = recordhash.merge({:server_id => serverid})
+    recordhash = recordhash.merge({:server_id => adnszone.server_id})
 
     rec = { :item =>
                 recordhash.collect { |k,v| {:key => k, :value => v, :attributes! => self.send("attributes_for_#{v.class.name.underscore}") } }

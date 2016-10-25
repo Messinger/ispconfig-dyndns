@@ -22,14 +22,14 @@ class IspDnsAaaaRecord < IspResourceRecord
     asession.logout if !asession.nil? && usesession.nil?
   end
 
-  def self.dns_aaaa_add arecord,client,usesession=nil
+  def self.dns_aaaa_add arecord,client, zone, usesession=nil
     if usesession.nil?
       asession = IspSession.login
     else
       asession = usesession
     end
 
-    result = super(:message => build_remote_add_message(asession,arecord,client))
+    result = super(:message => build_remote_add_message(asession,arecord,client,zone))
     result.body[:dns_aaaa_add_response][:return]
 
   ensure
