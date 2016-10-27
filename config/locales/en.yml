@@ -21,3 +21,25 @@
 
 en:
   hello: "Hello world"
+  
+  globals:
+    logged_in_as: "Logged in as"
+    logout: "Logout"
+    yestext: "Yes"
+    notext: "No"
+    canceltext: "Cancel"
+    session_invalid_header: "Session is invalid"
+  
+  settings:
+    global:
+      title: "Global settings for Application"
+      head: "Application settings"
+    table:
+      general: "General settings"
+    labels:
+      mail_from: "Mail should sent as"
+      ispconfig_url: "URL of ispconfig host"
+      remote_user: "ISPConfig Remote User"
+      remote_password: "ISPConfig Remote User Password"
+      max_records: "Max records per user"
+      default_ttl: "Default TTL in seconds"

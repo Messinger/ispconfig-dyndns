@@ -1,0 +1,5 @@
+
+<% unless label.nil? || label== false %>
+<%= label_tag "dns_zone_#{dns_zone.id}_public","Is Public?" %>
+<% end %>
+<%= check_box_tag "dns_zone_#{dns_zone.id}_public", 1, dns_zone.is_public, "data-update_url" => client_dns_zone_path(dns_zone),"data-dns_zone_id" => dns_zone.id, :class => "dns_zone_public_box" %>

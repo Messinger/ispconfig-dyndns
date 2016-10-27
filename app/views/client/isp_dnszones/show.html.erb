@@ -1,0 +1,37 @@
+<%= render partial: 'datatables_include' %>
+
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/isp_dnszones/show" %>
+<% end %>
+
+<% content_for :title do %>
+    <%= "DNS Records for #{@ispdnszone.origin}" %>
+<% end %>
+
+<h1 class="page-header">Records for <%= "#{@ispdnszone.origin}" %></h1>
+
+<div>
+
+<table id="dnsrecordstable" class="display">
+
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Type</th>
+    <th>Local</th>
+  </tr>
+</thead>
+
+<tbody>
+<% @ispdnszonerecords.each do |record| %>
+
+    <tr>
+        <td><%= record.name %></td><td><%= record.data %></td><td><%= record.type %></td><td><%= record.local_record_url %></td>
+    </tr>
+
+<%end%>
+</tbody>
+</table>
+
+</div>

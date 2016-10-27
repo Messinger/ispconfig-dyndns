@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  access_token: MyString
+  token_parent_id: 
+  token_parent_type: Token parent
+
+two:
+  access_token: MyString
+  token_parent_id: 
+  token_parent_type: Token parent

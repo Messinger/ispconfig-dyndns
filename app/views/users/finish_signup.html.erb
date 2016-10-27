@@ -1,0 +1,55 @@
+<% unless current_user.unconfirmed_email? %>
+<div id="add-email" class="container">
+  <h2>Set Email</h2>
+  <%= form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form', :class => "form-horizontal col-sm-8"}) do |f| %>
+    <% if @show_errors && current_user.errors.any? %>
+      <div id="error_explanation">
+        <% current_user.errors.full_messages.each do |msg| %>
+          <%= msg %><br>
+        <% end %>
+      </div>
+    <% end %>
+    <p class="help-block">Please confirm your email address. No spam.</p>
+    <%= render partial: "layouts/formhelpers/input_helper",locals: {inputtype: :email_field, fo: f,focus: true, element: :email, value: "",placeholder: 'Example: email@me.com' } %>
+    <%= render partial: "layouts/formhelpers/submit_helper",locals: {fo: f, label: 'Continue',defaultbtn: true} %>
+  <% end %>
+</div>
+<% else %>
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/users/finish_signup" %>
+
+<script>
+window.gettokenurl = "<%= user_confirmation_path %>";
+</script>
+<% end %>
+
+    <h2 class="page-header">Confirm email</h2>
+    <div id="confirm-token" class="row">
+        <%= form_tag(user_confirmation_path, :method => "post", :class => "form-horizontal col-sm-5", :role => "form" ) do |f| %>
+            <%= hidden_field_tag("user[email]", current_user.unconfirmed_email) %>
+            <div class="form-group">
+                <%= label_tag "user[email]","Please confirm your email #{current_user.unconfirmed_email}",:class => "col-sm-10 control-label" %>
+            </div>
+            <div class="form-group">
+              <%= label_tag "confirmation[token]","Enter your token",:class=>"col-sm-2 control-label" %>
+              <div class="col-sm-10">
+                  <%= text_field_tag("confirmation[token]",nil, autofocus: true, :class => "form-control") %>
+              </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <%= 
+                        button_tag type: "button", :class=>"btn btn-default", :id => "btn-send-confirmation-token" do
+                            content_tag(:strong, "Send token")
+                        end
+                    %>
+                </div>
+            </div>
+
+        <% end %>
+        <div class="col-sm-5">
+            <%= button_to "Unhappy? Cancel my account", registration_path(:user), data: { confirm: "Are you sure?" }, method: :delete,  :class=>"btn btn-danger btn-lg" %>
+        </div>
+    </div>
+<% end %>
+

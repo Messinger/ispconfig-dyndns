@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  DnsZone_id: 
+  lastset: 2014-05-14 23:17:52
+
+two:
+  DnsZone_id: 
+  lastset: 2014-05-14 23:17:52

@@ -1,0 +1,28 @@
+<%= render partial: 'datatables_include' %>
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/dns_host_record/index" %>
+<% end %>
+
+  <div>
+    <table id="dnszone_records" class="display">
+      <thead>
+        <tr><th rowspan="2">Name</th><th colspan="2">Assigned Addresses</th><th rowspan="2">Access Token</th><th rowspan="2"></th></tr>
+        <tr><th>IPV4</th><th>IPV6</th></tr>
+      </thead>
+      
+      <tbody>
+      <% dns_host_records.each do |record| %>
+        
+        <tr><td><%= link_to record.full_name,dns_host_record_path(record) %></td><td><%= record.ipv4_address %></td><td><%= record.ipv6_address %></td>
+        <td>
+          <% if can? :edit, record %>
+          <%= record.access_token %>
+          <% end %>
+        </td><td><%= link_to "Delete","#", :class=>"deleterecordbutton", :id => "delete_record_#{record.id}", "data-id" => record.id, "data-url" => dns_host_record_path(record) %></td>
+        </tr>
+        
+      <% end %>
+      </tbody>
+
+    </table>
+  </div>

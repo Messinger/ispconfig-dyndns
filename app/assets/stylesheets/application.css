@@ -9,5 +9,10 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require ./all/framework.css
+ *= require ./all/custom.css
+ *= require ./all/topbar.css
+ *= require ./all/loginbar.css
+ *= require ./all/navigation.css
+ *= require ./all/jquery-styles.css
  */

@@ -1,0 +1,42 @@
+/* hide the close x on the loading screen */
+.loadingScreenWindow .ui-dialog-titlebar-close {
+    display: none;
+}
+.loadingScreenWindow .ui-dialog-titlebar {
+    display: none;
+}
+
+.loadingScreenWindow
+{
+  background: none !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#7F00FF00', EndColorStr='#7F00FF00');
+}
+
+#loadingScreen {
+    background: url(<%= asset_data_uri 'ajax-loader.gif'%>) no-repeat 3px 3px;
+}
+
+.loadingscreen_content {
+  background: url(<%= asset_path 'ajax-loader.gif'%>) no-repeat;
+  background-size: contain;
+  height: 50px;
+  width: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ui-tooltip {
+    font-size: 0.8em;
+    white-space: pre-line;
+}
+
+.no-close .ui-dialog-titlebar-close {display: none }
+.no-titlebar .ui-dialog-titlebar { display: none }
+
+.no-dialog-padding,
+.no-dialog-padding .ui-dialog-content
+{
+	border: none !important;
+	padding: 0 !important;	
+}

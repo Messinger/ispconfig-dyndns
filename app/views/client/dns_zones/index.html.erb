@@ -1,0 +1,34 @@
+<%= render partial: 'datatables_include' %>
+
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/dns_zone/index" %>
+<%= javascript_include_tag "pages/dns_zone/public_switch" %>
+<% end %>
+
+<h1 class="page-header">DNS Zones</h1>
+
+<table class="display" id="dns_zones">
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Assigned records</th>
+<th>Public?</th>
+<th>&nbsp;</th>
+</tr>
+</thead>
+
+<tbody>
+<% @dns_zones.each do |dns_zone| %>
+<tr>
+<td>
+<%= link_to dns_zone.name, client_dns_zone_path(dns_zone) %>
+</td>
+<td><%= dns_zone.dns_host_records.count %></td>
+<td><%= render partial: "public_switch", locals: {dns_zone: dns_zone, label: false} %></td>
+<td><%= link_to "View isp config record",client_isp_dnszone_path(dns_zone.isp_dnszone_id), :class=>"linkbutton" %> </td>
+</tr>
+<% end %>
+</tbody>
+
+</table>

@@ -1,0 +1,28 @@
+app_title:
+  default: Dynamic DNS broker
+
+welcome_text:
+  default:
+
+mail_from:
+  default: noreply@localhost
+
+ispconfig_url:
+  default: https://localhost:8080/remote/index.php
+
+ispconfig_namespace:
+  default: http://www.w3.org/2003/05/soap-envelope
+
+remote_user:
+  default:
+
+remote_password:
+  default:
+
+default_ttl:
+  type: int
+  default: 300
+
+max_records:
+  type: int
+  default: 20

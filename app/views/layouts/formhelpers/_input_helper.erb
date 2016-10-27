@@ -1,0 +1,14 @@
+<div class="form-group">
+<%= fo.label element,:class=>"col-sm-2 control-label" %>
+<%
+    placeholder = "" unless defined?(placeholder)
+%>
+<div class="col-sm-10">
+    <% unless defined?(value) %>
+        <%= fo.send(inputtype, element, autofocus: focus,:autocomplete => (inputtype == :password_field ? "off":"on"),:class => "form-control",:placeholder => placeholder) %>
+    <% else %>
+        <%= fo.send(inputtype, element, :value => value, autofocus: focus,:autocomplete => (inputtype == :password_field ? "off":"on"),:class => "form-control", :placeholder=>placeholder) %>
+    <% end %>
+  </div>
+</div>
+

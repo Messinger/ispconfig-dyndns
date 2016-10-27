@@ -1,0 +1,5 @@
+$ ->
+
+  ready = ->
+    
+  $(document).ready(ready)

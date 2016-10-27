@@ -1,0 +1,49 @@
+
+<%= form_for(@dns_host_record, :html => {:role => "form", :class => "form-horizontal"}) do |f| %>
+
+<% unless @dns_host_record.dns_zone.blank? %>
+  <% show_zone_select = false %>
+  <% hostname_class = "col-sm-6" %>
+  <%= hidden_field_tag('dns_zone[id]',@dns_host_record.dns_zone.id) %>
+  <% zsel = "" %>
+<% else %>
+  <% show_zone_select = true %>
+  <% hostname_class = "col-sm-3" %>
+  <% fields_for DnsZone.new do |z| %>
+    <% zones = DnsZone.accessible_by(current_ability) %>
+    <% defaultzone = zones[0] %>
+    <% zsel = z.select(:id, zones.collect{|d| ["."+d.name,d.id]},{:selected => defaultzone, include_blank: false}, :class => "form-control") %>
+  <% end %>
+<% end %>
+
+<% if @dns_host_record.new_record? %>
+  <div class="form-group">
+      <%= f.label(:name,"Hostname:",:class=>"col-sm-4 control-label") %>
+      <div class="<%= hostname_class %>">
+          <%= f.text_field(:name,:class => "form-control") %> 
+      </div>
+      <% if show_zone_select %>
+      <div class="col-sm-4">
+         <%= zsel.html_safe %>
+     </div>
+      <% end %>
+  </div>
+<% else %>
+  <%= f.hidden_field(:name) %>
+<% end %>
+
+  <div class="form-group">
+      <%= label_tag("dns_host_ip_a_record[address]","IPV4:", :class => "col-sm-4 control-label") %>
+      <div class="col-sm-6">
+          <%= text_field_tag("dns_host_ip_a_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv4_address,:class => "form-control") %>
+      </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag("dns_host_ip_aaaa_record[address]","IPV6:",:class => "col-sm-4 control-label") %>
+    <div class="col-sm-6">
+        <%= text_field_tag("dns_host_ip_aaaa_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv6_address, :class => "form-control" )  %>
+    </div>
+  </div>
+
+<% end %>

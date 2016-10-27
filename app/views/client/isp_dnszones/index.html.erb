@@ -1,0 +1,46 @@
+<% page_title = "Dns zone records" %>
+<%= render partial: 'datatables_include' %>
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/isp_dnszones/index" %>
+
+<script>
+  var add_zone_path = "<%= add_client_dns_zones_path %>";
+  var dns_zone_path = "<%= client_dns_zones_path %>";
+</script>
+
+<% end %>
+
+<h1 class="page-header">DNS Zones on Server</h1>
+
+<div class="tablecontainer">
+<table class="display" id="ispdnszones">
+<thead>
+<tr><th>DNS Zone</th><th>Local assigned</th><th></th></tr>
+</thead>
+<tbody>
+<% @ispdnszones.each do |zone| %>
+<% 
+  localzone = DnsZone.find_by_isp_dnszone_id zone.id
+  lzid = ( localzone.nil? ? 0 : localzone.id )
+%>
+<tr id="ispzone_row_<%=zone.id%>">
+  <td><%= link_to zone.origin,client_isp_dnszone_path(zone) %></td>
+  <% unless localzone.nil? %>
+  <td data-id="<%=lzid %>"     id="<%=zone.id%>_local_assigned_to" ><%= link_to localzone.name,client_dns_zone_path(localzone) %>
+  <% else %>
+  <td>&nbsp;
+  <% end %>
+  </td>
+  <td>
+  <%if localzone.nil? %>
+    <%= link_to "Add local zone","#", :class => "add-dns-zone", "data-ispzoneid" => zone.id  %>
+  <% else %>
+    <%= link_to "Drop this local zone","#", :class => "drop-dns-zone", "data-ispzoneid" => zone.id, "data-dropurl" => client_dns_zone_path(localzone) %>
+  <% end %></td>
+</tr>
+<% end %>
+</tbody>
+
+</table>
+
+</div>

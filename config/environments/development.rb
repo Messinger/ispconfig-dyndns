@@ -25,5 +25,30 @@ RailsDynamicDomain::Application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  config.assets.debug = false
+  config.assets.logger = nil
+  config.assets.initialize_on_precompile = true
+  
+  config.log_level = :debug
+  
+  config.action_mailer.default_url_options = { :host => PRIVATE_DATA['url_host'] }
+  config.action_mailer.delivery_method = PRIVATE_DATA['mailer_method'].to_sym
+
+  if config.action_mailer.delivery_method == :smtp
+    config.action_mailer.smtp_settings = {
+      address: PRIVATE_DATA['mailer_address'],
+      port: PRIVATE_DATA['mailer_port'],
+      domain: PRIVATE_DATA['mailer_domain'],
+      enable_starttls_auto: true,
+      user_name: PRIVATE_DATA['mailer_user_name'],
+      password: PRIVATE_DATA['mailer_password']
+    }
+  end
+
+
+  # Set the logging destination(s)
+  config.log_to = %w[stdout file]
+
+  # Show the logging configuration on STDOUT
+  config.show_log_configuration = true
 end

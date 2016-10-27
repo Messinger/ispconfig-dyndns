@@ -1,14 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RailsDynamicDomain</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>
+    <%= full_title yield(:title) %>
+</title>
+<%= render partial: "layouts/stylesheets" %>
+<%= render partial: "layouts/js_constants" %>
+
+<%= javascript_include_tag "application" %>
+
+    <!-- additional javascripts -->
+<%= yield(:additional_javascripts) %>
+    <!-- end additional javascripts -->
+<%= csrf_meta_tags %>
+
+<!-- specific extra header -->
+<%= yield(:extra_head_content) %>
+<!-- specific extra header end -->
+
+<script>
+$(document).ready(function(){
+    $("a.linkbutton").not('.ui-button').button();
+    $( document ).tooltip();
+  });
+</script>
+
 </head>
+
 <body>
 
-<%= yield %>
+  <!-- specific extra body header -->
+  <%= yield(:extra_body_start) %>
+  <!-- specific extra body end -->
 
-</body>
+  <!-- <div id="logo">Logobereich</div> -->
+
+  <div class="container-fluid" id="centralarea">
+
+
+    <%= render partial: "layouts/navigation"%>
+    
+    <!--    <div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main" id="centralarea"> -->
+    
+<!--      <div class="breadcrumbs">
+        < %= render_breadcrumbs :separator => ' &raquo; ' %>
+      </div>
+-->
+
+  <%= render partial: "layouts/messages" %>
+
+<div class="container-fluid" id="main-fluid-container">
+    <%= yield %>
+</div>
+
+      <!--    </div> -->
+</div>
+
 </html>

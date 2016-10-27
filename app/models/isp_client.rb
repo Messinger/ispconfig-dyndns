@@ -1,29 +1,77 @@
-class IspClient
-  extend Savon::Model
+class IspClient < PresentationModel
+  extend Ispremote::Soap
+  include UserHelper::GeneralUser
+  
+  operations :client_get, :client_get_id
 
-  client :endpoint => "https://web03.alwin-it.de:8080/remote/index.php", :ssl_verify_mode => :none, :namespace => "http://www.w3.org/2003/05/soap-envelope",:strip_namespaces => true, :convert_request_keys_to => :none
-
-  operations :client_get_by_username, :client_get
-
-  def initialize clientdata
-    @clientdata = clientdata
+  def initialize data
+    super data
+    set_id client_id
   end
 
-  def self.client_get_by_username asession,username
-    return if asession.blank? || !asession.valid?
-    r = super(:message => {:sessionid => asession.sessionid, :username => username})
-    clientvalues = r.hash[:envelope][:body][:client_get_by_username_response][:return]
+  def dns_server_list
+    @dns_server_list ||= build_dns_server_list
+  end
+
+  # get Client by client ID
+  def self.client_get aclientuser, usesession=nil
+    if usesession.nil?
+      asession = IspSession.login
+    else
+      asession = usesession
+    end
+    if aclientuser.is_a? IspClientUser
+      id = aclientuser.client_id
+    else
+      id = aclientuser
+    end
+    r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :client_id => id})
+    raise ActiveRecord::RecordNotFound if r==false || !r.has_key?(:item)
+    clientvalues = self.flatten_hash(r)
     IspClient.new clientvalues
+  ensure 
+    asession.logout if !asession.nil? && usesession.nil?
   end
 
-  def self.client_get asession,id
-    return if asession.blank? || !asession.valid?
-    r = super(:message => {:sessionid => asession.sessionid, :client_id => id})
-    clientvalues = r.hash[:envelope][:body][:client_get_response][:return]
-    IspClient.new clientvalues
+  # get client id assigned to client _user_ id!
+  def self.client_get_id aclientuser,usesession=nil
+    if usesession.nil?
+      asession = IspSession.login
+    else
+      asession = usesession
+    end
+    if aclientuser.is_a? IspClientUser
+      id = aclientuser.userid
+    else
+      id = aclientuser
+    end
+    begin
+      self.response_to_hash super(:message => {:sessionid => asession.sessionid, :client_id => id})
+    rescue Savon::SOAPFault => ex
+      raise ActiveRecord::RecordNotFound
+    end
+  ensure 
+    asession.logout if !asession.nil? && usesession.nil?
+  end
+  
+  def self.client_for_user aclientuser,usesession=nil
+    if usesession.nil?
+      asession = IspSession.login
+    else
+      asession = usesession
+    end
+    client_id = self.client_get_id aclientuser,asession
+    self.client_get client_id,asession
+  ensure
+    asession.logout if !asession.nil? && usesession.nil?
   end
 
-  def client
-    @clientdata[:item]
+  def build_dns_server_list
+    if dns_servers.is_a? String
+      dns_servers.split(',').map!(&:to_i).select { |item| item > 0 }
+    else
+      []
+    end
   end
+
 end

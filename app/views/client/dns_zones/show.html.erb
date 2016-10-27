@@ -1,0 +1,25 @@
+<% content_for :additional_javascripts do %>
+<%= javascript_include_tag "pages/dns_zone/show" %>
+<%= javascript_include_tag "pages/dns_zone/public_switch" %>
+
+<script>
+  var dnszone_id = "<%=@dnszone.id%>";
+  var createrecordurl = "<%= dns_host_records_path%>";
+  var newrecordurl = "<%= new_dns_host_record_path(:partial=>true,:dns_zone_id=>@dnszone.id) %>";
+</script>
+<% end %>
+
+<h1 class="page-header">DNS Zone &quot;<%= @dnszone.name%>&quot; </h1>
+
+<div id="dnszone_content">
+  <div style="margin-bottom: 10px;">
+  <%= render partial: "public_switch", locals: {dns_zone: @dnszone, label: true} %>
+  </div>
+  <div class="clear"></div>
+  <%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: DnsHostRecordDecorator.decorate_collection(@dnszone.dns_host_records)} %>
+</div>
+
+<div id="dnszone_commands">
+<a href="#" id="new_dns_host_record" class="addrecordbutton">Add new record</a>
+</div>
+
