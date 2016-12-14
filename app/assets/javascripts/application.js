@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require bootstrap-sprockets
+//= require sb2/sb-admin-2
+//= require sb2/metisMenu
 //= require jquery_ujs
 //= require jquery-ui
 //= require i18n

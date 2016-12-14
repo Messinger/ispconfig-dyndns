@@ -1,10 +1,11 @@
 
 <%- if devise_mapping.omniauthable? %>
-<div class="col-sm-4">
+<div class="col-sm-2">
   <div id="authproviders" class="buttonlist">
     <ul>
     <%- resource_class.omniauth_providers.each do |provider| %>
-      <li><%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), :class => "linkbutton" %></li>
+      <li><%= link_to content_tag("i",'',:class => "fa fa-#{auth_provider_to_cssname(provider)}")+"Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), :class => "btn btn-block btn-social btn-#{auth_provider_to_cssname(provider)}" %>
+      </li>
     <% end -%>
     </ul>
   </div>
