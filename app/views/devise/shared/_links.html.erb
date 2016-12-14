@@ -1,7 +1,5 @@
-<div class="row">
-<div id="loginbar" class="buttonbar col-sm-10 col-sm-offset-1">
+<div id="loginbar" class="buttonbar col-md-11 col-sm-10 col-sm-offset-1">
     <ul>
-
 <%- if controller_name != 'sessions' %>
   <li><%= link_to "Sign in", new_session_path(resource_name), :class => "linkbutton" %></li>
 <% end -%>
@@ -23,5 +21,4 @@
 <% end -%>
 
 </ul>
-</div>
 </div>

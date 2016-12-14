@@ -17,6 +17,7 @@
  *= require ./all/navigation
  *= require all/jquery-styles.css.erb
  */
+
 @import "all/bootstrap_app";
 @import "all/framework";
 @import "all/custom";
@@ -28,5 +29,3 @@
 @import "sb2/metisMenu";
 @import "sb2/font-awesome";
 @import "sb2/bootstrap-social";
-
-
