@@ -26,4 +26,8 @@ module ApplicationHelper
         provider
     end
   end
+
+  def records_list
+    DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability))
+  end
 end
