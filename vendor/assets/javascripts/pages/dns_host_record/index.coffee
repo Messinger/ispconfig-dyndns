@@ -41,64 +41,46 @@ $ ->
 
   show_new_record = (formcontent) ->
 
-    viewportWidth = $(window).width()
-    if viewportWidth > 650
-      _width = 650
-    else
-      _width = viewportWidth
     if formcontent != undefined
-      base = '<div id="formcontent" title="Create new record"></div>'
-      $('#centralarea').append(base)
-      $("#formcontent").html(formcontent)
-      $("#formcontent").dialog ({
-        autopen: false
-        modal: true
-        width: _width
-        buttons: {
-          SaveButton: () ->
-            f = $('form#new_dns_host_record')
-            res = f.stringifyFormJSON()
-            method = f.attr('method')
-            console.log res+" via "+method+" to "+f.attr('action')
-            that = this
-            start_wait()
-            $.ajax {
-              url:f.attr('action')
-              type: method
-              data:res
-              contentType: "application/json; charset=utf-8"
-              dataType: "json"
-              success: (data,status,xhr)->
-                stop_wait()
-                turl = '<a href="'+xhr.getResponseHeader('Location')+'">'+data["name"]+"."+data["dns_zone"]["name"]+'</a>'
-                tapi = $('#dnszone_records').DataTable()
-                tapi.row.add(
-                  [
-                    turl
-                    data["dns_host_ip_a_record"]["address"]
-                    data["dns_host_ip_aaaa_record"]["address"]
-                    data["api_key"]["access_token"]
-                    get_delete_tag(data["id"],xhr.getResponseHeader('Location'))
-                  ]
-                ).draw()
-                make_delete_buttons()
-                $(that).dialog("close")
-              error: (data,stat,xhr) ->
-                stop_wait()
-                for sub,val of data.responseJSON
-                  for key,text of val
-                    ele = $('#'+sub+"_"+key)
-                    unless ele.length == 0
-                      ele.alertbox().print_error(text[0],10)
-                return
-            }
-          Cancel: () ->
-            $(this).dialog("close")
-          }
-        })
+      $('#recordformbody').html(formcontent)
     else
       $('form#new_dns_host_record').clearForm(true)
-      $('#formcontent').dialog('open')
+
+    $('#recordformdialog').modal()
+
+  save_new_record = () ->
+
+    f = $('form#new_dns_host_record')
+    res = f.stringifyFormJSON()
+    method = f.attr('method')
+
+    $.ajax {
+      url:  f.attr('action')
+      type: method
+      data: res
+      contentType: "application/json; charset=utf-8"
+      dataType: "json"
+      success: (data, status, xhr)->
+        turl = '<a href="' + xhr.getResponseHeader('Location') + '">' + data["name"] + "." + data["dns_zone"]["name"] + '</a>'
+        tapi = $('#dnszone_records').DataTable()
+        tapi.row.add(
+          [
+            turl
+            data["dns_host_ip_a_record"]["address"]
+            data["dns_host_ip_aaaa_record"]["address"]
+            data["api_key"]["access_token"]
+            get_delete_tag(data["id"], xhr.getResponseHeader('Location'))
+          ]
+        ).draw()
+        make_delete_buttons()
+        $('#recordformdialog').modal('hide')
+      error: (data, stat, xhr) ->
+        for sub,val of data.responseJSON
+          for key,text of val
+            ele = $('#' + sub + "_" + key)
+            unless ele.length == 0
+              ele.alertbox().print_error(text[0], 10)
+    }
 
   add_new_record = (event,element) ->
     event.preventDefault()
@@ -120,6 +102,9 @@ $ ->
 
   ready = ->
     make_delete_buttons()
+
+    $('#save_new_record').click (event) ->
+      save_new_record()
 
     $(".addrecordbutton")
         .click (event) ->
