@@ -1,46 +1,32 @@
 $ ->
    
   make_delete_buttons = () ->
-    $("a.deleterecordbutton").not('.ui-button')
-      .button({
-          icons: {
-              primary: "ui-icon-trash"
-                  }
-          text: false
-          })
+    $(".deleterecordbutton")
       .click (event) ->
         ask_delete_record(event,this)
    
   get_delete_tag = (id,location) ->
-    '<a class="deleterecordbutton" data-id="'+id+'" data-url="'+location+'" href="#" id="delete_record_'+id+'">Delete</a>'
+    "<button type='button' class='deleterecordbutton btn btn-danger btn-circle' id='delete_record_#{id}' data-id='#{7}' data-url='#{location}' data-origin-title='Popover' title='Delete' data-toggle='tooltip' data-placement='bottom'><i class='fa fa-trash-o'></i></button>"
 
   delete_record = (element) ->
     url = $(element).data("url")
     row = $(element).parents("tr")
-    console.log "Delete on "+url+" in "
-    console.log row
     table = $('#dnszone_records').DataTable()
-    start_wait()
     $.ajax {
       url: url
       type: "DELETE"
       data: undefined
       success: (data,status,xhr) ->
-        stop_wait()
-        clean_tool_tips()
         table.row(row).remove().draw()
-        activate_tool_tips()
       error: (req,msg,obj) ->
-        stop_wait()
         console.log(req)
     }
     
   ask_delete_record = (event,element) ->
     event.preventDefault()
-    yesno = yesnoDialog("Delete","Delete this record?",delete_record,element)
+    yesnoDialog("Delete","Delete this record?",delete_record,element)
 
   show_new_record = (formcontent) ->
-
     if formcontent != undefined
       $('#recordformbody').html(formcontent)
     else
