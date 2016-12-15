@@ -8,20 +8,10 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
- *= require all/bootstrap_app
- *= require all/framework
- *= require all/custom
- *= require ./all/topbar
- *= require all/loginbar
- *= require ./all/navigation
- *= require all/jquery-styles.css.erb
  */
 
 @import "all/bootstrap_app";
-@import "all/framework";
-@import "all/custom";
-@import "all/jquery-styles";
+/* @import "all/jquery-styles"; */
 @import "all/loginbar";
 @import "all/navigation";
 @import "all/topbar";
@@ -29,3 +19,5 @@
 @import "sb2/metisMenu";
 @import "sb2/font-awesome";
 @import "sb2/bootstrap-social";
+@import "datatables/datatables";
+@import "all/custom";

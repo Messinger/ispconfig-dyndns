@@ -55,7 +55,7 @@ $ ->
         modal: true
         width: _width
         buttons: {
-          Save: () ->
+          SaveButton: () ->
             f = $('form#new_dns_host_record')
             res = f.stringifyFormJSON()
             method = f.attr('method')
@@ -122,12 +122,6 @@ $ ->
     make_delete_buttons()
 
     $(".addrecordbutton")
-        .button({
-            icons: {
-                primary: "ui-icon-plusthick"
-                }
-            text: false
-            })
         .click (event) ->
             add_new_record(event,this)
 
