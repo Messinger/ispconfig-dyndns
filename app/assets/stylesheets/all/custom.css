@@ -75,3 +75,8 @@ div.alertbox {
     font-family: Arial;
     font-size: 12px;
 }
+
+.td-200px {
+    max-width: 200px;
+    overflow: auto;
+}
