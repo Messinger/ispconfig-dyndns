@@ -2,7 +2,7 @@ class IspResourceRecordDecorator < ApplicationDecorator
   delegate_all
 
   def localdns
-    @localdns ||= DnsHostRecord.find_by_name model.name
+    @localdns ||= DnsHostRecord.find_by_name_and_ispzone_id model.name,model.zone
   end
 
   def localdnsname

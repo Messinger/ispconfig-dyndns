@@ -50,6 +50,14 @@ class DnsHostRecord < ActiveRecord::Base
     super(options)
   end
 
+  def self.find_by_name_and_ispzone_id name,ispzoneid
+    dhzone = DnsZone.arel_table
+    dhrecord = DnsHostRecord.arel_table
+    _zone = dhzone[:isp_dnszone_id].eq(ispzoneid)
+    _rec = dhrecord[:name].eq(name)
+    DnsHostRecord.where(_rec.and(dhrecord[:dns_zone_id].in(DnsZone.where(_zone).ids))).to_a.first
+  end
+
   private
 
   def create_assignees
