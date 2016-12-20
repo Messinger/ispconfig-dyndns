@@ -1,0 +1,38 @@
+<div id="dnszone_commands">
+  <button type="button" class="btn btn-primary btn-circle addrecordbutton" data-target="#recordformdialog" ><i class="fa fa-plus"></i></button>
+  <!-- <a href="#" id="new_dns_host_record" class="addrecordbutton">Add new record</a> -->
+</div>
+
+<div class="modal fade" id="recordformdialog" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title" id="recordEditTitle">
+          Create new record
+        </h4>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body" id="recordformbody">
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" id="save_new_record">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
