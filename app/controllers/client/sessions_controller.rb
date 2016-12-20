@@ -91,6 +91,9 @@ class Client::SessionsController < ApplicationController
       # here no notfound errors for security reasons
       info ex
       cl = nil
+    rescue => ex
+      cl = nil
+      error ex
     end
     cl
   end
