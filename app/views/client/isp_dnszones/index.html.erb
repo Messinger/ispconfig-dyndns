@@ -13,7 +13,7 @@
 <h1 class="page-header">DNS Zones on Server</h1>
 
 <div class="tablecontainer">
-<table class="display" id="ispdnszones">
+<table class="table table-striped table-hover" id="ispdnszones">
 <thead>
 <tr><th>DNS Zone</th><th>Local assigned</th><th></th></tr>
 </thead>
@@ -33,9 +33,17 @@
   </td>
   <td>
   <%if localzone.nil? %>
-    <%= link_to "Add local zone","#", :class => "add-dns-zone", "data-ispzoneid" => zone.id  %>
+        <%= content_tag(:button,
+                        content_tag(:i, "", :class => "fa fa-plus"),
+                        :type => "button", :class => 'add-dns-zone btn btn-circle btn-primary','data-ispzoneid' => zone.id
+            )
+          %>
   <% else %>
-    <%= link_to "Drop this local zone","#", :class => "drop-dns-zone", "data-ispzoneid" => zone.id, "data-dropurl" => client_dns_zone_path(localzone) %>
+        <%= content_tag(:button,
+                        content_tag(:i,'',:class => 'fa fa-trash'),
+                        :type => 'button', :class => 'drop-dns-zone btn btn-circle btn-danger',"data-ispzoneid" => zone.id, "data-dropurl" => client_dns_zone_path(localzone)
+            )
+          %>
   <% end %></td>
 </tr>
 <% end %>
