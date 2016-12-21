@@ -5,7 +5,7 @@ class DnsHostIpAaaaRecord < ActiveRecord::Base
   belongs_to :dns_host_record
   
   validates :dns_host_record_id, :presence => true
-  validate :address, :validate_address
+  validate :validate_address
 
   def to_ispconfig_hash
     {
