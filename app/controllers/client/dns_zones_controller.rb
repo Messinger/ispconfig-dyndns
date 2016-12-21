@@ -5,6 +5,12 @@ class Client::DnsZonesController < ApplicationController
     info "Dnszone index"
     @dns_zones = DnsZone.accessible_by(current_ability)
     index_bread
+    respond_to do |format|
+      format.json {
+        render json: @dns_zones.as_json, :status => :ok
+      }
+      format.html
+    end
   end
 
   def show
@@ -12,6 +18,12 @@ class Client::DnsZonesController < ApplicationController
     index_bread
     @dnszone = DnsZone.accessible_by(current_ability).find dnsid
     add_breadcrumb "Domainzone '#{@dnszone.name}'",client_dns_zone_path(@dnszone)
+    respond_to do |format|
+      format.json {
+        render json: @dnszone.as_json, :status => :ok
+      }
+      format.html
+    end
   end
 
   # the one and only flag which may updated is "is_public"

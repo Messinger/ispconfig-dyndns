@@ -32,29 +32,16 @@ $ ->
     d.html(msg)
 
   window.yesnoDialog = (head,text,onyes,parameters) ->
-      $('#yesnoDialog').remove()
+    $('#yesnotitle').html(head)
+    $('#yesnobody').html(text)
 
-      myButtons = [{
-            text: I18n.t("globals.yestext")
-            id: "okbutton"
-            icons: {primary:"ui-icon-check"}
-            click: () ->
-              $(this).dialog("close")
-              onyes(parameters) unless onyes == undefined
-          },{
-            text: I18n.t("globals.notext")
-            id: "okbutton"
-            icons: {primary:" ui-icon-cancel"}
-            click: () ->
-              $(this).dialog("close")
-          }]
+    current_action = () ->
+      $('#say_yes_button').unbind('click',current_action)
+      $('#yesnodialog').modal('hide')
+      onyes(parameters) unless onyes == undefined
 
-      e = createDialog('yesnoDialog',myButtons,350,350)
-      e.html('<div id="yesnocontent"></div>')
-
-      e.dialog("option","title",head)
-      d = $('#yesnocontent')
-      d.html(text)
+    $('#yesnodialog').modal()
+    $('#say_yes_button').bind('click',current_action)
 
   window.createDialog = (divname,buttonset,width,height,title) ->
       e = $('#'+divname)

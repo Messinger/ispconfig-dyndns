@@ -1,10 +1,9 @@
-<%= render partial: 'datatables_include' %>
 <% content_for :additional_javascripts do %>
 <%= javascript_include_tag "pages/dns_host_record/index" %>
 <% end %>
 
   <div>
-    <table id="dnszone_records" class="display">
+    <table id="dnszone_records" class="table table-striped table-hover">
       <thead>
         <tr><th rowspan="2">Name</th><th colspan="2">Assigned Addresses</th><th rowspan="2">Access Token</th><th rowspan="2"></th></tr>
         <tr><th>IPV4</th><th>IPV6</th></tr>
@@ -18,9 +17,20 @@
           <% if can? :edit, record %>
           <%= record.access_token %>
           <% end %>
-        </td><td><%= link_to "Delete","#", :class=>"deleterecordbutton", :id => "delete_record_#{record.id}", "data-id" => record.id, "data-url" => dns_host_record_path(record) %></td>
+        </td>
+          <td>
+            <%= content_tag(:button,
+                            content_tag(:i, "", :class => "fa fa-trash-o"),
+                            :type => "button", :class=>"deleterecordbutton btn btn-danger btn-circle", :id =>"delete_record_#{record.id}", "data-id" => record.id,
+                            "data-url" => dns_host_record_path(record),
+                            "data-origin-title" => "Popover",
+                            "title" => "Delete",
+                            "data-toggle"=>"tooltip",
+                            "data-placement"=>"bottom"
+                ) %>
+
+          </td>
         </tr>
-        
       <% end %>
       </tbody>
 

@@ -1,4 +1,4 @@
-<%= render partial: 'datatables_include' %>
+<%= render partial: 'application/datatables_include' %>
 <% content_for :additional_javascripts do %>
 <%= javascript_include_tag "pages/admins/userlist" %>
 <% end %>
@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-sm-offset-1 col-sm-10">
-        <table id="admin_user_list" class="display">
+        <table id="admin_user_list" class="display table table-striped table-bordered dataTable no-footer">
             <thead>
                 <tr><th rowspan="2">ID</th><th rowspan="2">User email</th><th rowspan="2">Used DNS Records</th><th colspan="2">Identity</th></tr>
                 <tr><th>Auth provider</th><th>Created</th></tr>

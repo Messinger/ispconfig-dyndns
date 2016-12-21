@@ -23,8 +23,6 @@
 
 <script>
 $(document).ready(function(){
-    $("a.linkbutton").not('.ui-button').button();
-    $( document ).tooltip();
   });
 </script>
 
@@ -38,7 +36,7 @@ $(document).ready(function(){
 
   <!-- <div id="logo">Logobereich</div> -->
 
-  <div class="container-fluid" id="centralarea">
+  <div class="container" id="centralarea">
 
 
     <%= render partial: "layouts/navigation"%>
@@ -51,12 +49,12 @@ $(document).ready(function(){
 -->
 
   <%= render partial: "layouts/messages" %>
-
-<div class="container-fluid" id="main-fluid-container">
-    <%= yield %>
-</div>
+  <%= yield %>
 
       <!--    </div> -->
 </div>
 
+<%= render partial:  "layouts/yesno" %>
+
+</body>
 </html>

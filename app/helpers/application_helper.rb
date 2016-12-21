@@ -18,4 +18,16 @@ module ApplicationHelper
     root_path(options) + path
   end
 
+  def auth_provider_to_cssname provider
+    case provider
+      when :google_oauth2
+        "google-plus"
+      else
+        provider
+    end
+  end
+
+  def records_list
+    DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability))
+  end
 end

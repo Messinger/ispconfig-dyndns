@@ -50,23 +50,11 @@ $ ->
 
   ready = ->
 
-    $(".editrecordbutton")
-      .button ({
-        icons: {
-          primary: "ui-icon-disk"
-        }
-        text: false
-      })
+    $("#edit_dns_host_record")
       .click (event) ->
         edit_record(event,this)
 
-    $("a.deleterecordbutton").not('.ui-button')
-      .button({
-          icons: {
-              primary: "ui-icon-trash"
-                  }
-          text: false
-          })
+    $(".deleterecordbutton")
       .click (event) ->
         ask_delete_record(event,this)
 
