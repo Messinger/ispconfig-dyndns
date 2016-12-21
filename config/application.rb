@@ -2,6 +2,9 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+CACHE_REDIS_HOST = ENV['REDIS_HOST']||'localhost'
+CACHE_REDIS_PORT = ENV['REDIS_PORT']||6379
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
@@ -19,5 +22,8 @@ module RailsDynamicDomain
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+    config.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_cache", { expires_in: 90.minutes }
+    config.assets.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_assets_cache", { expires_in: 90.minutes }
+    config.sass.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_sass_cache", { expires_in: 90.minutes }
   end
 end
