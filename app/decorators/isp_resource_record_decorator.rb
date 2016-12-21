@@ -1,21 +1,30 @@
 class IspResourceRecordDecorator < ApplicationDecorator
   delegate_all
 
-  def localdns
-    @localdns ||= DnsHostRecord.find_by_name_and_ispzone_id model.name,model.zone
+  def localdns(dns_zone)
+    @localdns ||= dns_zone.dns_host_records.find_by_name model.name unless dns_zone.blank?
   end
 
-  def localdnsname
-    return "" if localdns.blank?
-    localdns.name
+  def localdnsname(dns_zone)
+    _r = if dns_zone.blank?
+           nil
+         else
+           localdns(dns_zone)
+         end
+    return "" if _r.blank?
+    _r.name
   end
 
   def table_hash
     @table_hash ||= retrieve_table_hash
   end
 
-  def local_record_url
-    _r = localdns
+  def local_record_url(dns_zone)
+    _r = if dns_zone.blank?
+           nil
+         else
+           localdns(dns_zone)
+         end
     return "" if _r.blank?
     h.link_to _r.name,h.dns_host_record_path(_r)
   end
