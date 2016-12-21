@@ -1,20 +1,25 @@
 <div class="row">
-<h2 class="page-header">Sign in</h2>
-</div>
+  <div class="col-md-6 col-md-offset-2 col-xs-9 col-xs-offset-0">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sign in as Admin</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-12 col-xs-12">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:role => "form", :class => "form-horizontal"}) do |f| %>
+            <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :text_field, focus: true, element: :login, :icon => 'fa-user'} %>
+            <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :password_field, focus: false, element: :password, :icon => ''} %>
 
-<div class="row">
-<div class="col-sm-6">
-<%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:role => "form", :class => "form-horizontal"}) do |f| %>
-     <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :text_field, focus: true, element: :login} %>
-     <%= render partial: "layouts/formhelpers/input_helper",:locals => {fo: f,inputtype: :password_field, focus: false, element: :password} %>
-     
-     <% if devise_mapping.rememberable? -%>
-         <%= render partial: "layouts/formhelpers/checkbox_helper", :locals => {fo: f, element: :remember_me} %>
-     <% end -%>
-     <%= render partial: "layouts/formhelpers/submit_helper", :locals => {fo: f, defaultbtn: true, label: "Sign in"} %>
+            <% if devise_mapping.rememberable? -%>
+                <%= render partial: "layouts/formhelpers/checkbox_helper", :locals => {fo: f, element: :remember_me} %>
+            <% end -%>
+            <%= render partial: "layouts/formhelpers/submit_helper", :locals => {fo: f, defaultbtn: true, label: "Sign in"} %>
 
-<% end %>
-</div>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%= render "admins/shared/links" %>
