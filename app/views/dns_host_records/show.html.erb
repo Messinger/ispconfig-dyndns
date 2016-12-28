@@ -15,7 +15,7 @@ window.listurl = "<%= dns_host_records_path %>";
 
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-2 col-xs-9 col-xs-offset-0">
+  <div class="col-md-10 col-md-offset-1 col-xs-9 col-xs-offset-0">
     <div class="panel panel-default">
       <div class="panel-heading">
         <%=@dns_host_record.full_name%>
@@ -29,6 +29,12 @@ window.listurl = "<%= dns_host_records_path %>";
               </div>
               <div class="col-md-9" >
                 <%= @dns_host_record.access_token %> &nbsp;
+              </div>
+              <div class="col-md-3">
+                <strong>Update URL</strong>
+              </div>
+              <div class="col-md-9">
+                <%= update_dyndns_url(@dns_host_record.access_token) %>
               </div>
             </div>
         <% else %>

@@ -7,8 +7,16 @@
 
 <% end %>
 
-<h1 class="page-header">Dns Records</h1>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>DNS Records</h3>Update URL: <%= update_dyndns_url %>/&lt;acesstoken&gt;
+  </div>
+  <div class="panel-body">
+  <%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: @dns_host_records} %>
+  </div>
+  <div class="panel-footer">
+    <%= render :partial => 'dns_host_records/add_record_action' %>
+  </div>
+  </div>
 
-<%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: @dns_host_records} %>
 
-<%= render :partial => 'dns_host_records/add_record_action' %>

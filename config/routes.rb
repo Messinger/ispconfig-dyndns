@@ -43,7 +43,8 @@ RailsDynamicDomain::Application.routes.draw do
   end
 
   resources :dns_host_records
-  match '/dynamic/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post]
+  match '/dynamic/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post], :as => :update_dyndns
+  match '/dyndns/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post]
 
   # for omniauth
   match '/profile/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
