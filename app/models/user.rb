@@ -107,14 +107,17 @@ class User < ActiveRecord::Base
 
   def as_json options={}
     _res = super options
-    _res.merge!({
-                    identity:if identity.nil?
-                               {}
-                             else
-                               identity.as_json(options.merge({:only => [:id,:provider,:uid]}))
-                             end
-                }
-    )
+    _opt = options.dup
+    _opt.delete(:include)
+    if options.key?(:include)
+      if (options[:include].is_a?(Symbol) && options[:include] == :identity)||(options[:include].is_a?(Array) && options[:include].include?(:identity))
+        _res[:identity] = if identity.nil?
+                            {}
+                          else
+                            identity.as_json(:only => [:id,:provider,:uid])
+                          end
+      end
+    end
     _res
   end
 
