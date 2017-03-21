@@ -85,12 +85,22 @@ class DnsHostRecordsController < ApplicationController
     record.ipv4_address = params[:dns_host_ip_a_record][:address] unless params[:dns_host_ip_a_record].blank?
     record.ipv6_address = params[:dns_host_ip_aaaa_record][:address] unless params[:dns_host_ip_aaaa_record].blank?
 
+    if current_client_user
+      record.ttl = if params[:ttl].blank?
+                              Setting.default_ttl
+                            else
+                              params[:ttl]
+                            end
+    else
+      record.ttl = Setting.default_ttl
+    end
+
     saved = false
     
     if record.update_remote
       saved = record.save
     end
-      
+
     respond_to do |format|
       format.json {
         if saved
@@ -133,7 +143,17 @@ class DnsHostRecordsController < ApplicationController
     zone = DnsZone.accessible_by(current_ability).find dns_zone_id
     dns_host_record.dns_zone = zone
     dns_host_record.name = recparams[:name]
-    
+
+    if current_client_user
+      dns_host_record.ttl = if recparams[:ttl].blank?
+                              Setting.default_ttl
+                            else
+                              recparams[:ttl]
+                            end
+    else
+      dns_host_record.ttl = Setting.default_ttl
+    end
+
     logger.debug "Parameter: #{recparams}"
     recd = DnsHostRecordDecorator.new dns_host_record
    

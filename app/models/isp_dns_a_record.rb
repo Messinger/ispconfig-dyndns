@@ -68,7 +68,6 @@ class IspDnsARecord < IspResourceRecord
       :type => "A",
       :aux => "0",
       :active => "y",
-      :ttl => Setting.default_ttl,
       :serial => gen_timestamp,
       :stamp =>  "#{Time.now}"
       }

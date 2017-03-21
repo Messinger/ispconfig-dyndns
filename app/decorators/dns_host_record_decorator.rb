@@ -111,7 +111,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
     aaaarec = self.dns_host_ip_aaaa_record
 
     # noinspection RubyResolve
-    if arec.address_changed? || model.name_changed? # xxxx_changed? are automatic rails4 generated calls
+    if arec.address_changed? || model.name_changed? || model.ttl_changed? # xxxx_changed? are automatic rails4 generated calls
       isprecid = arec.isp_dns_a_record_id
       isprec = IspDnsARecord.dns_a_get(isprecid, ispsession) unless isprecid.blank?
       if arec.address.blank?
@@ -133,7 +133,7 @@ class DnsHostRecordDecorator < ApplicationDecorator
     end
 
     # noinspection RubyResolve
-    if aaaarec.address_changed? || model.name_changed?
+    if aaaarec.address_changed? || model.name_changed? || model.ttl_changed?
       isprecid = aaaarec.isp_dns_aaaa_record_id
       isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid, ispsession) unless isprecid.blank?
       if aaaarec.address.blank?
