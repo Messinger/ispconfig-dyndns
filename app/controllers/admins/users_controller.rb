@@ -5,15 +5,18 @@ class Admins::UsersController < ApplicationController
 
   def index
     @users = User.accessible_by(current_ability)
-
-    respond_with @users
-
+    respond_to do |format|
+      format.html {respond_with @users}
+      format.json {
+        respond_with @users.as_json(:include => [:dns_host_records,:identity]), :status => :ok
+      }
+    end
   end
 
   def show
     @user = User.accessible_by(current_ability).find params[:id]
-    @user = {:user => @user.as_json,:domains => @user.dns_host_records}
-    respond_with @user
+    #@user = {:user => @user.as_json,:domains => @user.dns_host_records}
+    respond_with @user.as_json(:include => [:dns_host_records,:identity])
   end
 
 end

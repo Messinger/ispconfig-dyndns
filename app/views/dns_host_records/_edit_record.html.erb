@@ -40,5 +40,14 @@
     <%= text_field_tag("dns_host_ip_aaaa_record[address]", @dns_host_record.new_record? ? "" : @dns_host_record.ipv6_address, :class => "form-control" )  %>
   </div>
 
+      <% if current_client_user %>
+          <div class="form-group input-group">
+            <span class="input-group-addon">TTL</span>
+            <%= number_field_tag(:ttl, @dns_host_record.new_record? ? 3600 : @dns_host_record.ttl, :class => "form-control" )  %>
+          </div>
+      <% else %>
+      <%= f.hidden_field(:ttl, :value => @dns_host_record.new_record? ? Setting.default_ttl : @dns_host_record.ttl ) %>
+      <% end %>
+
 <% end %>
 </div>

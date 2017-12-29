@@ -28,7 +28,8 @@ class DnsHostRecord < ActiveRecord::Base
   def to_ispconfig_hash
     {
       :zone => self.dns_zone.isp_dnszone_id,
-      :name => self.name
+      :name => self.name,
+      :ttl => self.ttl
     }
   end
 

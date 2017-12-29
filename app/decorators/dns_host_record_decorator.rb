@@ -111,13 +111,17 @@ class DnsHostRecordDecorator < ApplicationDecorator
     aaaarec = self.dns_host_ip_aaaa_record
 
     # noinspection RubyResolve
-    if arec.address_changed? || model.name_changed? # xxxx_changed? are automatic rails4 generated calls
+    if arec.address_changed? || model.name_changed? || model.ttl_changed? # xxxx_changed? are automatic rails4 generated calls
       isprecid = arec.isp_dns_a_record_id
-      isprec = IspDnsARecord.dns_a_get(isprecid, ispsession) unless isprecid.blank?
+      isprec = nil
+      begin
+        isprec = IspDnsARecord.dns_a_get(isprecid, ispsession) unless isprecid.blank?
+      rescue ActiveRecord::RecordNotFound => _
+        isprec = nil
+      end
       if arec.address.blank?
-        unless isprecid.nil?
+        unless isprec.nil?
           logger.debug("Delete #{arec} remote")
-          isprec = IspDnsARecord.dns_a_get(isprecid, ispsession)
           isprec.dns_a_delete
           arec.isp_dns_a_record_id = nil
         end
@@ -126,28 +130,32 @@ class DnsHostRecordDecorator < ApplicationDecorator
           resa = IspDnsARecord.dns_a_add(arec, isp_client, isp_zone, ispsession)
           arec.isp_dns_a_record_id = resa.to_i
         else
-          isprec.dns_a_update(arec, isp_client, isp_zone, ispsession)
+          isprec.dns_a_update(arec, isp_client, isp_zone, ispsession) unless isprec.nil?
         end
       end
       arec.lastset = Time.now
     end
 
     # noinspection RubyResolve
-    if aaaarec.address_changed? || model.name_changed?
+    if aaaarec.address_changed? || model.name_changed? || model.ttl_changed?
       isprecid = aaaarec.isp_dns_aaaa_record_id
-      isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid, ispsession) unless isprecid.blank?
+      isprec = nil
+      begin
+        isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid, ispsession) unless isprecid.blank?
+      rescue ActiveRecord::RecordNotFound => _
+        isprec = nil
+      end
       if aaaarec.address.blank?
-        unless isprecid.nil?
-          isprec = IspDnsAaaaRecord.dns_aaaa_get(isprecid, ispsession)
+        unless isprec.nil?
           isprec.dns_aaaa_delete
           aaaarec.isp_dns_aaaa_record_id = nil
         end
       else
-        if isprecid.nil?
+        if isprec.nil?
           resb = IspDnsAaaaRecord.dns_aaaa_add(aaaarec, isp_client, isp_zone, ispsession)
           aaaarec.isp_dns_aaaa_record_id = resb.to_i
         else
-          isprec.dns_aaaa_update(aaaarec, isp_client, isp_zone, ispsession)
+          isprec.dns_aaaa_update(aaaarec, isp_client, isp_zone, ispsession) unless isprec.nil?
         end
       end
       aaaarec.lastset = Time.now

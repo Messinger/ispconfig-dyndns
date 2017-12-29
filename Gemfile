@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7'
+gem 'rails', '4.2.10'
 gem 'sprockets-rails' #,'2.1.3'
 
 # Use jquery as the JavaScript library
@@ -38,8 +38,8 @@ group :development do
   gem 'seed_dump'
 end
 
-# using builtin passenger/nginx is best solution
-gem 'passenger'
+# using puma instead of passenger
+gem 'puma'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
