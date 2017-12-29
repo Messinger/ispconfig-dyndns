@@ -14,7 +14,7 @@ class IspDnsARecord < IspResourceRecord
       asession = usesession
     end
     r = self.response_to_hash super(:message => {:sessionid => asession.sessionid, :primary_id => id})
-    raise ActiveRecord::RecordNotFound if r == false
+    raise ActiveRecord::RecordNotFound unless r
     r = IspDnsARecord.new flatten_hash(r)
     raise ActiveRecord::RecordNotFound unless r.type.downcase == "a"
     r 
