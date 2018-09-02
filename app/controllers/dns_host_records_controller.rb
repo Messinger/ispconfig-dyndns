@@ -126,7 +126,7 @@ class DnsHostRecordsController < ApplicationController
       rec.save
       stat = :ok
     else
-      stat = :not_modified
+      stat = :no_content
     end
 
     render :json => rec.as_json({:simple => true}), :status => stat, :location => dns_host_record_path(rec)
