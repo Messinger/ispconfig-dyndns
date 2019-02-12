@@ -48,15 +48,17 @@ class User < ActiveRecord::Base
       # Get the existing user by email if the provider gives us a verified email.
       # If no verified email was provided we assign a temporary email and ask the
       # user to verify it on the next step via UsersController.finish_signup
-      email_is_verified = !auth.info.email.blank? # && (auth.info.verified || auth.info.verified_email || auth.extra.raw_info.email_verified)
-      email = auth.info.email if email_is_verified
-      user = User.where(:email => email).first if email
+      user = if auth.info.email.blank?
+               nil
+             else
+               User.find_by(:email => auth.info.email)
+             end
 
       # Create the user if it's a new registration
       if user.nil?
         _n = nil
-        if  !auth.info.nil?
-          if  !auth.info.name.blank?
+        unless auth.info.nil?
+          if !auth.info.name.blank?
             _n = auth.info.name
           elsif !auth.info.nickname.blank?
             _n = auth.info.nickname
@@ -112,6 +114,8 @@ class User < ActiveRecord::Base
     if options.key?(:include)
       if (options[:include].is_a?(Symbol) && options[:include] == :identity)||(options[:include].is_a?(Array) && options[:include].include?(:identity))
         _res['identity'] = identity.as_json(:only => [:id,:provider,:uid])
+      else
+        _res['identity'] = {}
       end
     end
     _res

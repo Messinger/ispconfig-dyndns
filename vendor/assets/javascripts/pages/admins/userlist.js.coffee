@@ -8,7 +8,10 @@ $ ->
 
 
   display_identity = (data,type,row) ->
-    data.provider||'internal'
+    if data && data.provider
+      data.provider
+    else
+      'internal'
 
   display_created_at = (data,type,row) ->
     I18n.l("time.formats.long",new Date(data))
@@ -18,7 +21,7 @@ $ ->
     if !$.fn.DataTable.fnIsDataTable(ex)
       admin_table_api = $(ex).DataTable(
         drawCallback: (oSettings) ->
-          $('#admin_user_list > tbody').on('click','tr', () ->
+          $('#admin_user_list > tbody').on('click','tr', (event) ->
             show_user_details(this)
           )
 
