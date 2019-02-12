@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.10'
+gem 'rails', '~> 4.2', '>= 4.2.8'
 gem 'sprockets-rails' #,'2.1.3'
 
 # Use jquery as the JavaScript library
@@ -10,7 +10,7 @@ gem 'jquery-ui-rails'
 
 platforms :ruby do
   gem 'sqlite3', group: :sqlite
-  gem 'mysql2', '~> 0.3.18', group: :mysql
+  gem 'mysql2', group: :mysql
 end
 
 # Use SCSS for stylesheets
@@ -61,10 +61,10 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-group :debug do
-  gem 'debase'
-  gem 'ruby-debug-ide'
-end
+#group :debug do
+#  gem 'debase'
+#  gem 'ruby-debug-ide'
+#end
 
 # security
 gem 'cancan'
