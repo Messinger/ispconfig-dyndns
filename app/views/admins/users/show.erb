@@ -21,23 +21,16 @@
 </div>
 <% unless @user.dns_host_records.count < 1 %>
 <div class="row">
-  <div class="col-sm-offset-1 col-sm-10">
-    <table id="user_dns_hosts_list" class="display table table-striped table-bordered dataTable no-footer">
-      <thead>
-      <tr><th rowspan="2">Name</th><th colspan="2">IPs</th><th rowspan="2">Since</th></tr>
-      <tr><th>IPv4</th><th>IPv6</th></tr>
-      </thead>
-      <tbody>
-      <% @user.dns_host_records.each do |record| %>
-        <tr>
-          <td><%= record.name %>.<%= record.dns_zone.name %></td>
-          <td><%= record.dns_host_ip_a_record.address %></td>
-          <td><%= record.dns_host_ip_aaaa_record.address %></td>
-          <td><%= record.created_at %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>DNS Records</h3>
+    </div>
+    <div class="panel-body">
+  <%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: DnsHostRecordDecorator.decorate_collection(@user.dns_host_records)} %>
+    </div>
+    <div class="panel-footer">
+      &nbsp;
+    </div>
   </div>
 </div>
 <% end %>

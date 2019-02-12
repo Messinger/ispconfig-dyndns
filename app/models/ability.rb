@@ -13,6 +13,12 @@ class Ability
       can :manage, Setting
       can :manage, Admin, :id => user.id
       can :manage, User
+      can :destroy, DnsHostRecord
+      can :destroy, DnsHostIpARecord
+      can :destroy, DnsHostIpAaaaRecord
+      can :read, DnsHostRecord
+      can :read, DnsHostIpARecord
+      can :read, DnsHostIpAaaaRecord
     end
 
     if user.instance_of? ApiKey
