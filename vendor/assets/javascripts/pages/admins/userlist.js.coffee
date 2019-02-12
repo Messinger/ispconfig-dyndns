@@ -2,10 +2,9 @@ $ ->
 
   admin_table_api = undefined
 
-  show_user_details = (element) ->
-    row = admin_table_api.row(element)
-    console.log row.data()
-
+  show_user_details = (data) ->
+    console.log data
+    window.location = "#{window.location}/#{data.id}"
 
   display_identity = (data,type,row) ->
     if data && data.provider
@@ -20,9 +19,10 @@ $ ->
     ex = document.getElementById('admin_user_list')
     if !$.fn.DataTable.fnIsDataTable(ex)
       admin_table_api = $(ex).DataTable(
-        drawCallback: (oSettings) ->
-          $('#admin_user_list > tbody').on('click','tr', (event) ->
-            show_user_details(this)
+        createdRow: (row,data) ->
+          $(row).on('click', (event) ->
+            event.preventDefault()
+            show_user_details(data)
           )
 
         ajax:

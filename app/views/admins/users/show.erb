@@ -1,0 +1,18 @@
+<% content_for :additional_javascripts do %>
+  <script>
+    user_index = "<%= admins_users_path %>";
+  </script>
+<% end %>
+<div class="row">
+<H2 class="page-header">User <%= @user.name || @user.email %></h2>
+</div>
+<div class="row">
+  <dl class="dl-horizontal">
+    <dt>Name</dt><dd><%= @user.name || "&nbsp;".html_safe %></dd>
+    <dt>Email</dt><dd><%= @user.email || "&nbsp;".html_safe  %></dd>
+    <dt>Seit</dt><dd><%= @user.created_at %></dd>
+    <% unless @user.identity.nil? %>
+      <dt>Via</dt><dd><%= @user.identity.provider %></dd>
+    <% end %>
+  </dl>
+</div>
