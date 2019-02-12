@@ -12,8 +12,9 @@ platforms :ruby do
   gem 'pry'
   gem 'pry-rails'
   gem 'sqlite3', group: :sqlite
-  gem 'mysql2', group: :mysql
+  gem 'mysql2', '< 0.5.0', group: :mysql
 end
+
 
 # Use SCSS for stylesheets
 gem 'sass-rails'#, '~> 4.0.0'
