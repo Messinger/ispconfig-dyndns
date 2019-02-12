@@ -111,11 +111,7 @@ class User < ActiveRecord::Base
     _opt.delete(:include)
     if options.key?(:include)
       if (options[:include].is_a?(Symbol) && options[:include] == :identity)||(options[:include].is_a?(Array) && options[:include].include?(:identity))
-        _res[:identity] = if identity.nil?
-                            {}
-                          else
-                            identity.as_json(:only => [:id,:provider,:uid])
-                          end
+        _res['identity'] = identity.as_json(:only => [:id,:provider,:uid])
       end
     end
     _res
