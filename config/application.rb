@@ -25,5 +25,7 @@ module RailsDynamicDomain
     config.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_cache", { expires_in: 90.minutes }
     config.assets.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_assets_cache", { expires_in: 90.minutes }
     config.sass.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_sass_cache", { expires_in: 90.minutes }
+
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end
