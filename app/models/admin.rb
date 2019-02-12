@@ -39,7 +39,7 @@ class Admin < ActiveRecord::Base
       if new_password_error
         self.errors.add(:password_confirmation,"must same as password")
       end
-      if !valid_password?(current_password)
+      unless valid_password?(current_password)
         self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
       end
       false
