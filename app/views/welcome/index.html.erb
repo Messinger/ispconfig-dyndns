@@ -1,6 +1,10 @@
 <% content_for :additional_javascripts do %>
 <% end %>
 
+<%= javascript_pack_tag 'hello_coffee' %>
+<%= javascript_pack_tag 'hello_vue' %>
+<%= stylesheet_pack_tag 'hello_vue' %>
+
 <% if current_account %>
     <%= render :partial => "#{current_account.class.name.underscore}_index" %>
 <% else %>

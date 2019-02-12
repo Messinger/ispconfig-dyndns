@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   def initialize
     @current_client_user = nil
     @current_api_key = nil
-    @logger = getlogger("ApplicationController::#{self.class.logger_name}")
+    @logger = logger #getlogger("ApplicationController::#{self.class.logger_name}")
     @logger.debug "Finished initialize"
     @logger.debug "Is devise-controller: #{devise_controller?}"
     super
