@@ -6,7 +6,7 @@ class Client::SessionsController < ApplicationController
                            ]
 
   #skips the check authentication for creation of session
-  skip_before_filter :process_authentication,
+  skip_before_action :process_authentication,
                      :only => [
                          :clientlogin,
                          :new, :create,
