@@ -9,6 +9,8 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
 platforms :ruby do
+  gem 'pry'
+  gem 'pry-rails'
   gem 'sqlite3', group: :sqlite
   gem 'mysql2', group: :mysql
 end
