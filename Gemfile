@@ -11,7 +11,9 @@ gem 'jquery-ui-rails'
 platforms :ruby do
   gem 'pry'
   gem 'pry-rails'
-  gem 'sqlite3', group: :sqlite
+  #see https://stackoverflow.com/questions/54527277/cant-activate-sqlite3-1-3-6-already-activated-sqlite3-1-4-0
+  gem 'sqlite3', '~> 1.3', '< 1.4', group: :sqlite
+#  gem 'sqlite3', group: :sqlite
   gem 'mysql2', '< 0.5.0', group: :mysql
 end
 
