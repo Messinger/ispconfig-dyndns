@@ -12,15 +12,15 @@ class ApplicationController < ActionController::Base
 
   #before_action :authenticate_user!
 
-  before_filter :authenticate_user_from_token!, :unless => :devise_controller?
+  before_action :authenticate_user_from_token!, :unless => :devise_controller?
 
   check_authorization :unless => :devise_controller?
 
-  before_filter :set_authentication_information, unless: :devise_controller?
-  before_filter :process_authentication, unless: :devise_controller?
+  before_action :set_authentication_information, unless: :devise_controller?
+  before_action :process_authentication, unless: :devise_controller?
 
-  before_filter :configure_permitted_parameters, if: :devise_controller?
-  before_filter :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
 
   helper_method :current_account, :current_client_user, :current_api_key
 
