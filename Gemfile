@@ -72,7 +72,7 @@ group :debug do
 end
 
 # security
-gem 'cancan'
+gem 'cancancan'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-twitter'

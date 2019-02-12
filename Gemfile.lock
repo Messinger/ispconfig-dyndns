@@ -64,7 +64,7 @@ GEM
       sassc (>= 2.0.0)
     breadcrumbs_on_rails (3.0.1)
     builder (3.2.3)
-    cancan (1.6.10)
+    cancancan (2.3.0)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -306,7 +306,7 @@ DEPENDENCIES
   activerecord-session_store
   bootstrap-sass
   breadcrumbs_on_rails
-  cancan
+  cancancan
   coffee-rails
   debase
   devise
