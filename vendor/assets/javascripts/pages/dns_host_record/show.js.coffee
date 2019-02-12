@@ -38,6 +38,7 @@ $ ->
     $.ajax {
       url: recordurl
       type: "DELETE"
+      dataType: "json"
       data: undefined
       success: (data,status,xhr) ->
         stop_wait()

@@ -24,17 +24,24 @@ class Admins::UsersController < ApplicationController
   end
 
   def destroy
-    user = User.accessible_by(current_ability).find params[:id]
+    begin
+      user = User.accessible_by(current_ability).find params[:id]
+    rescue => _
+    end
+
     status = if user.nil?
                :not_found
              else
-              records = DnsHostRecordDecorator.decorate_collection(user.dns_host_records)
-              records.each do |record|
-                record.delete_remote
-              end
-              user.destroy
               :ok
              end
+
+    unless user.nil?
+      records = DnsHostRecordDecorator.decorate_collection(user.dns_host_records)
+      records.each do |record|
+        record.delete_remote
+      end
+      user.destroy
+    end
 
     respond_to do |format|
       format.html {
