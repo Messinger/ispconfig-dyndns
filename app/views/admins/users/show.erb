@@ -16,3 +16,24 @@
     <% end %>
   </dl>
 </div>
+<% unless @user.dns_host_records.count < 1 %>
+<div class="row">
+  <div class="col-sm-offset-1 col-sm-10">
+    <table id="user_dns_hosts_list" class="display table table-striped table-bordered dataTable no-footer">
+      <thead>
+      <tr><th>Name</th><th>IP4</th><th>IP6</th><th>Since</th></tr>
+      </thead>
+      <tbody>
+      <% @user.dns_host_records.each do |record| %>
+        <tr>
+          <td><%= record.name %>.<%= record.dns_zone.name %></td>
+          <td><%= record.dns_host_ip_a_record.address %></td>
+          <td><%= record.dns_host_ip_aaaa_record.address %></td>
+          <td><%= record.created_at %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
