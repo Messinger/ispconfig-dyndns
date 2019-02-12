@@ -55,6 +55,8 @@ window.listurl = "<%= dns_host_records_path %>";
       <div class="panel-footer">
         <% if can? :edit,@dns_host_record %>
             <button type="button" id="edit_dns_host_record" class="btn btn-primary btn-circle"><i class="fa fa-save"></i></button>
+        <% end %>
+        <% if can? :destroy,@dns_host_record %>
             <button type="button" id="delete_dns_host_record" class="deleterecordbutton btn btn-warning btn-circle"><i class="fa fa-trash"></i></button>
         <% end %>
       </div>
