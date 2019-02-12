@@ -213,9 +213,6 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
     rake (12.3.2)
-    rb-fsevent (0.10.3)
-    rb-inotify (0.10.0)
-      ffi (~> 1.0)
     rdoc (6.1.1)
     redis (4.1.0)
     redis-actionpack (5.0.2)
@@ -248,20 +245,15 @@ GEM
       railties (>= 4.2.0, < 6.0)
     ruby-debug-ide (0.6.1)
       rake (>= 0.8.1)
-    sass (3.7.3)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-    sass-rails (5.0.7)
-      railties (>= 4.0.0, < 6)
-      sass (~> 3.1)
-      sprockets (>= 2.8, < 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
-      tilt (>= 1.1, < 3)
     sassc (2.0.0)
       ffi (~> 1.9.6)
       rake
+    sassc-rails (2.1.0)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     savon (2.12.0)
       akami (~> 1.2)
       builder (>= 2.1.2)
@@ -341,7 +333,7 @@ DEPENDENCIES
   redis-mutex
   redis-rails
   ruby-debug-ide
-  sass-rails
+  sassc-rails
   savon
   sdoc
   seed_dump
