@@ -92,3 +92,5 @@ gem 'activerecord-session_store'
 
 gem 'redis-mutex'
 gem 'redis-rails'
+
+gem 'font-awesome-rails'
