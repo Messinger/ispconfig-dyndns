@@ -1,7 +1,10 @@
+<%= render partial: 'application/datatables_include' %>
+
 <% content_for :additional_javascripts do %>
   <script>
     user_index = "<%= admins_users_path %>";
   </script>
+  <%= javascript_include_tag "pages/admins/userdetail" %>
 <% end %>
 <div class="row">
 <H2 class="page-header">User <%= @user.name || @user.email %></h2>
@@ -21,7 +24,8 @@
   <div class="col-sm-offset-1 col-sm-10">
     <table id="user_dns_hosts_list" class="display table table-striped table-bordered dataTable no-footer">
       <thead>
-      <tr><th>Name</th><th>IP4</th><th>IP6</th><th>Since</th></tr>
+      <tr><th rowspan="2">Name</th><th colspan="2">IPs</th><th rowspan="2">Since</th></tr>
+      <tr><th>IPv4</th><th>IPv6</th></tr>
       </thead>
       <tbody>
       <% @user.dns_host_records.each do |record| %>
