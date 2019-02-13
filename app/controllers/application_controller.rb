@@ -105,15 +105,7 @@ class ApplicationController < ActionController::Base
   end
 
   def respond_with_no_valid_authentication_found
-    respond_to do |format|
-      format.html {
-        redirect_to new_user_session_path and return
-        # TODO flash out a message
-      }
-      format.json {
-        render(nothing: true, status: :unauthorized)
-      }
-    end
+    error_request :unauthorized,nil
   end
 
   rescue_from RequestException do |exception|
