@@ -4,7 +4,7 @@
             <li>
                 <router-link to='/'>Home</router-link>
             </li>
-            <li>
+            <li v-if="loggedIn()">
                 <router-link to='/dns-host-records'>Records</router-link>
             </li>
         </ul>
@@ -13,7 +13,12 @@
 
 <script>
     export default {
-        name: "Navigation"
+        name: "Navigation",
+        methods: {
+            loggedIn() {
+                return !(window === undefined || window.Constants === undefined || window.Constants.current_user === null);
+            }
+        }
     }
 </script>
 
