@@ -18,7 +18,14 @@ class DnsHostRecordsController < ApplicationController
 
     index_bread
 
-    respond_with @dns_host_records
+    respond_to do |format|
+      format.html {
+        respond_with @dns_host_records
+      }
+      format.json {
+        render :json => @dns_host_records, :status => :ok
+      }
+    end
   end
 
   def edit
