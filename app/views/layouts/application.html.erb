@@ -11,6 +11,7 @@
 <%= render partial: "layouts/js_constants" %>
 
 <%= javascript_include_tag "application" %>
+  <%= javascript_pack_tag 'application' %>
 
     <!-- additional javascripts -->
 <%= yield(:additional_javascripts) %>
