@@ -1,12 +1,12 @@
 <template>
-    <div class='nav'>
-        <ul>
+    <nav class='navbar'>
+        <ul class="navbar-nav nav">
             <li>
                 <router-link to='/'>Home</router-link>
                 <router-link to='/dns-host-records'>Records</router-link>
             </li>
         </ul>
-    </div>
+    </nav>
 </template>
 
 <script>
