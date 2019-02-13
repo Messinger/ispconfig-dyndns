@@ -39,22 +39,10 @@ $(document).ready(function(){
   <!-- <div id="logo">Logobereich</div> -->
 
   <div class="container" id="centralarea">
-
-
     <%= render partial: "layouts/navigation"%>
-    
-    <!--    <div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main" id="centralarea"> -->
-    
-<!--      <div class="breadcrumbs">
-        < %= render_breadcrumbs :separator => ' &raquo; ' %>
-      </div>
--->
-
-  <%= render partial: "layouts/messages" %>
-  <%= yield %>
-
-      <!--    </div> -->
-</div>
+    <%= render partial: "layouts/messages" %>
+    <%= yield %>
+  </div>
 
 <%= render partial:  "layouts/yesno" %>
 
