@@ -33,9 +33,6 @@ class User < ActiveRecord::Base
     # Get the identity and user if they exist
     identity = Identity.find_for_oauth(auth)
 
-    Logging.logger["User"].debug("Auth raw_info: #{auth.extra.raw_info.inspect}")
-    Logging.logger["User"].debug("Auth info: #{auth.info.inspect}")
-
     # If a signed_in_resource is provided it always overrides the existing user
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
