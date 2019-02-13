@@ -43,6 +43,16 @@ group :development do
   gem 'seed_dump'
 end
 
+group :development,:test do
+  gem 'rspec-rails'
+  gem 'rspec-its'
+  gem 'simplecov', :require => false
+  gem 'database_cleaner'
+  gem 'headless'
+  gem 'poltergeist'
+  gem 'factory_bot_rails'
+end
+
 # using puma instead of passenger
 gem 'puma'
 
