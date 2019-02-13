@@ -1,15 +1,22 @@
 <template>
   <div id="app">
-    <p>{{ message }}</p>
-    <csrf></csrf>
+      <div>
+        <p>{{ message }}</p>
+        <csrf></csrf>
+        <app-navigation></app-navigation>
+        <router-view></router-view>
+      </div>
   </div>
 </template>
 
 <script>
-  import CSRF from 'components/shared/csrf.vue';
+  import CSRF from 'components/shared/csrf.vue'
+  import Navigation from 'components/Navigation.vue'
+
   export default {
     components: {
-      csrf: CSRF
+        csrf: CSRF,
+        appNavigation: Navigation
     },
     data: function () {
       return {
