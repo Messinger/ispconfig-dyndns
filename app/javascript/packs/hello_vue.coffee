@@ -15,11 +15,8 @@
 
   document.addEventListener('DOMContentLoaded', () ->
      app = new Vue({
-       el: '#hello',
+       el: '#mainapp',
        router,
-       data: {
-         message: "Can you say hello???"
-       }
        components: {App}
      })
   )

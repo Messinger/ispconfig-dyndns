@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-      <div>
-        <p>{{ message }}</p>
-        <csrf></csrf>
-        <app-navigation></app-navigation>
-        <router-view></router-view>
-      </div>
+    <p>{{ message }}</p>
+    <csrf></csrf>
+    <app-navigation></app-navigation>
+    <router-view></router-view>
   </div>
 </template>
 
