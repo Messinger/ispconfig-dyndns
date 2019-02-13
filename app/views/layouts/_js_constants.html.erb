@@ -10,6 +10,8 @@ $(function() {
 
     Constants.LOGIN_PATH = '<%= user_session_path %>';
 
+    Constants.current_user = <%= current_account.nil? ? null : current_account.to_json(:only => [:id,:email,:name]).html_safe %>;
+
     function Constants() {}
 
     return Constants;
