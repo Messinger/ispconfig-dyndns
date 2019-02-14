@@ -16,6 +16,7 @@
     "vuetify": "^1.5.1"
   },
   "devDependencies": {
+    "material-design-icons-iconfont": "^4.0.4",
     "webpack-dev-server": "2.11.2"
   }
 }

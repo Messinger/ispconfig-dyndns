@@ -7,9 +7,14 @@
   import Vuetify from "vuetify"
   import { routes } from './routes'
 
+  import 'vuetify/dist/vuetify.css'
+  import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
   Vue.use(VueResource)
   Vue.use(VueRouter)
-  Vue.use(Vuetify)
+  Vue.use(Vuetify,{
+    iconfont: 'md'
+  })
 
   router = new VueRouter({
     routes
