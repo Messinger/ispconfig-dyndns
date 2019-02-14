@@ -210,4 +210,13 @@ class ApplicationController < ActionController::Base
     end
 
   end
+
+  def json_request?
+    !request.format.nil? && request.format.json?
+  end
+
+  def html_request?
+    !request.format.nil? && request.format.html?
+  end
+
 end

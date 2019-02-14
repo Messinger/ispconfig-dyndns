@@ -20,16 +20,18 @@
             <v-data-table :headers="headers" :items="records" :search="search" :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}">
                 <template slot="items" slot-scope="props">
                     <tr v-if="!isMobile">
-                        <td>{{ props.item.name }}.{{ props.item.dns_zone.name }}</td>
+                        <td>{{ props.item.full_name }}</td>
                         <td>{{ props.item.dns_host_ip_a_record.address}}</td>
                         <td>{{ props.item.dns_host_ip_aaaa_record.address}}</td>
+                        <td>{{ props.item.api_key.access_token }}</td>
                     </tr>
                     <tr v-else>
                         <td>
                             <ul class="flex-content">
-                                <li class="flex-item" data-label="Name">{{ props.item.name }}.{{ props.item.dns_zone.name }}</li>
+                                <li class="flex-item" data-label="Name">{{ props.item.full_name }}</li>
                                 <li class="flex-item" data-label="IPv4">{{ props.item.dns_host_ip_a_record.address }}</li>
                                 <li class="flex-item" data-label="IPv6">{{ props.item.dns_host_ip_aaaa_record.address }}</li>
+                                <li class="flex-item" data-label="Token">{{ props.item.api_key.access_token }}</li>
                             </ul>
                         </td>
                     </tr>
@@ -63,15 +65,19 @@
                 headers: [{
                   text: 'Hostname',
                   align: 'left',
-                  value: 'name'
+                  value: 'full_name'
                 },{
                     text: 'IPv4 Adress',
                     align: 'left',
-                    value: 'ipv4'
+                    value: 'dns_host_ip_a_record.address'
                 },{
                     text: 'IPv6 Adress',
                     align: 'left',
-                    value: 'ipv6'
+                    value: 'dns_host_ip_aaaa_record.address'
+                },{
+                    text: 'Token',
+                    align: 'left',
+                    value: 'api_key.access_token'
                 }]
             }
         },

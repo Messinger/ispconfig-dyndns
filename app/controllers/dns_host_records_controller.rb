@@ -16,14 +16,29 @@ class DnsHostRecordsController < ApplicationController
       @dns_host_records = DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability).where(:dns_zone_id => @zone))
     end
 
-    index_bread
+    if html_request?
+      index_bread
+    end
+
+    json_response = []
+
+    if json_request?
+      @dns_host_records.each do |record|
+        rcj = record.as_json(simple: true)
+        unless can?(:edit,record)
+          rcj['api_key']['access_token'] = nil
+        end
+        rcj['full_name'] = record.full_name
+        json_response << rcj
+      end
+    end
 
     respond_to do |format|
       format.html {
         respond_with @dns_host_records
       }
       format.json {
-        render :json => @dns_host_records, :status => :ok
+        render :json => json_response, :status => :ok
       }
     end
   end
