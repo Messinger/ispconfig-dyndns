@@ -1,8 +1,8 @@
 <template>
     <div id="records">
         <div v-if="!loading">
-        <v-toolbar dark color="primary">
-            <v-toolbar-title class="white--text">DNS Einträge</v-toolbar-title>
+        <v-toolbar light>
+            <v-toolbar-title>DNS Einträge</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
             <v-menu offset-y :nudge-left="170" :close-on-content-click="false">
@@ -16,7 +16,7 @@
                 </v-list>
             </v-menu>
         </v-toolbar>
-        <v-layout v-resize="onResize" column style="padding-top:56px">
+        <v-layout v-resize="onResize" column style="padding-top:0.5em;">
             <v-data-table :headers="headers" :items="records" :search="search" :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}">
                 <template slot="items" slot-scope="props">
                     <tr v-if="!isMobile">
@@ -57,7 +57,7 @@
                 loading: false,
                 records: [],
                 pagination: {
-                    sortBy: 'name'
+                    sortBy: 'full_name'
                 },
                 selected: [],
                 search: '',
