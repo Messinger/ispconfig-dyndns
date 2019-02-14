@@ -1,7 +1,6 @@
 <% content_for :additional_javascripts do %>
 <% end %>
 
-<%= javascript_pack_tag 'hello_coffee' %>
 <%= javascript_pack_tag 'hello_vue' %>
 <%= stylesheet_pack_tag 'hello_vue' %>
 
@@ -10,6 +9,7 @@
 <% else %>
 <h1 class="page-header"></h1>
 <% end %>
+
 <div id='mainapp'>
    <app></app>
 </div>

@@ -2,7 +2,6 @@
 
   <div id="app">
     <v-app id="dyndns">
-      <p>{{ message }}</p>
       <csrf></csrf>
       <app-navigation></app-navigation>
       <router-view></router-view>
