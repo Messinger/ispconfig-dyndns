@@ -75,6 +75,14 @@ class ApplicationController < ActionController::Base
     @current_ability ||= Ability.new(current_account, request)
   end
 
+  def can?(action,subject,*extra)
+    if subject.kind_of?(ApplicationDecorator)
+      super(action,subject.model,*extra)
+    else
+      super(action,subject,*extra)
+    end
+  end
+
   private
 
   def set_authentication_information
