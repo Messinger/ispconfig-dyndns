@@ -32,7 +32,6 @@ class DnsHostRecordsController < ApplicationController
     recordid = params[:id]
     @dns_host_record = DnsHostRecord.accessible_by(current_ability).find(recordid)
     @dns_host_record = @dns_host_record.decorate
-    debug("Edit #{@dns_host_record}")
     respond_to do |format|
       format.json {
         render :json => @dns_host_record.as_json({:simple => true}), :status => :ok
@@ -50,6 +49,8 @@ class DnsHostRecordsController < ApplicationController
   def show
     recordid = params[:id]
     @dns_host_record = DnsHostRecord.accessible_by(current_ability).find(recordid).decorate
+
+    show_bread
 
     respond_to do |format|
       format.json {
