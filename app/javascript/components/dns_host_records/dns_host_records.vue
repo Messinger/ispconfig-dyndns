@@ -1,20 +1,78 @@
 <template>
     <div id="records">
-        <h2>DnsRecords</h2>
-        <ul v-if="!loading">
-            <li v-for="record in records" :key = "record.id">{{record.name}}</li>
-        </ul>
+        <div v-if="!loading">
+        <v-toolbar dark color="primary">
+            <v-toolbar-title class="white--text">DNS Einträge</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+            <v-menu offset-y :nudge-left="170" :close-on-content-click="false">
+                <v-btn icon slot="activator">
+                    <v-icon>more_vert</v-icon>
+                </v-btn>
+                <v-list>
+                    <v-list-tile  v-for="(item, index) in headers"  :key="item.value"   @click="changeSort(item.value)">
+                        <v-list-tile-title>{{ item.text }}<v-icon v-if="pagination.sortBy === item.value">{{pagination.descending ? 'arrow_downward':'arrow_upward'}}</v-icon></v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+        </v-toolbar>
+        <v-layout v-resize="onResize" column style="padding-top:56px">
+            <v-data-table :headers="headers" :items="records" :search="search" :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}">
+                <template slot="items" slot-scope="props">
+                    <tr v-if="!isMobile">
+                        <td>{{ props.item.name }}.{{ props.item.dns_zone.name }}</td>
+                        <td>{{ props.item.dns_host_ip_a_record.address}}</td>
+                        <td>{{ props.item.dns_host_ip_aaaa_record.address}}</td>
+                    </tr>
+                    <tr v-else>
+                        <td>
+                            <ul class="flex-content">
+                                <li class="flex-item" data-label="Name">{{ props.item.name }}.{{ props.item.dns_zone.name }}</li>
+                                <li class="flex-item" data-label="IPv4">{{ props.item.dns_host_ip_a_record.address }}</li>
+                                <li class="flex-item" data-label="IPv6">{{ props.item.dns_host_ip_aaaa_record.address }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </template>
+                <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                </v-alert>
+            </v-data-table>
+        </v-layout>
+        </div>
     </div>
 </template>
 
 <script>
     import axios from  "axios"
+
     export default {
         name: "dns_host_record",
+        components: {
+        },
         data: function () {
             return {
                 loading: false,
-                records: []
+                records: [],
+                pagination: {
+                    sortBy: 'name'
+                },
+                selected: [],
+                search: '',
+                isMobile: false,
+                headers: [{
+                  text: 'Hostname',
+                  align: 'left',
+                  value: 'name'
+                },{
+                    text: 'IPv4 Adress',
+                    align: 'left',
+                    value: 'ipv4'
+                },{
+                    text: 'IPv6 Adress',
+                    align: 'left',
+                    value: 'ipv6'
+                }]
             }
         },
         mounted: function () {
@@ -28,11 +86,88 @@
                 let results = await axios.get('/dns_host_records',{responseType: 'json'});
                 this.records = results.data;
                 this.loading = false;
+            },
+            onResize() {
+                if (window.innerWidth < 769) this.isMobile = true;
+                else this.isMobile = false;
+            },
+            toggleAll() {
+                if (this.selected.length) this.selected = [];
+                else this.selected = this.records.slice();
+            },
+            changeSort(column) {
+                console.log(column);
+                if (this.pagination.sortBy === column) {
+                    this.pagination.descending = !this.pagination.descending;
+                } else {
+                    this.pagination.sortBy = column;
+                    this.pagination.descending = false;
+                }
             }
         }
     }
 </script>
 
 <style scoped>
+    .mobile {
+        color: #333;
+    }
 
+    @media screen and (max-width: 768px) {
+        .mobile table.v-table tr {
+            max-width: 100%;
+            position: relative;
+            display: block;
+        }
+
+        .mobile table.v-table tr:nth-child(odd) {
+            border-left: 6px solid deeppink;
+        }
+
+        .mobile table.v-table tr:nth-child(even) {
+            border-left: 6px solid cyan;
+        }
+
+        .mobile table.v-table tr td {
+            display: flex;
+            width: 100%;
+            border-bottom: 1px solid #f5f5f5;
+            height: auto;
+            padding: 10px;
+        }
+
+        .mobile table.v-table tr td ul li:before {
+            content: attr(data-label);
+            padding-right: .5em;
+            text-align: left;
+            display: block;
+            color: #999;
+
+        }
+        .v-datatable__actions__select
+        {
+            width: 50%;
+            margin: 0px;
+            justify-content: flex-start;
+        }
+        .mobile .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row) {
+            background: transparent;
+        }
+
+    }
+    .flex-content {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .flex-item {
+        padding: 5px;
+        width: 50%;
+        height: 40px;
+        font-weight: bold;
+    }
 </style>
