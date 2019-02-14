@@ -1,14 +1,16 @@
 <template>
-    <nav class='navbar navbar-default'>
-        <ul class="nav navbar-nav">
-            <li>
-                <router-link to='/'>Home</router-link>
-            </li>
-            <li v-if="loggedIn()">
-                <router-link to='/dns-host-records'>Records</router-link>
-            </li>
-        </ul>
-    </nav>
+    <v-toolbar>
+        <v-toolbar-side-icon></v-toolbar-side-icon>
+        <v-toolbar-title>Dyndns</v-toolbar-title>
+        <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat to="/">
+            Home
+        </v-btn>
+        <v-btn flat to="/dns-host-records" v-if="loggedIn()">
+            Records
+        </v-btn>
+        </v-toolbar-items>
+    </v-toolbar>
 </template>
 
 <script>
