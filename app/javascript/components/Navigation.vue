@@ -12,18 +12,19 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down" v-if="!loggedIn()">
-            <v-btn flat>
+            <v-btn flat v-on:click="login_client()">
                 Domain admin
             </v-btn>
-            <v-btn flat>
+            <v-btn flat v-on:click="login_admin()">
                 Platform admin
             </v-btn>
         </v-toolbar-items>
+        <logindialog ref="logindialog"></logindialog>
     </v-toolbar>
 </template>
 
 <script>
-    import loginDialog from 'components/shared/login_dialog'
+    import logindialog from 'components/shared/logindialog'
     export default {
         name: "Navigation",
         methods: {
@@ -35,7 +36,23 @@
             },
             isUser() {
                 return this.loggedIn() && window.Constants.current_user.type === 'User'
+            },
+            login_admin() {
+                console.log(this.$refs)
+                this.$refs.logindialog.show_login('Admin').then((confirm) => {
+                    console.log("Bestätigt mit: "+confirm)
+                })
+            },
+            login_client() {
+                console.log(this.$refs)
+                this.$refs.logindialog.show_login('Client').then((confirm) => {
+                    console.log("Bestätigt mit: "+confirm)
+                })
             }
+
+        },
+        components: {
+            logindialog: logindialog
         }
     }
 </script>

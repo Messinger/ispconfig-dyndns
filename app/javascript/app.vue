@@ -2,9 +2,10 @@
 
   <div id="app">
     <v-app id="dyndns">
-      <csrf></csrf>
-      <app-navigation></app-navigation>
-      <router-view></router-view>
+        <confirm ref="confirm"></confirm>
+        <csrf></csrf>
+        <app-navigation></app-navigation>
+        <router-view></router-view>
     </v-app>
   </div>
 </template>
@@ -13,16 +14,19 @@
     import 'regenerator-runtime/runtime';
     import CSRF from 'components/shared/csrf.vue'
     import Navigation from 'components/Navigation.vue'
+    import confirm from 'components/shared/confirm'
 
     export default {
         components: {
             csrf: CSRF,
-            appNavigation: Navigation
+            appNavigation: Navigation,
+            confirm: confirm
         },
-        data: function () {
-            return {
-                message: "Hello Vue!"
-            }
+        data: () => ({
+            message: "",
+        }),
+        mounted: function() {
+            this.$root.$confirm = this.$refs.confirm.open
         }
     }
 </script>
