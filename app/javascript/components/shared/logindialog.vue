@@ -28,6 +28,7 @@
         data: () => ({
             valid: true,
             dialog: false,
+            keyuser: 'user',
             user: {
                 login_id: '',
                 password: '',
@@ -53,12 +54,15 @@
                 this.usertype = usertype
                 if(this.usertype === 'User') {
                     this.login_url = '/users/sign_in'
+                    this.keyuser = 'user'
                 } else if(this.usertype === 'Client') {
                     this.login_url = '/client/sessions'
                     this.title = "Login as Domain Admin"
+                    this.keyuser = 'user'
                 } else if (this.usertype === 'Admin') {
                     this.login_url = '/admins/sign_in'
                     this.title = "Login as Admin"
+                    this.keyuser = 'admin'
                 } else {
                     this.login_url = null
                 }
@@ -73,15 +77,19 @@
                     console.log("Try login")
                     this.resolve(true)
                     this.dialog = false
-                    let submitvalues = {
-                        user: this.$data.user
+                    let submitvalues = {}
+                    if(this.keyuser === 'user') {
+                        submitvalues[this.keyuser] = this.$data.user
+                    } else if(this.keyuser === 'admin') {
+                        submitvalues[this.keyuser] = {}
+                        submitvalues[this.keyuser].login = this.$data.user.login_id
+                        submitvalues[this.keyuser].password = this.$data.user.password
                     }
-                    console.log(JSON.stringify(submitvalues))
                     this.$root.$ownhttp.post(this.login_url, submitvalues).then(response => {
                         window.Constants.current_user = response.data.account
-                        //console.log(this.$root.$ownhttp.config.headers) //["X-CSRF-Token"] = response.data.csrf
                         this.$emit('login-changed', {})
                         this.$router.push('/')
+                        this.$router.go('/')
                     }).catch(err => {
                         this.$emit('login-changed', {})
                         window.Constants.current_user = null
@@ -114,7 +122,7 @@
                 this.$root.$ownhttp.delete(logouturl).then(response => {
                     window.Constants.current_user = null
                     this.$emit('login-changed', {})
-                    this.$router.push('/')
+                    this.$router.go('/')
                 }).catch(err => {
                     this.$emit('login-changed', {})
                     window.Constants.current_user = null
