@@ -5,11 +5,21 @@
                 <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
+
                 <v-form ref="form" v-model="valid" lazy-validation id="loginform">
-                    <csrf refs="csrf" ref="csrf"></csrf>
-                    <v-text-field v-model="user.login_id" :rules="loginRules" label="Login ID" required ></v-text-field>
-                    <v-text-field v-model="user.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+
+                    <div  v-if="keyuser==='client'" >
+                        <v-text-field v-model="client.login_id" :rules="loginRules" label="Login ID" required ></v-text-field>
+                        <v-text-field v-model="client.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+                    </div>
+
+                    <div  v-if="keyuser==='admin'" >
+                        <v-text-field v-model="admin.login" :rules="loginRules" label="Login ID" required ></v-text-field>
+                        <v-text-field v-model="admin.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+                    </div>
+
                 </v-form>
+
             </v-card-text>
             <v-card-actions class="pt-0">
                 <v-btn :disabled="!valid" color="primary darken-1" flat="flat" @click.native="try_login">Login</v-btn>
@@ -29,9 +39,17 @@
             valid: true,
             dialog: false,
             keyuser: 'user',
-            user: {
+            client: {
                 login_id: '',
                 password: '',
+            },
+            admin: {
+                login: '',
+                password: ''
+            },
+            user: {
+                email: '',
+                password: ''
             },
             title: "Login",
             login_url: '/users/sign_in',
@@ -58,7 +76,7 @@
                 } else if(this.usertype === 'Client') {
                     this.login_url = '/client/sessions'
                     this.title = "Login as Domain Admin"
-                    this.keyuser = 'user'
+                    this.keyuser = 'client'
                 } else if (this.usertype === 'Admin') {
                     this.login_url = '/admins/sign_in'
                     this.title = "Login as Admin"
@@ -78,13 +96,9 @@
                     this.resolve(true)
                     this.dialog = false
                     let submitvalues = {}
-                    if(this.keyuser === 'user') {
-                        submitvalues[this.keyuser] = this.$data.user
-                    } else if(this.keyuser === 'admin') {
-                        submitvalues[this.keyuser] = {}
-                        submitvalues[this.keyuser].login = this.$data.user.login_id
-                        submitvalues[this.keyuser].password = this.$data.user.password
-                    }
+
+                    submitvalues[this.keyuser] = this.$data[this.keyuser]
+
                     this.$root.$ownhttp.post(this.login_url, submitvalues).then(response => {
                         window.Constants.current_user = response.data.account
                         this.$emit('login-changed', {})
@@ -109,11 +123,11 @@
                     return;
                 }
                 let logouturl = ''
-                if(window.Constants.current_user.type == 'ClientUser') {
+                if(window.Constants.current_user.type === 'ClientUser') {
                     logouturl = '/clients/logout'
-                } else if(window.Constants.current_user.type == 'User') {
+                } else if(window.Constants.current_user.type === 'User') {
                     logouturl = '/users/sign_out'
-                } else if(window.Constants.current_user.type == 'Admin') {
+                } else if(window.Constants.current_user.type === 'Admin') {
                     logouturl = '/admins/sign_out'
                 }
                 if(logouturl === ''){

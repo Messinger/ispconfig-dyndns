@@ -90,8 +90,13 @@ class Client::SessionsController < ApplicationController
   end
 
   def clientuser_authenticate
-    username = params[:user][:login_id]
-    password = params[:user][:password]
+    if params[:client]
+      username = params[:client][:login_id]
+      password = params[:client][:password]
+    else
+      username = params[:user][:login_id]
+      password = params[:user][:password]
+    end
 
     begin
       cl = IspClientUser.find_by_username username
