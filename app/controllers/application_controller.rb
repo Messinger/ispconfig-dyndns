@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  protect_from_forgery with: :null_session, if: Proc.new {|c| c.request.format.json? }
+  #protect_from_forgery with: :null_session, if: Proc.new {|c| c.request.format.json? }
 
   #before_action :authenticate_user!
 
@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
+  before_action :set_csrf_cookie
 
   helper_method :current_account, :current_client_user, :current_api_key
 
@@ -217,6 +218,10 @@ class ApplicationController < ActionController::Base
 
   def html_request?
     !request.format.nil? && request.format.html?
+  end
+
+  def set_csrf_cookie
+    cookies["CSRF-TOKEN"] = form_authenticity_token
   end
 
 end

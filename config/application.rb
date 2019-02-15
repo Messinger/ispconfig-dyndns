@@ -25,6 +25,11 @@ module RailsDynamicDomain
     config.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_cache", { expires_in: 90.minutes }
     config.assets.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_assets_cache", { expires_in: 90.minutes }
     config.sass.cache_store = :redis_store, "redis://#{CACHE_REDIS_HOST}:#{CACHE_REDIS_PORT}/1/dyndns_sass_cache", { expires_in: 90.minutes }
-     Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
+    Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
+
+    # see https://pragmaticstudio.com/tutorials/rails-session-cookies-for-api-authentication
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+
   end
 end

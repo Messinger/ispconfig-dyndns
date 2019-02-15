@@ -82,14 +82,13 @@
             }
         },
         mounted: function () {
-            axios.defaults.headers.common['Accept'] = 'application/json'
             console.log("Retrieving data from server");
             this.fetchRecords();
         },
         methods: {
             async fetchRecords() {
                 this.loading = true;
-                let results = await axios.get('/dns_host_records',{responseType: 'json'});
+                let results = await this.$root.$ownhttp.get('/dns_host_records',{responseType: 'json'});
                 this.records = results.data;
                 this.loading = false;
             },
