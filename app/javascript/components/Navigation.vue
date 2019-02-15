@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import logindialog from 'components/shared/logindialog'
+    import logindialog from './shared/logindialog'
     export default {
         name: "Navigation",
         data: () => ({
