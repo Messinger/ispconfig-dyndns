@@ -1,11 +1,15 @@
 <template>
-    <v-dialog v-model="dialog" :max-width="options.width" @keydown.esc="cancel" v-bind:style="{ zIndex: options.zIndex }">
+    <v-dialog v-model="dialog" persistent="true" :max-width="options.width" @keydown.esc="cancel" @keydown.enter="try_login" v-bind:style="{ zIndex: options.zIndex }">
         <v-card>
             <v-toolbar dark :color="options.color" dense flat>
                 <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-
+                <div>
+                    <v-alert v-model="alert" dismissible type="error">
+                        Fehler bei Login
+                    </v-alert>
+                </div>
                 <v-form ref="form" v-model="valid" lazy-validation id="loginform">
 
                     <div  v-if="keyuser==='client'" >
@@ -38,6 +42,7 @@
         data: () => ({
             valid: true,
             dialog: false,
+            alert: false,
             keyuser: 'user',
             client: {
                 login_id: '',
@@ -84,6 +89,8 @@
                 } else {
                     this.login_url = null
                 }
+                this.alert = false
+                this.$refs.form.reset()
                 this.dialog = true
                 return new Promise((resolve, reject) => {
                     this.resolve = resolve
@@ -94,19 +101,19 @@
                 if (this.$refs.form.validate()) {
                     console.log("Try login")
                     this.resolve(true)
-                    this.dialog = false
                     let submitvalues = {}
 
                     submitvalues[this.keyuser] = this.$data[this.keyuser]
 
                     this.$root.$ownhttp.post(this.login_url, submitvalues).then(response => {
+                        this.dialog = false
                         window.Constants.current_user = response.data.account
                         this.$emit('login-changed', {})
                         this.$router.push('/')
-                        this.$router.go('/')
                     }).catch(err => {
-                        this.$emit('login-changed', {})
+                        this.alert = true
                         window.Constants.current_user = null
+                        this.$emit('login-changed', {})
                     })
                 } else {
                     console.log("Not valid!")
