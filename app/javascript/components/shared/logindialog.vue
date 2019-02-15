@@ -136,9 +136,12 @@
                 this.$root.$ownhttp.delete(logouturl).then(response => {
                     window.Constants.current_user = null
                     this.$emit('login-changed', {})
+                    this.$router.push('/')
                     this.$router.go('/')
                 }).catch(err => {
                     this.$emit('login-changed', {})
+                    this.$router.push('/')
+                    this.$router.go('/')
                     window.Constants.current_user = null
                 })
             }
