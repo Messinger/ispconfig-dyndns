@@ -114,7 +114,7 @@
 
                     submitvalues[this.keyuser] = this.$data[this.keyuser]
 
-                    this.$root.$ownhttp.post(this.login_url, submitvalues).then(response => {
+                    this.axios.post(this.login_url, submitvalues).then(response => {
                         this.dialog = false
                         window.Constants.current_user = response.data.account
                         this.$emit('login-changed', {})
@@ -149,7 +149,7 @@
                 if(logouturl === ''){
                     return
                 }
-                this.$root.$ownhttp.delete(logouturl).then(response => {
+                this.axios.delete(logouturl).then(response => {
                     window.Constants.current_user = null
                     this.$emit('login-changed', {})
                     this.$router.push('/')

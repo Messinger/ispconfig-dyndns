@@ -92,7 +92,7 @@
             async fetchRecords() {
                 console.log("Fetch them")
                 this.loading = true;
-                let results = await this.$root.$ownhttp.get('/dns_host_records',{responseType: 'json'});
+                let results = await this.axios.get('/dns_host_records',{responseType: 'json'});
                 this.records = results.data;
                 this.loading = false;
             },
