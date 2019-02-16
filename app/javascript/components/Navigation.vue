@@ -9,6 +9,9 @@
             <v-btn flat to="/dns-host-records" v-if="isUser()||isClient()">
                 Records
             </v-btn>
+            <v-btn flat v-if="!logged_in" v-on:click="login_user">
+                Login
+            </v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down" v-if="logged_in">
@@ -52,6 +55,11 @@
             login_admin() {
                 console.log(this.$refs)
                 this.$refs.logindialog.show_login('Admin').then((confirm) => {
+                    console.log("Bestätigt mit: "+confirm)
+                })
+            },
+            login_user() {
+                this.$refs.logindialog.show_login('User').then((confirm) => {
                     console.log("Bestätigt mit: "+confirm)
                 })
             },

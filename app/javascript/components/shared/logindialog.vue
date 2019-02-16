@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" persistent="true" :max-width="options.width" @keydown.esc="cancel" @keydown.enter="try_login" v-bind:style="{ zIndex: options.zIndex }">
+    <v-dialog v-model="dialog" :max-width="options.width" @keydown.esc="cancel" @keydown.enter="try_login" v-bind:style="{ zIndex: options.zIndex }">
         <v-card>
             <v-toolbar dark :color="options.color" dense flat>
                 <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
@@ -20,6 +20,11 @@
                     <div  v-if="keyuser==='admin'" >
                         <v-text-field v-model="admin.login" :rules="loginRules" label="Login ID" required ></v-text-field>
                         <v-text-field v-model="admin.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+                    </div>
+
+                    <div  v-if="keyuser==='user'" >
+                        <v-text-field v-model="user.email" :rules="loginRules" label="Email" required ></v-text-field>
+                        <v-text-field v-model="user.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
                     </div>
 
                 </v-form>
@@ -144,11 +149,9 @@
                     window.Constants.current_user = null
                     this.$emit('login-changed', {})
                     this.$router.push('/')
-                    this.$router.go('/')
                 }).catch(err => {
                     this.$emit('login-changed', {})
                     this.$router.push('/')
-                    this.$router.go('/')
                     window.Constants.current_user = null
                 })
             }
