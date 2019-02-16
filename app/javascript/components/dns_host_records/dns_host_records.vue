@@ -81,12 +81,16 @@
                 }]
             }
         },
+        beforeMount: () => {
+          console.log("DNS before Mount")
+        },
         mounted: function () {
-            console.log("Retrieving data from server");
-            this.fetchRecords();
+            console.log("start Retrieving data from server");
+            setTimeout(this.fetchRecords,200);
         },
         methods: {
             async fetchRecords() {
+                console.log("Fetch them")
                 this.loading = true;
                 let results = await this.$root.$ownhttp.get('/dns_host_records',{responseType: 'json'});
                 this.records = results.data;
