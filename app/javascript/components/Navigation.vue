@@ -20,14 +20,14 @@
             </v-btn>
         </v-toolbar-items>
         <v-toolbar-items class="hidden-sm-and-down" v-if="!logged_in">
-            <v-btn flat v-on:click="login_client()">
+            <v-btn flat v-on:click="login_client">
                 Domain admin
             </v-btn>
-            <v-btn flat v-on:click="login_admin()">
+            <v-btn flat v-on:click="login_admin">
                 Platform admin
             </v-btn>
         </v-toolbar-items>
-        <logindialog ref="logindialog" v-on:login-changed="checkLoggedIn()"></logindialog>
+        <logindialog ref="logindialog" v-on:login-changed="checkLoggedIn"></logindialog>
     </v-toolbar>
 </template>
 
