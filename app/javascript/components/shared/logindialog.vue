@@ -23,7 +23,7 @@
                     </div>
 
                     <div  v-if="keyuser==='user'" >
-                        <v-text-field v-model="user.email" :rules="loginRules" label="Email" required ></v-text-field>
+                        <v-text-field v-model="user.email" :rules="emailRules" label="Email" required ></v-text-field>
                         <v-text-field v-model="user.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
                     </div>
 
@@ -70,6 +70,10 @@
             ],
             passwordRules: [
                 v => !!v || 'Password is required'
+            ],
+            emailRules: [
+                v => !!v || 'E-mail is required',
+                v => /.+@.+/.test(v) || 'E-mail must be valid'
             ],
             options: {
                 color: 'primary',
