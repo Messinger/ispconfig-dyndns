@@ -1,5 +1,5 @@
 <template>
-    <div id="records">
+    <div id="dns-records-container">
         <div v-if="!loading">
         <v-toolbar light>
             <v-toolbar-title>DNS Einträge</v-toolbar-title>
@@ -19,7 +19,7 @@
         <v-layout v-resize="onResize" column style="padding-top:0.5em;">
             <v-data-table :headers="headers" :items="records" :search="search" :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}">
                 <template slot="items" slot-scope="props">
-                    <tr v-if="!isMobile">
+                    <tr v-if="!isMobile" @dblclick="itemdblclick(props.item)">
                         <td>{{ props.item.full_name }}</td>
                         <td>{{ props.item.dns_host_ip_a_record.address}}</td>
                         <td>{{ props.item.dns_host_ip_aaaa_record.address}}</td>
@@ -36,7 +36,7 @@
                         </td>
                     </tr>
                 </template>
-                <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                <v-alert slot="no-results" :value="true" color="warning" icon="warning">
                     Your search for "{{ search }}" found no results.
                 </v-alert>
             </v-data-table>
@@ -46,15 +46,14 @@
 </template>
 
 <script>
-    import axios from  "axios"
 
     export default {
-        name: "dns_host_record",
+        name: "dns_host_records",
         components: {
         },
         data: function () {
             return {
-                loading: false,
+                loading: true,
                 records: [],
                 pagination: {
                     sortBy: 'full_name'
@@ -81,18 +80,15 @@
                 }]
             }
         },
-        beforeMount: () => {
-          console.log("DNS before Mount")
-        },
         mounted: function () {
             console.log("start Retrieving data from server");
-            setTimeout(this.fetchRecords,200);
+            setTimeout(this.fetchRecords,50);
         },
         methods: {
             async fetchRecords() {
                 console.log("Fetch them")
                 this.loading = true;
-                let results = await this.axios.get('/dns_host_records',{responseType: 'json'});
+                let results = await this.axios.get('/dns_host_records');
                 this.records = results.data;
                 this.loading = false;
             },
@@ -112,6 +108,10 @@
                     this.pagination.sortBy = column;
                     this.pagination.descending = false;
                 }
+            },
+            itemdblclick(item) {
+                console.log(item)
+                this.$router.push('/dns-host-records/'+item.id)
             }
         }
     }
