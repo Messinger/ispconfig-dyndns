@@ -43,7 +43,7 @@
                 readonly: true
                 isdialog: true
                 valid: false
-                record: {
+                default_values: {
                     id: null,
                     name: null,
                     dns_zone: {
@@ -56,11 +56,15 @@
                         address: null
                     }
                 }
+                record: {}
                 br_items: []
             }
+        beforeMount: () ->
+            this.record = this.default_values
         mounted: () ->
             console.log("Record view "+this.id+" mounted");
             setTimeout(this.retrieve_record,50)
+
             this.br_items = [
                 {
                     text: "Index",
@@ -74,16 +78,12 @@
                 }
             ]
         methods: {
-              retrieve_record: () ->
-                  if this.id != 'new'
-                      console.log("Record")
-                      result = await this.axios.get('/dns_host_records/'+this.id)
-                      console.log(result)
-                      if result.status == 200
-                          this.record = result.data
-                          this.readonly = this.record.api_key == ''
-                  else
-                    console.log "New record"
+            retrieve_record: () ->
+              result = await this.axios.get('/dns_host_records/'+this.id)
+              console.log(result)
+              if result.status == 200
+                  this.record = if this.id != 'new' then result.data else this.default_values
+                  this.readonly = (this.record.api_key == '' && this.record.id != null)
         }
     }
 </script>
