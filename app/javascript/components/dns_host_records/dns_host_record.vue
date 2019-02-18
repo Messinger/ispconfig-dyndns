@@ -36,7 +36,7 @@
                             <v-subheader>IPv4 Adress:</v-subheader>
                         </v-flex>
                         <v-flex xs3>
-                            <v-text-field v-model="record.dns_host_ip_a_record.address"></v-text-field>
+                            <v-text-field v-model="record.dns_host_ip_a_record.address" :rules="ip4rules" ></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout row>
@@ -44,7 +44,7 @@
                             <v-subheader>IPv6 Adress:</v-subheader>
                         </v-flex>
                         <v-flex xs3>
-                            <v-text-field v-model="record.dns_host_ip_aaaa_record.address"></v-text-field>
+                            <v-text-field v-model="record.dns_host_ip_aaaa_record.address" :rules="ip6rules"></v-text-field>
                         </v-flex>
                     </v-layout>
                 </v-form>
@@ -62,6 +62,8 @@
 </template>
 
 <script lang="coffee">
+    import { ip_validator } from '../../packs/ip_validator.coffee'
+
     export default {
         name: "dns_host_record"
         props: [
@@ -102,6 +104,14 @@
                 dnsRules: [
                     (v) ->
                         !!v.id || !!Number.isInteger(v) || "Bitte Zone auswählen"
+                ]
+                ip4rules: [
+                    (v) ->
+                        !v || ip_validator.validate_ip4(v) || "Fehlerhafte IPv4"
+                ]
+                ip6rules: [
+                    (v) ->
+                        !v || ip_validator.validate_ip6(v) || "Fehlerhafte IPv6"
                 ]
             }
         mounted: () ->
@@ -171,6 +181,8 @@
 
                 console.log result
                 console.log awr
+                console.log ip_validator.validate_ip4("127.0.0.1")
+                console.log ip_validator.validate_ip6("2a01:4f8:201:7426:100::1000")
                 if success
                     that = this
                     setTimeout(() ->
