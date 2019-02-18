@@ -10,7 +10,7 @@
                     <v-icon>more_vert</v-icon>
                 </v-btn>
                 <v-list>
-                    <v-list-tile  v-for="(item, index) in headers"  :key="item.value"   @click="changeSort(item.value)">
+                    <v-list-tile  v-for="(item, index) in filter_headers()" :key="item.value" @click="changeSort(item.value)">
                         <v-list-tile-title>{{ item.text }}<v-icon v-if="pagination.sortBy === item.value">{{pagination.descending ? 'arrow_downward':'arrow_upward'}}</v-icon></v-list-tile-title>
                     </v-list-tile>
                 </v-list>
@@ -24,6 +24,21 @@
                         <td>{{ props.item.dns_host_ip_a_record.address}}</td>
                         <td>{{ props.item.dns_host_ip_aaaa_record.address}}</td>
                         <td>{{ props.item.api_key.access_token }}</td>
+                        <td class="justify-center layout px-0">
+                            <v-icon
+                                    small
+                                    class="mr-2"
+                                    @click="itemdblclick(props.item)"
+                            >
+                                edit
+                            </v-icon>
+                            <v-icon
+                                    small
+                                    @click="deleteItem(props.item)"
+                            >
+                                delete
+                            </v-icon>
+                        </td>
                     </tr>
                     <tr v-else>
                         <td>
@@ -32,6 +47,21 @@
                                 <li class="flex-item" data-label="IPv4">{{ props.item.dns_host_ip_a_record.address }}</li>
                                 <li class="flex-item" data-label="IPv6">{{ props.item.dns_host_ip_aaaa_record.address }}</li>
                                 <li class="flex-item" data-label="Token">{{ props.item.api_key.access_token }}</li>
+                                <li class="flex-item">
+                                    <v-icon
+                                            small
+                                            class="mr-2"
+                                            @click="itemdblclick(props.item)"
+                                    >
+                                        edit
+                                    </v-icon>
+                                    <v-icon
+                                            small
+                                            @click="deleteItem(props.item)"
+                                    >
+                                        delete
+                                    </v-icon>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -89,6 +119,10 @@
                     text: 'Token',
                     align: 'left',
                     value: 'api_key.access_token'
+                },{
+                    text: '',
+                    sortable: false,
+                    value: 'id'
                 }]
             }
         },
@@ -97,6 +131,12 @@
             setTimeout(this.fetchRecords,50);
         },
         methods: {
+            filter_headers() {
+              let h1sort = this.headers.filter(function (e) {
+                 return e.sortable !== false
+              });
+              return h1sort;
+            },
             async fetchRecords() {
                 console.log("Fetch them")
                 this.loading = true;
@@ -132,6 +172,14 @@
                   },10
 
                 )
+            },
+            deleteItem(item) {
+                this.$root.$confirm('Lösche Eintrag',"Dein Eintrag "+item.name+"."+item.dns_zone.name+" wirklich löschen?",
+                    { color: 'red' } ).then((confirm) => {
+                        if(confirm) {
+                            console.log("Ok, löschen wir mal");
+                        }
+                })
             }
         }
     }
