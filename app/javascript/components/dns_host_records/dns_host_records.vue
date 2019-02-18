@@ -1,6 +1,6 @@
 <template>
     <div id="dns-records-container">
-        <div v-if="!loading">
+        <v-card v-if="!loading">
         <v-toolbar light>
             <v-toolbar-title>DNS Einträge</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -16,7 +16,7 @@
                 </v-list>
             </v-menu>
         </v-toolbar>
-        <v-layout v-resize="onResize" column style="padding-top:0.5em;">
+        <v-card-text v-resize="onResize" style="padding-top:0.5em;">
             <v-data-table :headers="headers" :items="records" :search="search" :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}">
                 <template slot="items" slot-scope="props">
                     <tr v-if="!isMobile" @dblclick="itemdblclick(props.item)">
@@ -40,8 +40,20 @@
                     Your search for "{{ search }}" found no results.
                 </v-alert>
             </v-data-table>
-        </v-layout>
-        </div>
+        </v-card-text>
+            <v-card-text>
+                <v-btn absolute
+                       dark
+                       fab
+                       bottom
+                       right
+                       color="blue"
+                       @click.native="newRecord"
+                >
+                    <v-icon>add</v-icon>
+                </v-btn>
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 
@@ -110,8 +122,16 @@
                 }
             },
             itemdblclick(item) {
-                console.log(item)
                 this.$router.push('/dns-host-records/'+item.id)
+            },
+            newRecord() {
+                let that = this;
+                setTimeout(
+                  function() {
+                      that.$router.push('/dns-host-records/new')
+                  },10
+
+                )
             }
         }
     }
