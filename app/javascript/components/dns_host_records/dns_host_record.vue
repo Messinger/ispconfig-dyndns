@@ -10,6 +10,9 @@
                 </h3>
             </v-card-title>
             <v-card-text>
+                <v-alert v-model="errormsg" v-if="errormsg !== null" dismissible type="error">
+                    {{errormsg}}
+                </v-alert>
                 <v-form ref="form" v-model="valid" lazy-validation id="recordform">
                     <v-layout v-if="this.id === 'new'" row>
                         <v-flex xs1>
@@ -54,7 +57,7 @@
                 </v-layout>
             </v-card-text>
             <v-card-actions>
-                <v-btn @click="validate_and_submit" flat color="success">Speichern</v-btn>
+                <v-btn @click="validate_and_submit" flat color="success" :disabled="!valid || saving" >Speichern</v-btn>
                 <v-btn @click="cancel" flat color="warning">Abbrechen</v-btn>
             </v-card-actions>
         </v-card>
@@ -72,9 +75,11 @@
         data: () ->
             {
                 loading: true
+                saving: false
                 readonly: true
                 isdialog: true
                 valid: true
+                errormsg: null
                 default_values: {
                     id: null,
                     name: null,
@@ -148,8 +153,7 @@
                 , 20)
 
             validate_and_submit: () ->
-                console.log "Validiere hostname"
-                console.log this.record
+                this.errormsg = null
                 return unless this.$refs.form.validate()
 
                 submitvalues = this.record
@@ -163,6 +167,8 @@
 
                 success = true
                 errors = {}
+
+                this.saving = true
 
                 if this.id == 'new'
                     awr = await this.axios.post('/dns_host_records',submitvalues).then((response) ->
@@ -179,17 +185,16 @@
                         success = false
                     )
 
-                console.log result
-                console.log awr
-                console.log ip_validator.validate_ip4("127.0.0.1")
-                console.log ip_validator.validate_ip6("2a01:4f8:201:7426:100::1000")
+                this.saving = false
+
                 if success
                     that = this
                     setTimeout(() ->
                         that.$router.push('/dns-host-records')
                     , 20)
                 else
-                    console.log errors
+                    if errors.dns_host_record.name.length>0
+                        this.errormsg = errors.dns_host_record.name[0]
 
         }
     }
