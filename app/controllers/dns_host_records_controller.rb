@@ -88,15 +88,22 @@ class DnsHostRecordsController < ApplicationController
       @dns_zone = DnsZone.accessible_by(current_ability).find dnszoneid
     end
     @dns_host_record = DnsHostRecord.new
-    debug "New Record: #{@dns_host_record}"
+
     @dns_host_record.dns_zone_id = @dns_zone.id unless @dns_zone.nil?
 
-    unless params[:partial].blank?
-      render :partial => 'edit_record' and return
+    if html_request?
+      unless params[:partial].blank?
+        render :partial => 'edit_record' and return
+      else
+        index_bread
+        add_breadcrumb "New DNS Record",new_dns_host_record_path
+      end
     else
-      index_bread
-      add_breadcrumb "New DNS Record",new_dns_host_record_path
+      zones = DnsZone.accessible_by(current_ability)
+      render :json => {record: @dns_host_record, zoneselection: zones }, status: :ok
     end
+
+
   end
 
   def update
