@@ -55,6 +55,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-btn @click="validate_and_submit" flat color="success">Speichern</v-btn>
+                <v-btn @click="cancel" flat color="warning">Abbrechen</v-btn>
             </v-card-actions>
         </v-card>
     </div>
@@ -130,6 +131,12 @@
                     this.readonly = (this.record.api_key == '' && this.record.id != null)
                 this.loading = false
 
+            cancel: () ->
+                that = this
+                setTimeout(() ->
+                    that.$router.push('/dns-host-records')
+                , 20)
+
             validate_and_submit: () ->
                 console.log "Validiere hostname"
                 console.log this.record
@@ -144,13 +151,34 @@
 
                 result = null
 
-                this.axios.post('/dns_host_records',submitvalues).then((response) ->
-                    result = response
-                ).catch((error,xhr) ->
-                    console.log error.response.data
-                )
+                success = true
+                errors = {}
+
+                if this.id == 'new'
+                    awr = await this.axios.post('/dns_host_records',submitvalues).then((response) ->
+                        result = response
+                    ).catch((error,xhr) ->
+                        errors = error.response.data
+                        success = false
+                    )
+                else
+                    awr = await this.axios.put("/dns_host_records/#{this.id}",submitvalues).then((response) ->
+                        result = response
+                    ).catch((error,xhr) ->
+                        errors = error.response.data
+                        success = false
+                    )
 
                 console.log result
+                console.log awr
+                if success
+                    that = this
+                    setTimeout(() ->
+                        that.$router.push('/dns-host-records')
+                    , 20)
+                else
+                    console.log errors
+
         }
     }
 </script>
