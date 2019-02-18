@@ -169,7 +169,15 @@ class DnsHostRecordsController < ApplicationController
     dns_host_record.user = current_user
     recparams = params[:dns_host_record]
     logger.debug "Full params: #{params}"
-    dns_zone_id = params[:dns_zone][:id]
+    if params.key? :dns_zone
+      dns_zone_id = params[:dns_zone]
+      if dns_zone_id.is_a? ActionController::Parameters
+        dns_zone_id = dns_zone_id[:id]
+      end
+    else
+      dns_zone_id = 0
+    end
+
     zone = DnsZone.accessible_by(current_ability).find dns_zone_id
     dns_host_record.dns_zone = zone
     dns_host_record.name = recparams[:name]
@@ -206,7 +214,7 @@ class DnsHostRecordsController < ApplicationController
       else
         saved = recd.save if saved
       end
-      if saved == false
+      unless saved
         dns_host_record.delete
       end
     else 

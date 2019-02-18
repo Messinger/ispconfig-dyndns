@@ -15,7 +15,7 @@ class DnsHostRecord < ActiveRecord::Base
   validates_with DnsIspRecordValidator
 
 
-  after_create :create_assignees
+  before_validation :create_assignees
   
   def isp_dnszone_id
     self.dns_zone.isp_dnszone_id
