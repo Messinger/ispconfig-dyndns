@@ -22,7 +22,7 @@ class Ability
     end
 
     if user.instance_of? ApiKey
-      unless user.user.access_locked?
+      if user.user.nil? || !user.user.access_locked?
         can :setip, DnsHostRecord, :id => user.dns_entry.id
         can :read, DnsHostRecord, :id => user.dns_entry.id
         can :destroy, DnsHostRecord, :id => user.dns_entry.id
