@@ -93,7 +93,6 @@ module Ispremote
     def flatten_hash(r)
       begin
         _h = r[:item]
-#        Rails.logger.info "No problems with #{r.inspect}"
         Hash[*_h.map { |v| [v[:key].to_sym, self.convert_value(v[:value])] }.flatten]
       rescue => ex
         Rails.logger.fatal "Got problems with #{r.inspect}"

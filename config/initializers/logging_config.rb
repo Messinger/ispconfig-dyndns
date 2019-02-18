@@ -1,3 +1,4 @@
+require 'logging/config/yaml_configurator'
 
 Rails.configuration().after_initialize do
 
