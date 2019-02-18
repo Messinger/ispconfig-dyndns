@@ -57,7 +57,7 @@
                 </v-layout>
             </v-card-text>
             <v-card-actions>
-                <v-btn @click="validate_and_submit" flat color="success" :disabled="!valid || saving" >Speichern</v-btn>
+                <v-btn @click="validate_and_submit" flat color="success" :disabled="!valid || saving" :loading="saving" >Speichern</v-btn>
                 <v-btn @click="cancel" flat color="warning">Abbrechen</v-btn>
             </v-card-actions>
         </v-card>
@@ -121,6 +121,7 @@
             }
         mounted: () ->
             console.log("Record view " + this.id + " mounted");
+            console.log this
             setTimeout(this.retrieve_record, 50)
             this.allowed_dns_zones = []
 
@@ -186,7 +187,6 @@
                     )
 
                 this.saving = false
-
                 if success
                     that = this
                     setTimeout(() ->
