@@ -73,6 +73,7 @@
                     name: null,
                     dns_zone: {
                         name: null
+                        id: null
                     }
                     dns_host_ip_a_record: {
                         address: null
@@ -92,7 +93,7 @@
                 ]
                 dnsRules: [
                     (v) ->
-                        !!Number.isInteger(v) || "Bitte Zone auswählen"
+                        !!v.id || !!Number.isInteger(v) || "Bitte Zone auswählen"
                 ]
             }
         mounted: () ->
@@ -124,10 +125,25 @@
 
             validate_and_submit: () ->
                 console.log "Validiere hostname"
+                console.log this.record
                 return unless this.$refs.form.validate()
 
+                submitvalues = this.record
+                if Number.isInteger(submitvalues.dns_zone)
+                    submitvalues['dns_zone'] = {
+                        id: submitvalues.dns_zone
+                    }
+                console.log submitvalues
 
-                true
+                result = null
+
+                this.axios.post('/dns_host_records',submitvalues).then((response) ->
+                    result = response
+                ).catch((error,xhr) ->
+                    console.log error.response.data
+                )
+
+                console.log result
         }
     }
 </script>
