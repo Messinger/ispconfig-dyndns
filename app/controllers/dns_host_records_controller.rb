@@ -64,6 +64,9 @@ class DnsHostRecordsController < ApplicationController
   def show
     recordid = params[:id]
     @dns_host_record = DnsHostRecord.accessible_by(current_ability).find(recordid).decorate
+    unless can?(:edit,@dns_host_record)
+      @dns_host_record.api_key.access_token=nil
+    end
 
     show_bread
 

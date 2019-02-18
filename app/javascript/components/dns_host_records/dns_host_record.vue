@@ -48,6 +48,10 @@
                         </v-flex>
                     </v-layout>
                 </v-form>
+                <v-layout row v-if="record.api_key.access_token !== null ">
+                    <v-flex xs1><v-subheader>Accesstoken</v-subheader></v-flex>
+                    <v-flex xs3><v-text-field v-model="record.api_key.access_token" readonly></v-text-field></v-flex>
+                </v-layout>
             </v-card-text>
             <v-card-actions>
                 <v-btn @click="validate_and_submit" flat color="success">Speichern</v-btn>
@@ -80,6 +84,9 @@
                     }
                     dns_host_ip_aaaa_record: {
                         address: null
+                    }
+                    api_key: {
+                        access_token: null
                     }
                 }
                 record: {}
