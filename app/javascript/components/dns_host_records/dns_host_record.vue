@@ -16,11 +16,9 @@
                                 <v-subheader>IPv4 Adress:</v-subheader>
                             </v-flex>
                             <v-flex xs3>
-                                <v-text-field v-model="record.dns_host_ip_a_record.address">
-                                </v-text-field>
+                                <v-text-field v-model="record.dns_host_ip_a_record.address"></v-text-field>
                             </v-flex>
                         </v-layout>
-
                         <v-layout row>
                             <v-flex xs1>
                                 <v-subheader>IPv6 Adress:</v-subheader>

@@ -7,7 +7,7 @@
                 Home
             </v-btn>
             <v-btn flat to="/dns-host-records" v-if="isUser()||isClient()">
-                Records
+                DNS Einträge
             </v-btn>
             <v-btn flat v-if="!logged_in" v-on:click="login_user">
                 Login
@@ -15,7 +15,7 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down" v-if="logged_in">
-            <v-btn flat v-on:click="logout_user()">
+            <v-btn flat v-on:click="logout_user">
                 Logout
             </v-btn>
         </v-toolbar-items>
