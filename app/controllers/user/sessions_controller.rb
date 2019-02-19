@@ -12,6 +12,7 @@ class User::SessionsController < Devise::SessionsController
   end
 
   def omniauth_providers
+    session['user_return_to'] = close_sign_window_path
     providers = []
     if devise_mapping.omniauthable?
       resource_class.omniauth_providers.each do |provider|
