@@ -9,11 +9,14 @@
   import axios from 'axios'
   import 'vuetify/dist/vuetify.css'
   import 'material-design-icons-iconfont/dist/material-design-icons.css'
+  import '@fortawesome/fontawesome-free/css/all.css'
+  import '@mdi/font/css/materialdesignicons.css'
+
 
   Vue.use(VueResource)
   Vue.use(VueRouter)
   Vue.use(Vuetify,{
-    iconfont: 'md'
+    iconfont: 'mdi'
   })
 
   window.axios = axios.create({
