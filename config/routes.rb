@@ -15,6 +15,7 @@ RailsDynamicDomain::Application.routes.draw do
   devise_scope :user do
     scope '/users' do
       match 'providers', to: 'user/sessions#omniauth_providers', :via => :get
+      match 'close_sign_window', to: 'user/sessions#close_window', :via => :get
     end
   end
 

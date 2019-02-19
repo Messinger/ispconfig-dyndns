@@ -13,7 +13,11 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
+  def close_window
+    render 'shared/close_window', status: :ok
+  end
+
   private
     def set_user
       @user = User.find(params[:id])

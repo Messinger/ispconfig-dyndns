@@ -1,5 +1,5 @@
 class User::SessionsController < Devise::SessionsController
-  respond_to :json
+  respond_to :json, :html
 
   def create
     super do |resource|
@@ -23,6 +23,10 @@ class User::SessionsController < Devise::SessionsController
     end
 
     render json: providers.as_json, status: :ok
+  end
+
+  def close_window
+    render 'shared/close_window', status: :ok
   end
 
   def destroy
