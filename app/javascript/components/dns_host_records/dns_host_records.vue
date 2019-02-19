@@ -172,12 +172,22 @@
                 )
             },
             deleteItem(item) {
+                let that = this
+                console.log(item)
                 this.$root.$confirm('Lösche Eintrag',"Dein Eintrag "+item.name+"."+item.dns_zone.name+" wirklich löschen?",
-                    { color: 'red' } ).then((confirm) => {
+                    { color: 'red' }
+                    ).then(async (confirm) => {
                         if(confirm) {
-                            console.log("Ok, löschen wir mal");
+                            console.log("Ok, löschen wir mal ")
+                            that.$root.$spinner.open()
+                            await that.axios.delete("/dns_host_records/"+item.id).then(function (response) {
+                                setTimeout(that.fetchRecords,50);
+                            }).catch( function(error) {
+                                console.log(error)
+                            })
+                            that.$root.$spinner.close()
                         }
-                })
+                    })
             }
         }
     }

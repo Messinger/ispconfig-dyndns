@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" v-bind:style="{zIndex: 200}" persistent width="60">
         <v-card color="white">
-            <v-card-text>
+            <v-card-text color="transparent">
                 <v-progress-circular
                         indeterminate
                         color="black"
@@ -29,5 +29,9 @@
 </script>
 
 <style scoped>
-
+    .transparent {
+        background-color: white!important;
+        opacity: 0.01;
+        border-color: transparent!important;
+    }
 </style>

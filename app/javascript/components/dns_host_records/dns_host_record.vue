@@ -170,6 +170,8 @@
                 errors = {}
 
                 this.saving = true
+                that = this
+                that.$root.$spinner.open()
 
                 if this.id == 'new'
                     awr = await this.axios.post('/dns_host_records',submitvalues).then((response) ->
@@ -181,12 +183,13 @@
                 else
                     awr = await this.axios.put("/dns_host_records/#{this.id}",submitvalues).then((response) ->
                         result = response
-                    ).catch((error,xhr) ->
+                    ).catch((error) ->
                         errors = error.response.data
                         success = false
                     )
 
                 this.saving = false
+                that.$root.$spinner.close()
                 if success
                     that = this
                     setTimeout(() ->
