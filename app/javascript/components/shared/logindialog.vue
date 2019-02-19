@@ -23,8 +23,21 @@
                     </div>
 
                     <div  v-if="keyuser==='user'" >
-                        <v-text-field v-model="user.email" :rules="emailRules" label="Email" required ></v-text-field>
-                        <v-text-field v-model="user.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+                        <v-layout row wrap>
+                            <v-flex d-flex xs12 sm12 md8>
+                                <v-card flat>
+                                    <v-flex d-flex xs12 child-flex>
+                                        <v-text-field v-model="user.email" :rules="emailRules" label="Email" required ></v-text-field>
+                                    </v-flex>
+                                    <v-flex d-flex child-flex xs12>
+                                        <v-text-field v-model="user.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+                                    </v-flex>
+                                </v-card>
+                            </v-flex>
+                            <v-flex d-flex xs12 sm6 md2 child-flex>
+                                <authproviders ref="authprovider"></authproviders>
+                            </v-flex>
+                        </v-layout>
                     </div>
 
                 </v-form>
@@ -40,9 +53,11 @@
 
 <script>
     import csrf from 'components/shared/csrf.vue'
+    import authproviders from './authproviders'
     export default {
         components: {
             csrf: csrf,
+            authproviders: authproviders
         },
         data: () => ({
             valid: true,
@@ -77,7 +92,7 @@
             ],
             options: {
                 color: 'primary',
-                width: 290,
+                width: 600,
                 zIndex: 200
             }
         }),

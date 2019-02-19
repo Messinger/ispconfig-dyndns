@@ -36,7 +36,9 @@ class User::SessionsController < Devise::SessionsController
   def auth_provider_to_cssname provider
     case provider
     when :google_oauth2
-      "google-plus"
+      "google"
+    when :github
+      "github-face"
     else
       provider
     end
