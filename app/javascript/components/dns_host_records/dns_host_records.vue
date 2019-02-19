@@ -5,7 +5,7 @@
             <v-toolbar-title>DNS Einträge</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-            <v-menu offset-y :nudge-left="170" :close-on-content-click="false">
+            <v-menu v-if="isMobile" offset-y :nudge-left="170" :close-on-content-click="false">
                 <v-btn icon slot="activator">
                     <v-icon>more_vert</v-icon>
                 </v-btn>
@@ -132,10 +132,9 @@
         },
         methods: {
             filter_headers() {
-              let h1sort = this.headers.filter(function (e) {
+              return this.headers.filter(function (e) {
                  return e.sortable !== false
               });
-              return h1sort;
             },
             async fetchRecords() {
                 console.log("Fetch them")
@@ -145,8 +144,7 @@
                 this.loading = false;
             },
             onResize() {
-                if (window.innerWidth < 769) this.isMobile = true;
-                else this.isMobile = false;
+                this.isMobile = window.innerWidth < 769
             },
             toggleAll() {
                 if (this.selected.length) this.selected = [];
