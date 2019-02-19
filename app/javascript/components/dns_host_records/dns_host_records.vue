@@ -30,13 +30,13 @@
                                     class="mr-2"
                                     @click="itemdblclick(props.item)"
                             >
-                                edit
+                                mdi-pencil-outline
                             </v-icon>
                             <v-icon
                                     small
                                     @click="deleteItem(props.item)"
                             >
-                                delete
+                                mdi-trash-can-outline
                             </v-icon>
                         </td>
                     </tr>
@@ -80,7 +80,7 @@
                        color="blue"
                        @click.native="newRecord"
                 >
-                    <v-icon>add</v-icon>
+                    <v-icon>mdi-plus</v-icon>
                 </v-btn>
             </v-card-text>
         </v-card>
