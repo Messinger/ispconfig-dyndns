@@ -8,13 +8,19 @@ class DnsHostRecordsController < ApplicationController
     debug "DnszoneRecord index"
 
     zone_id = params[:zone_id]
+    dns_host_records = DnsHostRecord.accessible_by(current_ability)
     if zone_id.blank?
       @zone = nil
-      @dns_host_records = DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability))
     else
       @zone = DnsZone.accessible_by(current_ability).find zone_id
-      @dns_host_records = DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability).where(:dns_zone_id => @zone))
+      dns_host_records = dns_host_records.where(:dns_zone => @zone)
     end
+
+    unless params[:user_id].blank?
+      dns_host_records = dns_host_records.where(:user => User.accessible_by(current_ability).find(params[:user_id]))
+    end
+
+    @dns_host_records = DnsHostRecordDecorator.decorate_collection(dns_host_records)
 
     if html_request?
       index_bread

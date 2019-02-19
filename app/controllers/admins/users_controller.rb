@@ -8,7 +8,7 @@ class Admins::UsersController < ApplicationController
     respond_to do |format|
       format.html {respond_with @users}
       format.json {
-        render json:   @users.as_json(:include => [:dns_host_records,:identity]), :status => :ok
+        render json: @users.as_json(:include => [:dns_host_records,:identity]), :status => :ok
       }
     end
   end

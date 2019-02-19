@@ -42,7 +42,7 @@ class DnsHostRecord < ActiveRecord::Base
                                             :dns_host_ip_a_record => {:only => [:address]},
                                             :dns_host_ip_aaaa_record=> {:only => [:address]},
                                             :api_key => {:only => [:access_token]},
-                                            :dns_zone => {:only => [:name]}
+                                            :dns_zone => {:only => [:name,:id]}
                                             }
                               })
     else

@@ -19,6 +19,7 @@ class Ability
       can :read, DnsHostRecord
       can :read, DnsHostIpARecord
       can :read, DnsHostIpAaaaRecord
+      can :read, DnsZone
     end
 
     if user.instance_of? ApiKey
