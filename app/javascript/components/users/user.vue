@@ -26,6 +26,9 @@
                     </v-container>
                 </v-card>
             </v-card-text>
+            <v-card v-if="displayuser!==null">
+                <dns_host_records ref="records" :userid="displayuser.id"></dns_host_records>
+            </v-card>
             <v-card-actions>
                 <v-btn icon light @click="closedetail">
                     <v-icon color="grey darken-2" >arrow_back</v-icon>
@@ -36,9 +39,14 @@
 </template>
 
 <script lang="coffee">
+    import dns_host_records from '../dns_host_records/dns_host_records'
+
     export default {
         name: "user"
         props: ['id']
+        components: {
+            dns_host_records: dns_host_records
+        }
         data: () ->
             {
                 displayuser: null
@@ -61,7 +69,6 @@
                   )
                   if userresponse != null && userresponse != undefined
                       this.displayuser = userresponse.data
-
         }
     }
 </script>

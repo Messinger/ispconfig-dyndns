@@ -29,6 +29,7 @@
                                     small
                                     class="mr-2"
                                     @click="itemdblclick(props.item)"
+                                    v-if="!userid"
                             >
                                 mdi-pencil-outline
                             </v-icon>
@@ -52,6 +53,7 @@
                                             small
                                             class="mr-2"
                                             @click="itemdblclick(props.item)"
+                                            v-if="!userid"
                                     >
                                         edit
                                     </v-icon>
@@ -71,7 +73,7 @@
                 </v-alert>
             </v-data-table>
         </v-card-text>
-            <v-card-text>
+            <v-card-text v-if="!userid">
                 <v-btn absolute
                        dark
                        fab
@@ -90,11 +92,12 @@
 <script>
 
     export default {
-        name: "dns_host_records",
+        props: [ 'nofetch','userid','existingrecords' ],
         components: {
         },
         data: function () {
             return {
+                name: "dns_host_records",
                 loading: true,
                 records: [],
                 pagination: {
@@ -127,8 +130,17 @@
             }
         },
         mounted: function () {
-            console.log("start Retrieving data from server");
-            setTimeout(this.fetchRecords,50);
+            if(!this.nofetch) {
+                console.log("start Retrieving data from server");
+                setTimeout(this.fetchRecords,50);
+            }
+            console.log("Existing records = ");
+            console.log(this.existingrecords);
+            console.log("userid = "+this.userid);
+            if(this.existingrecords !== undefined) {
+                this.records = this.existingrecords;
+                this.loading = false;
+            }
         },
         methods: {
             filter_headers() {
@@ -137,9 +149,16 @@
               });
             },
             async fetchRecords() {
-                console.log("Fetch them")
+                console.log("Fetch them");
                 this.loading = true;
-                let results = await this.axios.get('/dns_host_records');
+                let params = {};
+                if(this.userid!== null) {
+                    params['user_id'] = this.userid
+                }
+                console.log("Userid: "+this.userid);
+                let results = await this.axios.get('/dns_host_records',{
+                    params: params
+                });
                 this.records = results.data;
                 this.loading = false;
             },
