@@ -19,8 +19,10 @@
     iconfont: 'mdi'
   })
 
+  console.log "Root path = #{Constants.root_path}"
+
   window.axios = axios.create({
-    baseURL: '/',
+    baseURL: Constants.root_path,
     headers: {
       'Accept': 'application/json'
     },

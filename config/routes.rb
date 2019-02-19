@@ -13,36 +13,33 @@ RailsDynamicDomain::Application.routes.draw do
   match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
 
   devise_scope :user do
-    scope '/users' do
+    scope :users do
       match 'providers', to: 'user/sessions#omniauth_providers', :via => :get
       match 'close_sign_window', to: 'user/sessions#close_window', :via => :get
       match 'fetch_user', to: 'user/sessions#fetch_user', :via => :get
     end
   end
 
-  scope '/clients' do
+  scope :clients do
     match '', to: 'welcome#client_index', :as => :client_root, :via => :get
-    match '/logout', to: 'client/sessions#destroy', :as => :destroy_client_user_session, :via => :delete
+    match 'logout', to: 'client/sessions#destroy', :as => :destroy_client_user_session, :via => :delete
   end
 
-  scope '/admins' do
+  scope :admins do
     match '', to: 'welcome#admin_index', :as => :admin_root, :via => :get
-    match '/edit', :to => 'admins/admins#edit', :via => [:get], :as => 'admin_edit'
-    match '/update', :to => 'admins/admins#update', :via => [:put,:patch], :as => 'admin_update'
+    match 'edit', :to => 'admins/admins#edit', :via => [:get], :as => 'admin_edit'
+    match 'update', :to => 'admins/admins#update', :via => [:put,:patch], :as => 'admin_update'
   end
 
-  namespace 'admins' do
+  namespace :admins do
     resources :users, :only => [:index, :show, :destroy]
   end
 
-#  scope '/users' do
-   match '', to: 'welcome#user_index', :as => :user, :via => :get
-#  end
+  match '', to: 'welcome#user_index', :as => :user, :via => :get
 
-  
   namespace :client do
-    match '/login', to: 'sessions#clientlogin',          :as => :login, :via => :get
-    match '/sessions', to: 'sessions#create_for_client', :as => :create_session, :via => [:post]
+    match 'login', to: 'sessions#clientlogin',          :as => :login, :via => :get
+    match 'sessions', to: 'sessions#create_for_client', :as => :create_session, :via => [:post]
     resources :dns_zones, :only => [:index,:show,:destroy,:update]
     resource :dns_zones do
       post 'add_dnszone' => :add_dnszone, :as => :add
@@ -51,10 +48,10 @@ RailsDynamicDomain::Application.routes.draw do
   end
 
   resources :dns_host_records
-  match '/dynamic/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post], :as => :update_dyndns
-  match '/dyndns/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post]
+  match 'dynamic/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post], :as => :update_dyndns
+  match 'dyndns/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post]
 
   # for omniauth
-  match '/profile/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match 'profile/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
 end
