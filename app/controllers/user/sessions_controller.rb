@@ -17,12 +17,17 @@ class User::SessionsController < Devise::SessionsController
       resource_class.omniauth_providers.each do |provider|
         providers << {
             icon: auth_provider_to_cssname(provider),
-            path: omniauth_authorize_path(resource_name, provider)
+            path: omniauth_authorize_path(resource_name, provider),
+            name: provider
         }
       end
     end
 
     render json: providers.as_json, status: :ok
+  end
+
+  def fetch_user
+    render json: {account: current_account.as_json.merge({'type':current_account.class.name})}, status: :ok
   end
 
   def close_window

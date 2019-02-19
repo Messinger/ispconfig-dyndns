@@ -17,21 +17,6 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     }
   end
 
-  # def github
-  #   provider = 'github'
-  #   @user = User.find_for_oauth(request.env["omniauth.auth"], current_user)
-  #
-  #   session['user_return_to'] = close_sign_window_path
-  #
-  #   if @user.persisted?
-  #     sign_in_and_redirect @user, event: :authentication
-  #     set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
-  #   else
-  #     session["devise.#{provider}_data"] = request.env["omniauth.auth"]
-  #     redirect_to new_user_registration_url
-  #   end
-  # end
-
   if PRIVATE_DATA['omni_auths']
     PRIVATE_DATA['omni_auths'].each do |provider|
       provides_callback_for provider.to_sym

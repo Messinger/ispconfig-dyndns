@@ -16,6 +16,7 @@ RailsDynamicDomain::Application.routes.draw do
     scope '/users' do
       match 'providers', to: 'user/sessions#omniauth_providers', :via => :get
       match 'close_sign_window', to: 'user/sessions#close_window', :via => :get
+      match 'fetch_user', to: 'user/sessions#fetch_user', :via => :get
     end
   end
 

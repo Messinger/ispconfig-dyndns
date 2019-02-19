@@ -35,7 +35,7 @@
                                 </v-card>
                             </v-flex>
                             <v-flex d-flex xs12 sm6 md2 child-flex>
-                                <authproviders ref="authprovider"></authproviders>
+                                <authproviders ref="authprovider" v-on:login-changed="oauth_finished"></authproviders>
                             </v-flex>
                         </v-layout>
                     </div>
@@ -141,13 +141,18 @@
                     })
                 } else {
                     console.log("Not valid!")
-                    this.$emit('login-changed', {})
                     window.Constants.current_user = null
+                    this.$emit('login-changed', {})
                 }
             },
             cancel() {
                 this.resolve(false)
                 this.dialog = false
+            },
+            oauth_finished() {
+                this.resolve(true)
+                this.dialog = false
+                this.$emit('login-changed', {})
             },
             logout() {
                 if(window.Constants.current_user === null ) {
