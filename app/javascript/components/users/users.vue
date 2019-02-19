@@ -108,8 +108,8 @@
             showUser: (useritem) ->
                 console.log "Show user id"
                 console.log useritem
-                #this.$router.push('/users/'+useritem.id)
-                this.displayuser = useritem
+                this.$router.push('/users/'+useritem.id)
+                #this.displayuser = useritem
             ,
             closedetail: () ->
                 console.log "Verstecke benutzerdetails"

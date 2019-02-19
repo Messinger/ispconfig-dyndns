@@ -10,15 +10,19 @@
             <v-card-text>
                 <v-card>
                     <v-container fluid grid-list-xs>
-                        Email: {{displayuser.email}}
-                    </v-container>
-                    <v-container fluid grid-list-xs>
-                        <div v-if="displayuser.identity !== null">
-                            {{displayuser.identity.provider}}
-                        </div>
-                        <div v-else>
-                            Intern
-                        </div>
+                        <dl class="dl-horizontal">
+                            <dt>Name</dt>
+                            <dd>{{displayuser.name}}</dd>
+                            <dt>Email</dt>
+                            <dd>{{displayuser.email}}</dd>
+                            <dt>Authorisierung</dt>
+                            <dd v-if="displayuser.identity!==null">
+                                {{displayuser.identity.provider}}
+                            </dd>
+                            <dd v-else>Intern</dd>
+                            <dt>Seit</dt>
+                            <dd>{{displayuser.created_at}}</dd>
+                        </dl>
                     </v-container>
                 </v-card>
             </v-card-text>
