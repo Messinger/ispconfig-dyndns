@@ -1,6 +1,6 @@
 <template>
     <div id="users_container">
-        <v-card>
+        <v-card v-if="displayuser === null">
             <v-card-title><span class="title" font-weight-light>Bekannte Benutzer</span></v-card-title>
             <v-card-text>
                 <v-data-table :headers="headers" :items="records">
@@ -30,6 +30,35 @@
                 </v-data-table>
             </v-card-text>
         </v-card>
+        <v-card v-else>
+            <v-toolbar color="white" flat>
+                <v-btn icon light>
+                    <v-icon color="grey darken-2" @click="closedetail">arrow_back</v-icon>
+                </v-btn>
+            </v-toolbar>
+            <v-card-title><span class="title" font-weight-light>Details von {{displayuser.name}})</span></v-card-title>
+            <v-card-text>
+                <v-card>
+                    <v-container fluid grid-list-xs>
+                        Email: {{displayuser.email}}
+                    </v-container>
+                    <v-container fluid grid-list-xs>
+                        <div v-if="displayuser.identity !== null">
+                            {{displayuser.identity.provider}}
+                        </div>
+                        <div v-else>
+                            Intern
+                        </div>
+                    </v-container>
+
+                </v-card>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn icon light>
+                    <v-icon color="grey darken-2" @click="closedetail">arrow_back</v-icon>
+                </v-btn>
+            </v-card-actions>
+        </v-card>
     </div>
 </template>
 
@@ -38,6 +67,7 @@
         name: "users"
         data: () ->
             {
+              displayuser: null
               records: []
               pagination: {
                 sortBy: 'id'
@@ -78,6 +108,10 @@
             showUser: (useritem) ->
                 console.log "Show user id"
                 console.log useritem
+                this.displayuser = useritem
+            ,
+            closedetail: () ->
+                this.displayuser = null
         }
     }
 </script>
