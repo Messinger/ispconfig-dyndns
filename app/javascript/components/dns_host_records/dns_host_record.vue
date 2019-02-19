@@ -15,13 +15,13 @@
                 </v-alert>
                 <v-form ref="form" v-model="valid" lazy-validation id="recordform">
                     <v-layout v-if="this.id === 'new'" row>
-                        <v-flex xs1>
+                        <v-flex md1 xs3>
                             <v-subheader>Name:</v-subheader>
                         </v-flex>
-                        <v-flex xs1>
+                        <v-flex md1 xs3>
                             <v-text-field v-model="record.name" suffix="." :rules="nameRules" label="Rechnername" required></v-text-field>
                         </v-flex>
-                        <v-flex xs2>
+                        <v-flex md2 xs4>
                             <v-select
                                     v-model="record.dns_zone"
                                     :items="allowed_dns_zones"
@@ -35,18 +35,18 @@
                         </v-flex>
                     </v-layout>
                     <v-layout row>
-                        <v-flex xs1>
+                        <v-flex md1 xs3>
                             <v-subheader>IPv4 Adress:</v-subheader>
                         </v-flex>
-                        <v-flex xs3>
+                        <v-flex md3 xs7>
                             <v-text-field v-model="record.dns_host_ip_a_record.address" :rules="ip4rules" ></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout row>
-                        <v-flex xs1>
+                        <v-flex md1 xs3>
                             <v-subheader>IPv6 Adress:</v-subheader>
                         </v-flex>
-                        <v-flex xs3>
+                        <v-flex md3 xs7>
                             <v-text-field v-model="record.dns_host_ip_aaaa_record.address" :rules="ip6rules"></v-text-field>
                         </v-flex>
                     </v-layout>
