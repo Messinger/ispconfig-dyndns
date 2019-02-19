@@ -8,7 +8,8 @@
                         <tr @dblclick="showUser(props.item)">
                             <td>{{ props.item.id }}</td>
                             <td>{{ props.item.email}}</td>
-                            <td>{{ props.item.identity.provider}}</td>
+                            <td v-if="props.item.identity !== null">{{ props.item.identity.provider}}</td>
+                            <td v-else>Intern</td>
                             <td>{{ props.item.dns_host_records.length}}</td>
                             <td class="justify-center layout px-0">
                                 <v-icon
@@ -32,11 +33,11 @@
         </v-card>
         <v-card v-else>
             <v-toolbar color="white" flat>
-                <v-btn icon light>
-                    <v-icon color="grey darken-2" @click="closedetail">arrow_back</v-icon>
+                <v-btn icon light  @click="closedetail">
+                    <v-icon color="grey darken-2">arrow_back</v-icon>
                 </v-btn>
             </v-toolbar>
-            <v-card-title><span class="title" font-weight-light>Details von {{displayuser.name}})</span></v-card-title>
+            <v-card-title><span class="title" font-weight-light>Benutzerdetails</span></v-card-title>
             <v-card-text>
                 <v-card>
                     <v-container fluid grid-list-xs>
@@ -50,12 +51,11 @@
                             Intern
                         </div>
                     </v-container>
-
                 </v-card>
             </v-card-text>
             <v-card-actions>
-                <v-btn icon light>
-                    <v-icon color="grey darken-2" @click="closedetail">arrow_back</v-icon>
+                <v-btn icon light @click="closedetail">
+                    <v-icon color="grey darken-2">arrow_back</v-icon>
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -108,10 +108,16 @@
             showUser: (useritem) ->
                 console.log "Show user id"
                 console.log useritem
+                #this.$router.push('/users/'+useritem.id)
                 this.displayuser = useritem
             ,
             closedetail: () ->
-                this.displayuser = null
+                console.log "Verstecke benutzerdetails"
+                that = this
+                setTimeout( () ->
+                    that.displayuser = null
+                  , 10
+                )
         }
     }
 </script>
