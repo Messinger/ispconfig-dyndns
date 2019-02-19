@@ -11,9 +11,34 @@ class User::SessionsController < Devise::SessionsController
     end
   end
 
+  def omniauth_providers
+    providers = []
+    if devise_mapping.omniauthable?
+      resource_class.omniauth_providers.each do |provider|
+        providers << {
+            icon: auth_provider_to_cssname(provider),
+            path: omniauth_authorize_path(resource_name, provider)
+        }
+      end
+    end
+
+    render json: providers.as_json, status: :ok
+  end
+
   def destroy
     super do |resource|
       set_csrf_cookie
+    end
+  end
+
+  private
+
+  def auth_provider_to_cssname provider
+    case provider
+    when :google_oauth2
+      "google-plus"
+    else
+      provider
     end
   end
 

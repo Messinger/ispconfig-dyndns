@@ -12,6 +12,12 @@ RailsDynamicDomain::Application.routes.draw do
   match 'settings',             :controller => 'settings', :action => 'index',       :via => :get
   match 'settings/news',        :controller => 'settings', :action => 'news',        :via => [:get]
 
+  devise_scope :user do
+    scope '/users' do
+      match 'providers', to: 'user/sessions#omniauth_providers', :via => :get
+    end
+  end
+
   scope '/clients' do
     match '', to: 'welcome#client_index', :as => :client_root, :via => :get
     match '/logout', to: 'client/sessions#destroy', :as => :destroy_client_user_session, :via => :delete
