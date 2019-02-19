@@ -6,12 +6,11 @@
   Constants = (function() {
     Constants.LOGOUT_PATH = '<%= send("destroy_#{current_account.class.name.underscore}_session_path") unless current_account.nil? %>';
     Constants.LOGIN_PATH = '<%= user_session_path %>';
-    Constants.current_user = <%= current_account.nil? ?  nil.to_json.html_safe : current_account.as_json.merge({'type':current_account.class.name}).to_json.html_safe %>;
+    Constants.current_user = <%= current_user_value %>;
     function Constants() {}
       return Constants;
   })();
   window.Constants = Constants;
-
-
 </script>
+
 <% end %>

@@ -30,4 +30,10 @@ module ApplicationHelper
   def records_list
     DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability))
   end
+
+  def current_user_value
+    current_account.nil? ?  nil.to_json.html_safe : current_account.as_json(except: [:password]).merge({'type':current_account.class.name}).to_json.html_safe
+  end
+
+
 end
