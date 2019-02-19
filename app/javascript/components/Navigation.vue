@@ -9,6 +9,9 @@
             <v-btn flat to="/dns-host-records" v-if="isUser()||isClient()">
                 DNS Einträge
             </v-btn>
+            <v-btn flat to="/users" v-if="isAdmin()">
+                Userlist
+            </v-btn>
             <v-btn flat v-if="!logged_in" v-on:click="login_user">
                 Login
             </v-btn>
@@ -51,6 +54,9 @@
             },
             isUser() {
                 return this.loggedIn() && window.Constants.current_user.type === 'User'
+            },
+            isAdmin() {
+                return this.loggedIn() && window.Constants.current_user.type === 'Admin'
             },
             login_admin() {
                 console.log(this.$refs)
