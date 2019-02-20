@@ -1,8 +1,8 @@
 <template>
     <div id="dns-records-container">
         <v-card v-if="!loading">
-        <v-toolbar light>
-            <v-toolbar-title>DNS Einträge</v-toolbar-title>
+        <v-toolbar light flat>
+            <v-toolbar-title v-if="!embedded">DNS Einträge</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
             <v-menu v-if="isMobile" offset-y :nudge-left="170" :close-on-content-click="false">
@@ -92,7 +92,7 @@
 <script>
 
     export default {
-        props: [ 'nofetch','userid','existingrecords' ],
+        props: [ 'nofetch','userid','existingrecords','embedded' ],
         components: {
         },
         data: function () {
