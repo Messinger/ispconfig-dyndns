@@ -43,7 +43,7 @@
         }),
         methods: {
             checkLoggedIn() {
-                console.log("Current user: "+window.Constants.current_user)
+                console.log("Current user: ",window.Constants.current_user);
                 this.logged_in = this.loggedIn()
             },
             loggedIn() {

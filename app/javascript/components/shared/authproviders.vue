@@ -17,6 +17,8 @@
           {
               providerlist: []
               initialized: false
+              promise: null
+              reject: null
           }
       ,
       mounted: () ->
@@ -39,7 +41,12 @@
               this.begin_login(url)
           ,
           begin_login: (url) ->
-              this.open_login_window(url,"Connect to my site",800,600)
+              user = await this.open_login_window(url,"Connect to my site",800,600)
+              console.log "Got user via await: ",user
+
+              user = user.data
+              window.Constants.current_user = user.account
+              this.$emit('login-changed', {})
           ,
           open_login_window: (url,title,width,height) ->
               that = this
@@ -51,13 +58,19 @@
                       clearInterval(interval)
                       user = await that.axios.get('/users/fetch_user').catch(
                               (errors) ->
+                                  that.reject({})
                                   console.log errors
                       )
-                      user = user.data
-                      console.log user
-                      window.Constants.current_user = user.account
-                      that.$emit('login-changed', {})
+                      if user == undefined
+                          that.reject({})
+                      else
+                          that.resolve(user)
+
               , 500
+              )
+              new Promise( (resolve,reject) ->
+                  that.resolve = resolve
+                  that.reject = reject
               )
       }
     }

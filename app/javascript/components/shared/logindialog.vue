@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import csrf from 'components/shared/csrf.vue'
+    import csrf from './csrf.vue'
     import authproviders from './authproviders'
     export default {
         components: {
