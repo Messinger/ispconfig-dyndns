@@ -92,6 +92,7 @@
                   this.axios.post('/users', submitvalues).then( (response) ->
                       result = response.data
                       that.malert = false
+                      that.$router.push('/')
                   ).catch( (error) ->
                       console.log "Got signup error",error
                       that.alertmsg = JSON.stringify(error.data)
@@ -99,8 +100,6 @@
                       result = undefined
                   )
                   console.log "Got signup result: ",result
-                  unless result == undefined
-                      this.$router.push('/')
 
 
             oauth_finished: () ->
