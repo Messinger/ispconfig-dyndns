@@ -49,7 +49,9 @@
       window.$cookies.remove('_dyndns_session',null, null)
       window.$cookies.remove('_session_id',null,null)
       router.push('/')
-    Promise.reject(error)
+      Promise.resolve(error.response)
+    else
+      Promise.reject(error)
   )
 
   document.addEventListener('DOMContentLoaded', () ->
