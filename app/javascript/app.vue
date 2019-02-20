@@ -15,12 +15,14 @@
     import Navigation from 'components/Navigation.vue'
     import confirm from 'components/shared/confirm'
     import spinneroverlay from 'components/shared/spinneroverlay'
+    import { errors_to_array } from 'packs/errors_to_array.coffee'
 
     export default {
         components: {
             appNavigation: Navigation
             confirm: confirm
             spinner: spinneroverlay
+
         },
         data: () ->
           {
@@ -36,6 +38,8 @@
             this.$root.$confirm = this.$refs.confirm.open
             this.$root.$spinner = this.$refs.spinner
             this.$root.$login_changed = this.login_changed
+            this.$root.$errors_to_array = (errors) ->
+                errors_to_array.error_hash_to_array(errors)
     }
 </script>
 
