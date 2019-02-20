@@ -17,7 +17,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     }
   end
 
-  def github
+  # def github
   #    provider = 'github'
   #    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user)
   #
@@ -28,7 +28,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #      session["devise.#{provider}_data"] = request.env["omniauth.auth"]
   #      redirect_to new_user_registration_url
   #    end
-  end
+  # end
 
   if PRIVATE_DATA['omni_auths']
     PRIVATE_DATA['omni_auths'].each do |provider|
