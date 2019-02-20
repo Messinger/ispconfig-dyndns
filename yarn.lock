@@ -7257,6 +7257,11 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-cookies@^1.5.12:
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/vue-cookies/-/vue-cookies-1.5.12.tgz#a78bd0eda078c1fbf4a6806505343a825c77a880"
+  integrity sha512-NaXbxyJIyi8/UgC8ZLQ6O+6OQze5taToCWOkRo28NP4ZRtEyQ04qkEu6KL9g/1w/BGsuhUw5puSi13V0qz8vnw==
+
 vue-hot-reload-api@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.2.tgz#1fcc1495effe08a790909b46bf7b5c4cfeb6f21b"

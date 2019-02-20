@@ -11,10 +11,12 @@
   import 'material-design-icons-iconfont/dist/material-design-icons.css'
   import '@fortawesome/fontawesome-free/css/all.css'
   import '@mdi/font/css/materialdesignicons.css'
+  import VueCookies from 'vue-cookies'
 
 
   Vue.use(VueResource)
   Vue.use(VueRouter)
+  Vue.use(VueCookies)
   Vue.use(Vuetify,{
     iconfont: 'mdi'
   })
@@ -25,6 +27,7 @@
     baseURL: Constants.root_path,
     headers: {
       'Accept': 'application/json'
+      'X-API-ONLY': '1'
     },
     xsrfCookieName: "CSRF-TOKEN",
     xsrfHeaderName: "X-CSRF-Token",
@@ -38,6 +41,16 @@
   router = new VueRouter({
     routes
   })
+
+  window.axios.interceptors.response.use(null,(error) ->
+    if error.response.status == 401
+      console.warn "Error status:",error.response
+      console.log "Cookies: ",window.$cookies.keys()
+      window.$cookies.remove('_dyndns_session',null, null)
+      window.$cookies.remove('_session_id',null,null)
+      router.push('/')
+    Promise.reject(error)
+  )
 
   document.addEventListener('DOMContentLoaded', () ->
      app = new Vue({
