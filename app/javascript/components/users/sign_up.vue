@@ -5,7 +5,13 @@
                 <v-toolbar-title>Sign up</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
+                <div>
+                    <v-alert v-model="alert" type="error">
+                        {{alert}}
+                    </v-alert>
+                </div>
                 <v-form ref="form" v-model="valid" lazy-validation id="signupform">
+
                     <v-layout row wrap>
                         <v-flex d-flex xs12 sm12 md8>
                             <v-card flat>
@@ -16,10 +22,10 @@
                                     <v-text-field v-model="userdata.email" :rules="emailRules" label="Email" required ></v-text-field>
                                 </v-flex>
                                 <v-flex d-flex child-flex xs12>
-                                    <v-text-field v-model="userdata.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+                                    <v-text-field v-model="userdata.password" :rules="passwordRules" :error_messages="pwmatchAckErrors()" :type='password' label="Password" required></v-text-field>
                                 </v-flex>
                                 <v-flex d-flex child-flex xs12>
-                                    <v-text-field v-model="userdata.password_ack" :rules="passwordRules" :type='password' label="Password wiederholen" required></v-text-field>
+                                    <v-text-field v-model="userdata.password_ack" :rules="passwordRules" :error_messages="pwmatchAckErrors()" :type='password' label="Password wiederholen" required></v-text-field>
                                 </v-flex>
                             </v-card>
                         </v-flex>
@@ -29,6 +35,9 @@
                     </v-layout>
                 </v-form>
             </v-card-text>
+            <v-card-actions class="pt-0">
+                <v-btn :disabled="!valid" color="primary darken-1" flat="flat" @click.native="sign_up">Sign Up</v-btn>
+            </v-card-actions>
         </v-card>
     </div>
 </template>
@@ -58,20 +67,50 @@
               emailRules: [
                   (v) ->
                       !!v || 'Email wird benötigt'
+                  ,
+                  (v) ->
+                      /.+@.+/.test(v) || 'E-mail must be valid'
               ]
               passwordRules: [
                   (v) ->
-                      !!v || 'Email wird benötigt'
+                      !!v || 'Password wird benötigt'
               ]
+              alert: ''
 
             }
         methods: {
               sign_up: () ->
+                  return unless (this.$refs.form.validate())
                   console.log "Signup user",this.userdata
+                  result = this.start_signup()
+                  unless result == undefined
+                      this.$router.push('/')
+
               ,
+              start_signup: () ->
+                  submitvalues = {
+                    user: this.userdata
+                  }
+                  result = await this.axios.post('/users', submitvalues).catch( (error) ->
+                      console.warn "Got signup error",error
+                  )
+                  console.log "Got signup result: ",result
+                  result
+
               oauth_finished: () ->
                   this.$root.$emit('login-changed', {})
                   this.$router.push('/')
+              ,
+              pwmatchAckErrors: () ->
+                  if !this.userdata.password_ack || !this.userdata.password
+                      this.alert = '' #Passwort wird benötigt'
+                      this.valid = false
+                  else if this.userdata.password_ack != this.userdata.password
+                      this.alert = 'Passwörter müssen identisch sein'
+                      this.valid = false
+                  else
+                      this.alert = ''
+                      this.valid = true
             }
     }
 </script>

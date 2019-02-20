@@ -7,7 +7,7 @@
             <v-card-text>
                 <div>
                     <v-alert v-model="alert" dismissible type="error">
-                        Fehler bei Login
+                        {{alertmsg}}
                     </v-alert>
                 </div>
                 <v-form ref="form" v-model="valid" lazy-validation id="loginform">
@@ -67,6 +67,7 @@
             valid: true,
             dialog: false,
             alert: false,
+            alertmsg: 'Fehler beim Login',
             keyuser: 'user',
             client: {
                 login_id: '',
@@ -141,10 +142,16 @@
                     submitvalues[this.keyuser] = this.$data[this.keyuser]
                     window.$cookies.set("OAUTH-JSON-LOGIN",'1')
                     this.axios.post(this.login_url, submitvalues).then(response => {
-                        this.dialog = false
                         window.$cookies.remove("OAUTH-JSON-LOGIN")
-                        window.Constants.current_user = response.data.account
-                        this.$root.$login_changed();
+                        window.Constants.current_user = response.data.account||null
+                        console.log("Resonse: ",response)
+                        if(response.status > 399) {
+                            this.alertmsg = response.data.error||'Fehler';
+                            this.alert = true
+                        } else {
+                            this.dialog = false
+                            this.$root.$login_changed();
+                        }
                     }).catch(err => {
                         window.$cookies.remove("OAUTH-JSON-LOGIN")
                         this.alert = true

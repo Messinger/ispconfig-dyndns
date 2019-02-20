@@ -1,5 +1,8 @@
 class User::RegistrationsController < Devise::RegistrationsController
 
+  clear_respond_to
+  respond_to :json, :html
+
   def update
     user = User.find params[:id]
     is_external = !user.identity.nil?
