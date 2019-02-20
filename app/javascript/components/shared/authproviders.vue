@@ -41,12 +41,15 @@
               this.begin_login(url)
           ,
           begin_login: (url) ->
+              console.log window.$cookies.keys()
+              window.$cookies.set("OAUTH-JSON-LOGIN",'1')
               user = await this.open_login_window(url,"Connect to my site",800,600)
               console.log "Got user via await: ",user
-
-              user = user.data
-              window.Constants.current_user = user.account
-              this.$emit('login-changed', {})
+              window.$cookies.remove("OAUTH-JSON-LOGIN")
+              unless user == undefined
+                  user = user.data
+                  window.Constants.current_user = user.account
+                  this.$emit('login-changed', {})
           ,
           open_login_window: (url,title,width,height) ->
               that = this

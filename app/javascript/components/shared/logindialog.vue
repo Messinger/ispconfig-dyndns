@@ -128,13 +128,15 @@
                     let submitvalues = {}
 
                     submitvalues[this.keyuser] = this.$data[this.keyuser]
-
+                    window.$cookies.set("OAUTH-JSON-LOGIN",'1')
                     this.axios.post(this.login_url, submitvalues).then(response => {
                         this.dialog = false
+                        window.$cookies.remove("OAUTH-JSON-LOGIN")
                         window.Constants.current_user = response.data.account
                         this.$emit('login-changed', {})
                         this.$router.push('/')
                     }).catch(err => {
+                        window.$cookies.remove("OAUTH-JSON-LOGIN")
                         this.alert = true
                         window.Constants.current_user = null
                         this.$emit('login-changed', {})

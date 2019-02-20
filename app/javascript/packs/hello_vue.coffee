@@ -12,11 +12,10 @@
   import '@fortawesome/fontawesome-free/css/all.css'
   import '@mdi/font/css/materialdesignicons.css'
   import VueCookies from 'vue-cookies'
-
+  Vue.use(VueCookies)
 
   Vue.use(VueResource)
   Vue.use(VueRouter)
-  Vue.use(VueCookies)
   Vue.use(Vuetify,{
     iconfont: 'mdi'
   })

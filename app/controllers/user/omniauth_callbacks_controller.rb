@@ -4,7 +4,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     class_eval %Q{
       def #{provider}
         @user = User.find_for_oauth(request.env["omniauth.auth"], current_user)
-        session['user_return_to'] = close_sign_window_path
+        session['user_return_to'] = close_sign_window_path if !!cookies['OAUTH-JSON-LOGIN']
 
         if @user.persisted?
           sign_in_and_redirect @user, event: :authentication
@@ -17,7 +17,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     }
   end
 
-  # def github
+  def github
   #    provider = 'github'
   #    @user = User.find_for_oauth(request.env["omniauth.auth"], current_user)
   #
@@ -28,7 +28,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #      session["devise.#{provider}_data"] = request.env["omniauth.auth"]
   #      redirect_to new_user_registration_url
   #    end
-  # end
+  end
 
   if PRIVATE_DATA['omni_auths']
     PRIVATE_DATA['omni_auths'].each do |provider|
@@ -37,7 +37,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def after_sign_in_path_for(resource)
-    if resource.email_verified?
+    if resource.email_verified? || !!cookies['OAUTH-JSON-LOGIN']
       super resource
     else
       finish_signup_path(resource)
