@@ -50,7 +50,7 @@
       router.push('/')
       Promise.resolve(error.response)
     else
-      Promise.reject(error)
+      Promise.reject(error.response)
   )
 
   document.addEventListener('DOMContentLoaded', () ->

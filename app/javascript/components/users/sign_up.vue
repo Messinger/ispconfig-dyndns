@@ -6,8 +6,8 @@
             </v-toolbar>
             <v-card-text>
                 <div>
-                    <v-alert v-model="alert" type="error">
-                        {{alert}}
+                    <v-alert v-model="malert" dismissible type="error">
+                        {{alertmsg}}
                     </v-alert>
                 </div>
                 <v-form ref="form" v-model="valid" lazy-validation id="signupform">
@@ -52,64 +52,72 @@
         }
         data: () ->
             {
-              userdata: {
-                email: ''
-                password: ''
-                name: ''
-                password_ack: ''
-              }
-              password: 'Password'
-              valid: false
-              nameRules: [
-                  (v) ->
-                      !!v || 'Name wird benötigt'
-              ]
-              emailRules: [
-                  (v) ->
-                      !!v || 'Email wird benötigt'
-                  ,
-                  (v) ->
-                      /.+@.+/.test(v) || 'E-mail must be valid'
-              ]
-              passwordRules: [
-                  (v) ->
-                      !!v || 'Password wird benötigt'
-              ]
-              alert: ''
-
+                malert: false
+                alertmsg: ''
+                userdata: {
+                    email: ''
+                    password: ''
+                    name: ''
+                    password_ack: ''
+                }
+                password: 'Password'
+                valid: false
+                nameRules: [
+                    (v) ->
+                        !!v || 'Name wird benötigt'
+                    ]
+                emailRules: [
+                    (v) ->
+                        !!v || 'Email wird benötigt'
+                    ,
+                    (v) ->
+                        /.+@.+/.test(v) || 'E-mail must be valid'
+                    ]
+                passwordRules: [
+                    (v) ->
+                        !!v || 'Password wird benötigt'
+                    ]
             }
         methods: {
               sign_up: () ->
                   return unless (this.$refs.form.validate())
                   console.log "Signup user",this.userdata
-                  result = this.start_signup()
-                  unless result == undefined
-                      this.$router.push('/')
-
-              ,
-              start_signup: () ->
                   submitvalues = {
                     user: this.userdata
                   }
-                  result = await this.axios.post('/users', submitvalues).catch( (error) ->
-                      console.warn "Got signup error",error
+                  that = this
+                  this.malert = false
+                  this.alertmsg = ""
+                  result = undefined
+                  this.axios.post('/users', submitvalues).then( (response) ->
+                      result = response.data
+                      that.malert = false
+                  ).catch( (error) ->
+                      console.log "Got signup error",error
+                      that.alertmsg = JSON.stringify(error.data)
+                      that.malert = true
+                      result = undefined
                   )
                   console.log "Got signup result: ",result
-                  result
+                  unless result == undefined
+                      this.$router.push('/')
 
-              oauth_finished: () ->
+
+            oauth_finished: () ->
                   this.$root.$emit('login-changed', {})
                   this.$router.push('/')
               ,
               pwmatchAckErrors: () ->
                   if !this.userdata.password_ack || !this.userdata.password
-                      this.alert = '' #Passwort wird benötigt'
+                      #this.alertmsg = '' #Passwort wird benötigt'
+                      this.alert = false
                       this.valid = false
                   else if this.userdata.password_ack != this.userdata.password
-                      this.alert = 'Passwörter müssen identisch sein'
+                      this.alertmsg = 'Passwörter müssen identisch sein'
+                      this.alert = true
                       this.valid = false
                   else
-                      this.alert = ''
+                      this.alert = false
                       this.valid = true
             }
     }
