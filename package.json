@@ -12,7 +12,7 @@
     "regenerator": "^0.13.3",
     "vue": "^2.6.6",
     "vue-cookies": "^1.5.12",
-    "vue-loader": "14.2.2",
+    "vue-loader": "^15.6.4",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.2",
     "vue-template-compiler": "^2.6.6",

@@ -5,6 +5,12 @@ const vue =  require('./loaders/vue')
 
 const customConfig = require('./custom')
 
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+environment.plugins.append(
+  'VueLoaderPlugin',
+  new VueLoaderPlugin()
+)
+
 // Merge custom config
 environment.config.merge(customConfig)
 
