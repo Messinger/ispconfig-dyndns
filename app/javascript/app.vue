@@ -27,9 +27,15 @@
             message: "Töf"
           }
         ,
+        methods: {
+            login_changed: () ->
+                this.$root.$emit('login-changed', {})
+                this.$router.push('/')
+        }
         mounted: () ->
             this.$root.$confirm = this.$refs.confirm.open
             this.$root.$spinner = this.$refs.spinner
+            this.$root.$login_changed = this.login_changed
     }
 </script>
 

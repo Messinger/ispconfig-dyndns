@@ -30,7 +30,7 @@
                 Platform admin
             </v-btn>
         </v-toolbar-items>
-        <logindialog ref="logindialog" v-on:login-changed="checkLoggedIn"></logindialog>
+        <logindialog ref="logindialog"></logindialog>
     </v-toolbar>
 </template>
 
@@ -43,7 +43,7 @@
         }),
         methods: {
             checkLoggedIn() {
-                console.log("Current user: ",window.Constants.current_user);
+                console.log("Current user for navigation: ",window.Constants.current_user);
                 this.logged_in = this.loggedIn()
             },
             loggedIn() {
@@ -87,6 +87,7 @@
         },
         mounted: function () {
             this.checkLoggedIn()
+            this.$root.$on('login-changed',this.checkLoggedIn)
         }
     }
 </script>

@@ -49,7 +49,7 @@
               unless user == undefined
                   user = user.data
                   window.Constants.current_user = user.account
-                  this.$emit('login-changed', {})
+                  this.$root.$login_changed()
           ,
           open_login_window: (url,title,width,height) ->
               that = this

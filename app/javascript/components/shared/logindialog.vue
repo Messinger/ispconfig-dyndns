@@ -46,6 +46,7 @@
             <v-card-actions class="pt-0">
                 <v-btn :disabled="!valid" color="primary darken-1" flat="flat" @click.native="try_login">Login</v-btn>
                 <v-btn color="grey" flat="flat" @click.native="cancel">Cancel</v-btn>
+                <v-btn @click.native="signupuser" v-if="keyuser==='user'" flat >Signup</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -54,10 +55,13 @@
 <script>
     import csrf from './csrf.vue'
     import authproviders from './authproviders'
+    import SignUp from '../users/sign_up'
+
     export default {
         components: {
             csrf: csrf,
-            authproviders: authproviders
+            authproviders: authproviders,
+            signup: SignUp
         },
         data: () => ({
             valid: true,
@@ -96,7 +100,14 @@
                 zIndex: 200
             }
         }),
+        mounted: function () {
+            this.$root.$on('login-changed',this.close);
+        },
         methods: {
+            signupuser() {
+                this.cancel();
+                this.$router.push('/users/signup');
+            },
             show_login(usertype) {
                 this.usertype = usertype
                 if(this.usertype === 'User') {
@@ -133,34 +144,36 @@
                         this.dialog = false
                         window.$cookies.remove("OAUTH-JSON-LOGIN")
                         window.Constants.current_user = response.data.account
-                        this.$emit('login-changed', {})
-                        this.$router.push('/')
+                        this.$root.$login_changed();
                     }).catch(err => {
                         window.$cookies.remove("OAUTH-JSON-LOGIN")
                         this.alert = true
-                        window.Constants.current_user = null
-                        this.$emit('login-changed', {})
+                        window.Constants.current_user = null;
+                        this.$root.$login_changed();
                     })
                 } else {
                     console.log("Not valid!")
                     window.Constants.current_user = null
-                    this.$emit('login-changed', {})
+                    this.$root.$login_changed();
                 }
             },
-            cancel() {
-                this.resolve(false)
+            close() {
                 this.dialog = false
             },
+            cancel() {
+                this.resolve(false);
+                this.close()
+            },
             oauth_finished() {
-                this.resolve(true)
-                this.dialog = false
-                this.$emit('login-changed', {})
+                this.resolve(true);
+                this.dialog = false;
+                this.$root.$emit('login-changed', {})
             },
             logout() {
                 if(window.Constants.current_user === null ) {
                     return;
                 }
-                let logouturl = ''
+                let logouturl = '';
                 if(window.Constants.current_user.type === 'ClientUser') {
                     logouturl = '/clients/logout'
                 } else if(window.Constants.current_user.type === 'User') {
@@ -173,13 +186,11 @@
                 }
                 this.axios.delete(logouturl).then(response => {
                     window.Constants.current_user = null
-                    this.$emit('login-changed', {})
-                    this.$router.push('/')
+                    this.$root.$login_changed();
                 }).catch(err => {
-                    this.$emit('login-changed', {})
-                    this.$router.push('/')
                     window.Constants.current_user = null
-                })
+                    this.$root.$login_changed();
+                });
             }
         }
     }
