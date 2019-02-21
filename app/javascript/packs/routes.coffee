@@ -4,6 +4,7 @@ import DnsHostRecord from '../components/dns_host_records/dns_host_record'
 import Users from '../components/admin/users'
 import User from '../components/admin/user'
 import SignUp from '../components/users/sign_up'
+import IspDnsZones from '../components/client/isp_dns_zones'
 
 export routes = [
   { path: '', component: Home, name: 'home' },
@@ -12,4 +13,5 @@ export routes = [
   { path: '/users/signup', component: SignUp, name: 'user_signup' }
   { path: '/admin/users/:id', component: User, props: true, name: 'admin_userdetail' }
   { path: '/admin/users', component: Users, name: 'admin_userlist'}
+  { path: '/client/isp_dns_zones', component: IspDnsZones, name: 'IspDnsZones' }
 ]

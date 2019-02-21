@@ -9,6 +9,9 @@
       <v-btn flat :to="{name: 'dns_host_records'}" v-if="isUser()||isClient()">
         DNS Einträge
       </v-btn>
+      <v-btn flat :to="{name: 'IspDnsZones'}" v-if="isClient()">
+        ISP Config DNS
+      </v-btn>
       <v-btn flat :to="{name: 'admin_userlist'}" v-if="isAdmin()">
         Userlist
       </v-btn>
