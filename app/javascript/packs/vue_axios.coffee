@@ -18,4 +18,4 @@
     define([],() -> plugin )
   else if window.Vue && window.axios
     console.log "Use global axios"
-    Vue.use(plugin,window.axis)
+    Vue.use(plugin,window.axios)
