@@ -27,6 +27,9 @@
                   <div style="max-width: 20em; word-break: break-all;">{{props.item.data}}</div>
                 </v-tooltip>
               </td>
+              <td>
+                <a :href="get_item_url(props.item)" v-if="!!props.item.local_host_rec.id">{{props.item.local_host_rec.name}}</a>
+              </td>
             </tr>
           </template>
         </v-data-table>
@@ -56,6 +59,10 @@
             text: 'Eintrag'
             value: 'data'
           }
+          {
+            text: "Lokale Zuweisung"
+            value: "local_host_rec.id"
+          }
         ]
         pagination: {
           sortBy: 'name'
@@ -78,6 +85,9 @@
         if !!zonedata
           this.zoneinfo = zonedata.data.zone
           this.records = zonedata.data.records
+
+      get_item_url: (item) ->
+        this.$router.resolve({name: 'dns_host_record',params:{id: item.local_host_rec.id}}).href
     }
   }
 </script>

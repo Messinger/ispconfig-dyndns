@@ -120,8 +120,6 @@
         ]
       }
     mounted: () ->
-      console.log("Record view " + this.id + " mounted");
-      console.log this
       setTimeout(this.retrieve_record, 50)
       this.allowed_dns_zones = []
 
@@ -150,7 +148,7 @@
       cancel: () ->
         that = this
         setTimeout(() ->
-          that.$router.push('/dns-host-records')
+          that.$router.push({name: 'dns_host_records'})
         , 20)
 
       validate_and_submit: () ->

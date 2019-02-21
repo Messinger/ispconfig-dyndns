@@ -39,10 +39,11 @@ class Client::IspDnszonesController < ApplicationController
       add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path
       add_breadcrumb @ispdnszone.origin,client_isp_dnszone_path(@ispdnszone)
     end
+
     respond_to do |format|
       format.html
       format.json {
-        render json: {zone: @ispdnszone, records: @ispdnszonerecords}.as_json, status: :ok
+        render json: {zone: @ispdnszone.as_json, records: @ispdnszonerecords.as_json({:with_local => true})}, status: :ok
       }
     end
 

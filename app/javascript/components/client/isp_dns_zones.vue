@@ -31,7 +31,7 @@
 
                 <v-tooltip top>
                   <template #activator="data">
-                    <v-btn v-on="data.on" flat icon @click="$router.push({name: 'IspDnsZone', params: {id: props.item.id} })">
+                    <v-btn v-on="data.on" flat icon @click="show_records(props.item)">
                       <v-icon>fa-list</v-icon>
                     </v-btn>
                   </template>
@@ -89,13 +89,20 @@
           else
             ''
 
+        show_records: (item) ->
+          that = this
+          setTimeout(
+              () ->
+                that.$router.push({name: 'IspDnsZone', params: {id: item.id} })
+            ,10
+          )
+
         retrieve_zones: () ->
           that = this
           zones = await this.axios.get('/client/isp_dnszones').catch( (error) ->
             zones = {data: []}
           )
           this.isp_dns_zones = zones.data
-          console.log "Got zones: ",this.isp_dns_zones
 
         delete_local_zone: (item) ->
           console.log "Lösche zuweisung für ",item
@@ -103,8 +110,6 @@
         add_local_zone: (item) ->
           console.log "Neue lokale Zuweisung für ",item
 
-        show_records: (item) ->
-          console.log "Zeige Details & Records"
     }
   }
 </script>
