@@ -6,10 +6,10 @@
       <v-btn flat to="/">
         Home
       </v-btn>
-      <v-btn flat to="/dns-host-records" v-if="isUser()||isClient()">
+      <v-btn flat :to="{name: 'dns_host_records'}" v-if="isUser()||isClient()">
         DNS Einträge
       </v-btn>
-      <v-btn flat to="/users" v-if="isAdmin()">
+      <v-btn flat :to="{name: 'admin_userlist'}" v-if="isAdmin()">
         Userlist
       </v-btn>
       <v-btn flat v-if="!logged_in" v-on:click="login_user">

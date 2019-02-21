@@ -111,7 +111,7 @@
     methods: {
       signupuser() {
         this.cancel();
-        this.$router.push('/users/signup');
+        this.$router.push({name: 'user_signup'});
       },
       show_login(usertype) {
         this.usertype = usertype

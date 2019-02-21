@@ -114,7 +114,7 @@
       showUser: (useritem) ->
         console.log "Show user id"
         console.log useritem
-        this.$router.push('/users/'+useritem.id)
+        this.$router.push({name: 'admin_userdetail', params: {id: useritem.id} })
         #this.displayuser = useritem
 
       deleteUser: (useritem) ->

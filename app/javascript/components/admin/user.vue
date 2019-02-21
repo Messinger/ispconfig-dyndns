@@ -59,7 +59,7 @@
         that = this
         console.log "Go Back"
         setTimeout(() ->
-          that.$router.push('/users')
+          that.$router.push({name: 'admin_userlist'})
         , 20)
 
       fetchuser: () ->
