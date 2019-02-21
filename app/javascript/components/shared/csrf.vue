@@ -1,8 +1,8 @@
 <template>
-    <div class="">
-        <input name="utf8" type="hidden" value="✓">
-        <input type="hidden" name="authenticity_token" :value="csrf">
-    </div>
+  <div class="">
+    <input name="utf8" type="hidden" value="✓">
+    <input type="hidden" name="authenticity_token" :value="csrf">
+  </div>
 </template>
 
 <script>
