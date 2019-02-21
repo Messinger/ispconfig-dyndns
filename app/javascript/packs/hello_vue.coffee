@@ -49,7 +49,6 @@
       window.$cookies.remove('_session_id',null,null)
       window.Constants.current_user = null
       window.vueapp.$root.$login_changed()
-      window.vueapp.login_changed()
       Promise.resolve(error.response)
     else
       Promise.reject(error.response)
