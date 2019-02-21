@@ -17,7 +17,7 @@ Vue.use(VueCookies)
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(Vuetify,{
-  iconfont: 'mdi'
+  iconfont: 'md'
 })
 
 console.log "Root path = #{Constants.root_path}"

@@ -129,12 +129,12 @@
         {
           text: "Index",
           disabled: false,
-          href: this.$router.resolve('/').href
+          href: this.$router.resolve({name: 'home'}).href
         }
         {
           text: "DNS Einträge",
           disabled: false,
-          href: this.$router.resolve('/dns-host-records').href
+          href: this.$router.resolve({name: 'dns_host_records'}).href
         }
       ]
     methods: {
@@ -193,7 +193,7 @@
         if success
           that = this
           setTimeout(() ->
-            that.$router.push('/dns-host-records')
+            that.$router.push({name: 'dns_host_records'})
           , 20)
         else
           if errors.dns_host_record.name.length>0

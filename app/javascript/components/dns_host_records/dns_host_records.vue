@@ -179,13 +179,13 @@
         }
       },
       itemdblclick(item) {
-        this.$router.push('/dns-host-records/'+item.id)
+        this.$router.push({name: 'dns_host_record', params: {id: item.id}})
       },
       newRecord() {
         let that = this;
         setTimeout(
           function() {
-            that.$router.push('/dns-host-records/new')
+            that.$router.push({name: 'dns_host_record', params: {id: 'new'}})
           },10
 
         )
