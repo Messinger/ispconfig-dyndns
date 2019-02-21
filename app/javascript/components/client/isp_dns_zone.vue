@@ -1,6 +1,33 @@
 <template>
   <div id="isp_dns_zone_view">
-    ID {{id}}
+    <v-card>
+      <v-card-title primary-title>
+        <v-progress-circular
+            indeterminate
+            color="black"
+            v-if="!zoneinfo.origin"
+        ></v-progress-circular>
+        <div v-if="!!zoneinfo.origin"><h3>Details von {{zoneinfo.origin}}</h3></div>
+      </v-card-title>
+      <v-card-text>
+        <v-data-table :headers="headers" :items="records">
+          <template slot="items" slot-scope="props">
+            <tr>
+              <td>{{props.item.name}}</td>
+              <td><div>{{props.item.type}}</div></td>
+              <td>
+                <v-tooltip top>
+                  <template #activator="data">
+                    <div v-on="data.on" class="ellipsistxt">{{props.item.data}}</div>
+                  </template>
+                  <div style="max-width: 20em; word-break: break-all;">{{props.item.data}}</div>
+                </v-tooltip>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -8,9 +35,50 @@
   export default {
     props: ['id']
     name: "isp_dns_zone"
+    data: () ->
+      {
+        zoneinfo: {}
+        records: []
+        headers: [
+          {
+            text: 'Name'
+            value: 'name'
+          }
+          {
+            text: 'Type'
+            value: 'type'
+          }
+          {
+            text: 'Eintrag'
+            value: 'data'
+          }
+        ]
+      }
+
+    mounted: () ->
+      setTimeout(this.fetchdata,10)
+
+    methods: {
+      fetchdata: () ->
+        that = this
+        zonedata = await this.axios.get("/client/isp_dnszones/#{this.id}").catch(
+            (error) ->
+              console.log error
+              that.zoneinfo = {}
+              that.records = []
+        )
+        if !!zonedata
+          this.zoneinfo = zonedata.data.zone
+          this.records = zonedata.data.records
+    }
   }
 </script>
 
 <style scoped>
-
+  .ellipsistxt {
+    max-width: 20em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 </style>

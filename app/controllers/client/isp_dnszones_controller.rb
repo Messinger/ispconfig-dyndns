@@ -34,9 +34,18 @@ class Client::IspDnszonesController < ApplicationController
     _records = @ispdnszone.records
     @ispdnszonerecords = IspResourceRecordDecorator.decorate_collection _records
 
-    cu = ClientUserDecorator.new current_client_user
-    add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path
-    add_breadcrumb @ispdnszone.origin,client_isp_dnszone_path(@ispdnszone)
+    if html_request?
+      cu = ClientUserDecorator.new current_client_user
+      add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path
+      add_breadcrumb @ispdnszone.origin,client_isp_dnszone_path(@ispdnszone)
+    end
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: {zone: @ispdnszone, records: @ispdnszonerecords}.as_json, status: :ok
+      }
+    end
+
   end
 
 end
