@@ -31,7 +31,7 @@
 
                 <v-tooltip top>
                   <template #activator="data">
-                    <v-btn v-on="data.on" flat icon>
+                    <v-btn v-on="data.on" flat icon @click="$router.push({name: 'IspDnsZone', params: {id: props.item.id} })">
                       <v-icon>fa-list</v-icon>
                     </v-btn>
                   </template>
