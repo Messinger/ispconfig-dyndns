@@ -28,7 +28,11 @@ class User::SessionsController < Devise::SessionsController
   end
 
   def fetch_user
-    render json: {account: current_account.as_json.merge({'type':current_account.class.name})}, status: :ok
+    if current_account.nil?
+      render json: nil, status: :ok
+    else
+      render json: {account: current_account.as_json.merge({'type':current_account.class.name})}, status: :ok
+    end
   end
 
   def close_window
