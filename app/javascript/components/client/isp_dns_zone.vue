@@ -10,7 +10,11 @@
         <div v-if="!!zoneinfo.origin"><h3>Details von {{zoneinfo.origin}}</h3></div>
       </v-card-title>
       <v-card-text>
-        <v-data-table :headers="headers" :items="records">
+        <v-toolbar light flat>
+          <v-spacer></v-spacer>
+          <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        </v-toolbar>
+        <v-data-table :headers="headers" :items="records" :search="search" :pagination.sync="pagination">
           <template slot="items" slot-scope="props">
             <tr>
               <td>{{props.item.name}}</td>
@@ -53,6 +57,10 @@
             value: 'data'
           }
         ]
+        pagination: {
+          sortBy: 'name'
+        }
+        search: ''
       }
 
     mounted: () ->
