@@ -1,7 +1,13 @@
 <template>
   <div id="users_container">
     <v-card v-if="displayuser === null">
-      <v-card-title><span class="title" font-weight-light>Bekannte Benutzer</span></v-card-title>
+      <v-card-title>
+        <span class="title" font-weight-light>Bekannte Benutzer</span>
+        <v-spacer></v-spacer>
+        <v-btn icon flat @click="fetchRecords">
+          <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+      </v-card-title>
       <v-card-text>
         <v-data-table :headers="headers" :items="records">
           <template slot="items" slot-scope="props">
@@ -17,11 +23,11 @@
                     class="mr-2"
                     @click="showUser(props.item)"
                 >
-                  mdi-pencil-outline
+                  mdi-account-details
                 </v-icon>
                 <v-icon
                     small
-                    @click="showUser(props.item)"
+                    @click="deleteUser(props.item)"
                 >
                   mdi-trash-can-outline
                 </v-icon>
@@ -110,6 +116,25 @@
         console.log useritem
         this.$router.push('/users/'+useritem.id)
         #this.displayuser = useritem
+
+      deleteUser: (useritem) ->
+        that = this
+        this.$root.$confirm('Lösche Benutzer',"Dein Benutzer #{useritem.email} wirklich löschen?",{color: 'red'})
+          .then(
+            (confirm) ->
+              return unless confirm
+              that.$root.$spinner.open()
+              console.log "Wirklich löschen..."
+              await that.axios.delete("/admins/users/#{useritem.id}").then(
+                  (response) ->
+                    setTimeout(that.fetchRecords,20)
+              ).catch(
+                  (error) ->
+                    console.log error
+              )
+              that.$root.$spinner.close()
+
+        )
 
       closedetail: () ->
         console.log "Verstecke benutzerdetails"
