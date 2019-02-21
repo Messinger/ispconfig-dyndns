@@ -27,6 +27,7 @@ class Admins::UsersController < ApplicationController
     begin
       user = User.accessible_by(current_ability).find params[:id]
     rescue => _
+      user = nil
     end
 
     status = if user.nil?
