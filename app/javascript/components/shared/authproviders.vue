@@ -46,9 +46,8 @@
         user = await this.open_login_window(url,"Connect to my site",800,600)
         console.log "Got user via await: ",user
         window.$cookies.remove("OAUTH-JSON-LOGIN")
-        unless user == undefined
-          user = user.data
-          window.Constants.current_user = user.account
+        if !!user && !!user.data
+          window.Constants.current_user = user.data.account
           this.$root.$login_changed()
 
       open_login_window: (url,title,width,height) ->
