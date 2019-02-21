@@ -32,9 +32,9 @@
                   <v-flex d-flex child-flex xs12>
                     <v-text-field v-model="user.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
                   </v-flex>
-                  <v-vlex d-flex child-flex xs12>
+                  <v-flex d-flex child-flex xs12>
                     <v-checkbox v-model="user.remember_me" label="Remember me"></v-checkbox>
-                  </v-vlex>
+                  </v-flex>
                 </v-card>
               </v-flex>
               <v-flex d-flex xs12 sm6 md2 child-flex>
