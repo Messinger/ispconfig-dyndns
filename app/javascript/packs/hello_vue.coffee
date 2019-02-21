@@ -47,7 +47,9 @@
       console.log "Cookies: ",window.$cookies.keys()
       window.$cookies.remove('_dyndns_session',null, null)
       window.$cookies.remove('_session_id',null,null)
-      router.push('/')
+      window.Constants.current_user = null
+      window.vueapp.$root.$login_changed()
+      window.vueapp.login_changed()
       Promise.resolve(error.response)
     else
       Promise.reject(error.response)
@@ -59,4 +61,5 @@
        router,
        components: {App}
      })
+     window.vueapp = app
   )
