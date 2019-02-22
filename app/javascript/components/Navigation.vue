@@ -33,12 +33,10 @@
         Platform admin
       </v-btn>
     </v-toolbar-items>
-    <logindialog ref="logindialog"></logindialog>
   </v-toolbar>
 </template>
 
 <script>
-  import logindialog from './shared/logindialog'
   export default {
     name: "Navigation",
     data: () => ({
@@ -62,23 +60,13 @@
         return this.loggedIn() && window.Constants.current_user.type === 'Admin'
       },
       login_admin() {
-        console.log(this.$refs)
-        this.$refs.logindialog.show_login('Admin').then((confirm) => {
-          console.log("Bestätigt mit: "+confirm)
-        })
+        this.$router.push({name: 'userlogin', params: {usertype: 'admin'}});
       },
       login_user() {
-        this.$refs.logindialog.show_login('User').then((confirm) => {
-          console.log("Bestätigt mit: "+confirm)
-        })
+        this.$router.push({name: 'userlogin', params: {usertype: 'user'}});
       },
       login_client() {
-        console.log(this.$refs)
-        this.checkLoggedIn()
-        this.$refs.logindialog.show_login('Client').then((confirm) => {
-          console.log("Bestätigt mit: "+confirm)
-          console.log("Eingeloggt: "+this.loggedIn())
-        })
+        this.$router.push({name: 'userlogin', params: {usertype: 'client'}});
       },
       logout_user() {
         this.$root.$logout()
@@ -86,10 +74,9 @@
 
     },
     components: {
-      logindialog: logindialog
     },
     mounted: function () {
-      this.checkLoggedIn()
+      this.checkLoggedIn();
       this.$root.$on('login-changed',this.checkLoggedIn)
     }
   }

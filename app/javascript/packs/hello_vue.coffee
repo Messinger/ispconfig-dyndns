@@ -45,11 +45,15 @@ window.axios.interceptors.response.use(null,(error) ->
   if error.response.status == 401
     console.warn "Error status:",error.response
     console.log "Cookies: ",window.$cookies.keys()
-    window.$cookies.remove('_dyndns_session',null, null)
-    window.$cookies.remove('_session_id',null,null)
-    window.Constants.current_user = null
-    window.vueapp.$root.$login_changed()
-    Promise.resolve(error.response)
+
+    if error.response.config.url.indexOf('/sign_in') == -1 && error.response.config.url.indexOf('/sessions') == -1 && error.response.config.url.indexOf('/login') == -1
+      window.$cookies.remove('_dyndns_session',null, null)
+      window.$cookies.remove('_session_id',null,null)
+      window.Constants.current_user = null
+      window.vueapp.$root.$login_changed()
+      Promise.resolve(error.response)
+    else
+      Promise.reject(error.response)
   else
     Promise.reject(error.response)
 )

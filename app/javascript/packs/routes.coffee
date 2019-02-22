@@ -6,6 +6,7 @@ import User from '../components/admin/user'
 import SignUp from '../components/users/sign_up'
 import IspDnsZones from '../components/client/isp_dns_zones'
 import IspDnsZone from '../components/client/isp_dns_zone'
+import AccountsLogin from '../components/shared/accounts_login'
 
 export routes = [
   { path: '', component: Home, name: 'home' },
@@ -16,4 +17,6 @@ export routes = [
   { path: '/admin/users', component: Users, name: 'admin_userlist'}
   { path: '/client/isp_dns_zone/:id', component: IspDnsZone, name: 'IspDnsZone', props: true }
   { path: '/client/isp_dns_zones', component: IspDnsZones, name: 'IspDnsZones' }
+  { path: '/:usertype/login', component: AccountsLogin, props: true, name: 'userlogin' }
+  { path: '/:usertype/sign_in', component: AccountsLogin, props: true, name: 'usersignin' }
 ]

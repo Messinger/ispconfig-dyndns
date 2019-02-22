@@ -4,9 +4,12 @@
   </div>
 </template>
 
-<script>
+<script lang="coffee">
   export default {
     name: "home"
+    mounted: () ->
+      if !window.Constants.current_user
+        this.$router.push({name: 'userlogin', params: {usertype: 'user'}})
   }
 </script>
 

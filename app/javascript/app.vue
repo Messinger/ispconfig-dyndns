@@ -34,7 +34,10 @@
     methods: {
       login_changed: () ->
         this.$root.$emit('login-changed', {})
-        this.$router.push('/')
+        if !!window.Constants.current_user
+          this.$router.push('/')
+        else
+          this.$router.push({name: 'userlogin',params:{usertype: 'user'}})
     }
 
     mounted: () ->
