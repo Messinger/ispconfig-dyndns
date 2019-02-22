@@ -25,7 +25,7 @@
                   <v-text-field v-model="userdata.password" :rules="passwordRules" :error_messages="pwmatchAckErrors()" :type='password' label="Password" required></v-text-field>
                 </v-flex>
                 <v-flex d-flex child-flex xs12>
-                  <v-text-field v-model="userdata.password_ack" :rules="passwordRules" :error_messages="pwmatchAckErrors()" :type='password' label="Password wiederholen" required></v-text-field>
+                  <v-text-field v-model="userdata.password_confirmation" :rules="passwordRules" :error_messages="pwmatchAckErrors()" :type='password' label="Password wiederholen" required></v-text-field>
                 </v-flex>
               </v-card>
             </v-flex>
@@ -58,7 +58,7 @@
           email: ''
           password: ''
           name: ''
-          password_ack: ''
+          password_confirmation: ''
         }
         password: 'Password'
         valid: false
@@ -109,11 +109,11 @@
         this.$router.push('/')
 
       pwmatchAckErrors: () ->
-        if !this.userdata.password_ack || !this.userdata.password
+        if !this.userdata.password_confirmation || !this.userdata.password
 #this.alertmsg = '' #Passwort wird benötigt'
           this.alert = false
           this.valid = false
-        else if this.userdata.password_ack != this.userdata.password
+        else if this.userdata.password_confirmation != this.userdata.password
           this.alertmsg = 'Passwörter müssen identisch sein'
           this.alert = true
           this.valid = false
