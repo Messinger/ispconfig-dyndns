@@ -81,7 +81,7 @@
         })
       },
       logout_user() {
-        this.$refs.logindialog.logout()
+        this.$root.$logout()
       }
 
     },

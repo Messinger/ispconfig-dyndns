@@ -179,29 +179,6 @@
         this.resolve(true);
         this.dialog = false;
         this.$root.$emit('login-changed', {})
-      },
-      logout() {
-        if(window.Constants.current_user === null ) {
-          return;
-        }
-        let logouturl = '';
-        if(window.Constants.current_user.type === 'ClientUser') {
-          logouturl = '/clients/logout'
-        } else if(window.Constants.current_user.type === 'User') {
-          logouturl = '/users/sign_out'
-        } else if(window.Constants.current_user.type === 'Admin') {
-          logouturl = '/admins/sign_out'
-        }
-        if(logouturl === ''){
-          return
-        }
-        this.axios.delete(logouturl).then(response => {
-          window.Constants.current_user = null
-          this.$root.$login_changed();
-        }).catch(err => {
-          window.Constants.current_user = null
-          this.$root.$login_changed();
-        });
       }
     }
   }

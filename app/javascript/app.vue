@@ -16,6 +16,8 @@
   import confirm from 'components/shared/confirm'
   import spinneroverlay from 'components/shared/spinneroverlay'
   import { errors_to_array } from 'packs/errors_to_array.coffee'
+  import { user_logout } from 'packs/user_logout'
+
 
   export default {
     components: {
@@ -41,6 +43,7 @@
       this.$root.$login_changed = this.login_changed
       this.$root.$errors_to_array = (errors) ->
         errors_to_array.error_hash_to_array(errors)
+      this.$root.$logout = user_logout.user_logout
   }
 </script>
 
