@@ -7,6 +7,7 @@ import SignUp from '../components/users/sign_up'
 import IspDnsZones from '../components/client/isp_dns_zones'
 import IspDnsZone from '../components/client/isp_dns_zone'
 import AccountsLogin from '../components/shared/accounts_login'
+import FinishSignup from '../components/users/finish_signup'
 
 export routes = [
   { path: '', component: Home, name: 'home' },
@@ -19,4 +20,5 @@ export routes = [
   { path: '/client/isp_dns_zones', component: IspDnsZones, name: 'IspDnsZones' }
   { path: '/:usertype/login', component: AccountsLogin, props: true, name: 'userlogin' }
   { path: '/:usertype/sign_in', component: AccountsLogin, props: true, name: 'usersignin' }
+  { path: '/profile/:id/finish_signup', component: FinishSignup, props: true, name: 'finishsignup' }
 ]

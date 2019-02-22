@@ -131,7 +131,8 @@ class User < ActiveRecord::Base
         _res['identity'] = {}
       end
     end
-    _res['email_verified'] = email_verified?
+    _res['email_must_verified'] = !email_verified?
+    _res['locked'] = access_locked?
     _res
   end
 

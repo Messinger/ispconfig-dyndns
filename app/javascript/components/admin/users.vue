@@ -17,6 +17,9 @@
               <td v-if="props.item.identity !== null">{{ props.item.identity.provider}}</td>
               <td v-else>Intern</td>
               <td>{{ props.item.dns_host_records.length}}</td>
+              <td>
+                  <v-checkbox hide-details v-model="props.item.locked" label="" disabled></v-checkbox>
+              </td>
               <td class="justify-center layout px-0">
                 <v-icon
                     small
@@ -95,6 +98,10 @@
           text: "Anzahl DNS Records"
           align: "left"
           value: "dns_host_records.length"
+        },{
+          text: 'Locked',
+          sortable: false,
+          value: 'locked'
         },{
           text: '',
           sortable: false,
