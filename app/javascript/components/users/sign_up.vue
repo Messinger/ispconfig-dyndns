@@ -1,9 +1,9 @@
 <template>
   <div id="signup">
     <v-card>
-      <v-toolbar light dense flat>
-        <v-toolbar-title>Sign up</v-toolbar-title>
-      </v-toolbar>
+      <v-card-title light dense flat>
+        <H3>Sign up</H3>
+      </v-card-title>
       <v-card-text>
         <div>
           <v-alert v-model="malert" dismissible type="error">
@@ -13,7 +13,10 @@
         <v-form ref="form" v-model="valid" lazy-validation id="signupform">
 
           <v-layout row wrap>
-            <v-flex d-flex xs12 sm12 md8>
+            <v-flex d-flex xs12 sm1 md1 child-flex>
+              <authproviders ref="authprovider"></authproviders>
+            </v-flex>
+            <v-flex d-flex xs12 sm12 md10>
               <v-card flat>
                 <v-flex d-flex xs12 child-flex>
                   <v-text-field v-model="userdata.name" :rules="nameRules" label="Name" required ></v-text-field>
@@ -28,9 +31,6 @@
                   <v-text-field v-model="userdata.password_confirmation" :rules="passwordRules" :error_messages="pwmatchAckErrors()" :type='password' label="Password wiederholen" required></v-text-field>
                 </v-flex>
               </v-card>
-            </v-flex>
-            <v-flex d-flex xs12 sm6 md2 child-flex>
-              <authproviders ref="authprovider" v-on:login-changed="oauth_finished"></authproviders>
             </v-flex>
           </v-layout>
         </v-form>

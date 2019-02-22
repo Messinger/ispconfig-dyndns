@@ -2,7 +2,7 @@
   <div id="accounts_login_container">
     <v-card>
       <v-card-title light dense flat>
-        <h3>{{ title }}</h3>
+        <h3>Login als <span class="first_upcase">{{ user_type }}</span></h3>
       </v-card-title>
       <v-card-text>
         <div>
@@ -13,13 +13,33 @@
         <v-form ref="form" v-model="valid" lazy-validation id="loginform">
 
           <div  v-if="user_type==='client'" >
-            <v-text-field v-model="client.login_id" :rules="loginRules" label="Login ID" required ></v-text-field>
-            <v-text-field v-model="client.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+            <v-layout row wrap>
+              <v-flex d-flex  xs12 sm12 offset-md1 md10>
+                <v-card flat>
+                  <v-flex d-flex xs12 child-flex>
+                    <v-text-field v-model="client.login_id" :rules="loginRules" label="ISPConfig User" required ></v-text-field>
+                  </v-flex>
+                  <v-flex d-flex xs12 child-flex>
+                    <v-text-field v-model="client.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+                  </v-flex>
+                </v-card>
+              </v-flex>
+            </v-layout>
           </div>
 
           <div  v-if="user_type==='admin'" >
-            <v-text-field v-model="admin.login" :rules="loginRules" label="Login ID" required ></v-text-field>
-            <v-text-field v-model="admin.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+            <v-layout row wrap>
+            <v-flex d-flex  xs12 sm12 offset-md1 md10>
+              <v-card flat>
+              <v-flex d-flex xs12 child-flex>
+                <v-text-field v-model="admin.login" :rules="loginRules" label="Login ID" required ></v-text-field>
+              </v-flex>
+              <v-flex d-flex xs12 child-flex>
+                <v-text-field v-model="admin.password" :rules="passwordRules" :type='password' label="Password" required></v-text-field>
+              </v-flex>
+              </v-card>
+            </v-flex>
+            </v-layout>
           </div>
 
           <div  v-if="user_type==='user'" >
@@ -27,7 +47,7 @@
               <v-flex d-flex xs12 sm1 md1 child-flex>
                 <authproviders ref="authprovider"></authproviders>
               </v-flex>
-              <v-flex d-flex>
+              <v-flex d-flex  xs12 sm12 md10>
                 <v-card flat>
                   <v-flex d-flex xs12 child-flex>
                     <v-text-field v-model="user.email" :rules="emailRules" label="Email" required ></v-text-field>
@@ -123,6 +143,8 @@
             when ('admin') then '/admins/sign_in'
             else nil
 
+          this.title = "Login als #{this.user_type}"
+
       signupuser: () ->
         that = this
         setTimeout(
@@ -159,5 +181,9 @@
 </script>
 
 <style scoped>
+
+  .first_upcase {
+    text-transform:capitalize;
+  }
 
 </style>
