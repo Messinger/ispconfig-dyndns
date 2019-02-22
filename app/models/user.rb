@@ -105,8 +105,23 @@ class User < ActiveRecord::Base
   end
 
   def as_json options={}
-    _res = super options
     _opt = options.dup
+
+    if _opt.key?(:include)
+      enforce_except = BLACKLIST_FOR_SERIALIZATION.dup
+      includes = _opt[:include].dup
+      _opt[:include].each do |val|
+        if enforce_except.find_index(val)
+          includes.delete(val)
+          enforce_except.delete(val)
+        end
+      end
+      _opt[:force_except] = enforce_except
+      _opt[:include] = includes
+    end
+
+    _res = super _opt
+
     _opt.delete(:include)
     if options.key?(:include)
       if (options[:include].is_a?(Symbol) && options[:include] == :identity)||(options[:include].is_a?(Array) && options[:include].include?(:identity))
