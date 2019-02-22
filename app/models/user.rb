@@ -105,9 +105,10 @@ class User < ActiveRecord::Base
   end
 
   def as_json options={}
+
     _opt = options.dup
 
-    if _opt.key?(:include)
+    if _opt.key?(:include) && !_opt.key?(:force_except)
       enforce_except = BLACKLIST_FOR_SERIALIZATION.dup
       includes = _opt[:include].dup
       _opt[:include].each do |val|
@@ -130,6 +131,7 @@ class User < ActiveRecord::Base
         _res['identity'] = {}
       end
     end
+    _res['email_verified'] = email_verified?
     _res
   end
 
