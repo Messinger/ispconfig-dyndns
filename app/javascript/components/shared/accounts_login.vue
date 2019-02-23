@@ -6,9 +6,13 @@
       </v-card-title>
       <v-card-text>
         <div>
-          <v-alert v-model="alert" dismissible type="error">
+          <v-snackbar v-model="alert" color="error" :timeout="snacktimeout" :top="ontop">
             {{alertmsg}}
-          </v-alert>
+            <v-btn dark flat @click="snackbar = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-snackbar>
+
         </div>
         <v-form ref="form" v-model="valid" lazy-validation id="loginform">
 
@@ -91,6 +95,8 @@
       'user_type': ''
       'login_url': ''
       alert: false,
+      snacktimeout: 6000
+      ontop: true
       alertmsg: 'Fehler beim Login',
       valid: false
       client: {
@@ -174,6 +180,7 @@
               (error) ->
                 window.$cookies.remove("OAUTH-JSON-LOGIN")
                 that.alert = true
+                that.alertmsg = error.data.error||'Fehler'
                 window.Constants.current_user = null;
           )
     }
