@@ -75,6 +75,11 @@
         <v-btn color="grey" flat="flat" @click.native="cancel">Cancel</v-btn>
         <v-btn @click.native="signupuser" v-if="user_type==='user'" flat >Signup</v-btn>
       </v-card-actions>
+      <v-card-actions v-if="user_type!=='client'">
+        <v-breadcrumbs :items="br_items">
+          <v-icon slot="divider">chevron_right</v-icon>
+        </v-breadcrumbs>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -112,6 +117,7 @@
         password: '',
         remember_me: false
       },
+      br_items: []
       title: "Login",
       login_url: '/users/sign_in',
       password: 'Password',
@@ -150,6 +156,16 @@
             else nil
 
           this.title = "Login als #{this.user_type}"
+
+          switch this.user_type
+            when 'user'
+              this.br_items = [
+                {
+                  text: "Bestätigung anfordern"
+                  disabled: false
+                  href: this.$router.resolve({name: 'send_confirmation'}).href
+                }
+              ]
 
       signupuser: () ->
         that = this
