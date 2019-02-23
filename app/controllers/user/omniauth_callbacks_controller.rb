@@ -3,6 +3,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def self.provides_callback_for(provider)
     class_eval %Q{
       def #{provider}
+        session[:oauth_error] = nil
         @user = User.find_for_oauth(request.env["omniauth.auth"], current_user)
         session['user_return_to'] = close_sign_window_path if !!cookies['OAUTH-JSON-LOGIN']
 

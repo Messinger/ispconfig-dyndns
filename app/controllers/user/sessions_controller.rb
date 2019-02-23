@@ -11,6 +11,10 @@ class User::SessionsController < Devise::SessionsController
     end
   end
 
+  def new
+    super
+  end
+
   def omniauth_providers
     session['user_return_to'] = close_sign_window_path
     providers = []
@@ -29,7 +33,8 @@ class User::SessionsController < Devise::SessionsController
 
   def fetch_user
     if current_account.nil?
-      render json: nil, status: :ok
+      render json: {errormessage: session[:oauth_error]}, status: :ok
+      session[:oauth_error] = nil
     else
       render json: {account: current_account.as_json.merge({'type':current_account.class.name})}, status: :ok
     end
