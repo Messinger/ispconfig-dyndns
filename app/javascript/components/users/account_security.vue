@@ -1,0 +1,144 @@
+<template>
+  <div id="account_security_div">
+    <v-card>
+      <v-card-title>
+        <h3>{{title}} für <span class="first_upcase">{{ usertype }}</span></h3>
+      </v-card-title>
+      <v-card-text>
+        <div>
+          <v-snackbar v-model="alert" color="error" :timeout="snacktimeout" :top="ontop">
+            {{alertmsg}}
+            <v-btn dark flat @click="snackbar = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-snackbar>
+        </div>
+        <v-form ref="form" v-model="valid" lazy-validation id="loginform">
+          <v-layout row wrap>
+            <v-flex d-flex  xs12 sm12 offset-md1 md10>
+              <v-text-field v-model="submit.login" :rules="loginRules" label="Login ID" required v-if="inputtype=='login'"></v-text-field>
+              <v-text-field v-model="submit.email" :rules="emailRules" label="Email" required v-else></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-form>
+      </v-card-text>
+      <v-card-actions class="pt-0">
+        <v-btn :disabled="!valid" color="primary darken-1" flat="flat" @click.native="submit_request">Anfordern</v-btn>
+      </v-card-actions>
+      <v-card-actions v-if="usertype!=='client'">
+        <v-breadcrumbs :items="br_items">
+          <v-icon slot="divider">code</v-icon>
+        </v-breadcrumbs>
+      </v-card-actions>
+    </v-card>
+  </div>
+</template>
+
+<script lang="coffee">
+
+  export default {
+    props: ['action','usertype']
+    components: {}
+    name: "account_security"
+    data: () -> {
+      alert: false
+      alertmsg: ''
+      snacktimeout: 6000
+      ontop: true
+      valid: false
+      title: ''
+      targeturl: ''
+      inputtype: ''
+      submit: {
+        email: ''
+        login: ''
+      }
+      loginRules: [
+        (v) -> !!v || 'Login-ID is required'
+      ]
+      emailRules: [
+        (v) -> !!v || 'E-mail is required'
+        (v) -> /.+@.+/.test(v) || 'E-mail must be valid'
+      ]
+      br_items: []
+    }
+    mounted: () ->
+      this.validate_data()
+
+    watch: {
+      "$route": (to,from) ->
+        this.validate_data()
+    }
+
+    methods: {
+      validate_data: () ->
+        this.submit.email = ''
+        this.submit.login = ''
+        this.targeturl = switch(this.usertype)
+          when('admin') then '/admins/'
+          when('user') then '/users/'
+          else ''
+
+        switch(this.action)
+          when 'send_confirmation'
+            this.title = "Neue Emailbestätigung"
+            this.targeturl="#{this.targeturl}confirmation"
+            this.inputtype = 'email'
+          when 'send_request_password'
+            this.title = "Passwort zurücksetzen"
+            this.targeturl="#{this.targeturl}password"
+            this.inputtype = switch(this.usertype)
+              when('admin') then 'login'
+              else 'email'
+          when 'send_request_unlock'
+            this.title = "Entsperr-Token anfordern"
+            this.targeturl="#{this.targeturl}unlock"
+            this.inputtype = 'email'
+
+        switch this.usertype
+          when 'user'
+            this.br_items = [
+              {
+                text: "Bestätigung anfordern"
+                disabled: false
+                to: {name: 'send_confirmation'}
+              },
+              {
+                text: "Passwort vergessen?"
+                disabled: false
+                to: {name: 'request_password'}
+              },
+              {
+                text: "Login gesperrt?"
+                disabled: false
+                to: {name: 'request_unlock'}
+              }
+            ]
+          when 'admin'
+            this.br_items = [
+              {
+                text: "Passwort vergessen?"
+                disabled: false
+                to: {name: 'admin_request_password'}
+              },
+              {
+                text: "Login gesperrt?"
+                disabled: false
+                to: {name: 'admin_request_unlock'}
+              }
+            ]
+          else
+            this.br_items = []
+
+      submit_request: () ->
+        if this.$refs.form.validate()
+          console.log "Do it now"
+    }
+  }
+</script>
+
+<style scoped>
+  .first_upcase {
+    text-transform:capitalize;
+  }
+</style>

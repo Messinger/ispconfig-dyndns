@@ -75,9 +75,9 @@
         <v-btn color="grey" flat="flat" @click.native="cancel">Cancel</v-btn>
         <v-btn @click.native="signupuser" v-if="user_type==='user'" flat >Signup</v-btn>
       </v-card-actions>
-      <v-card-actions v-if="user_type!=='client'">
+      <v-card-actions class="pt-0" v-if="user_type!=='client'">
         <v-breadcrumbs :items="br_items">
-          <v-icon slot="divider">chevron_right</v-icon>
+          <v-icon slot="divider">code</v-icon>
         </v-breadcrumbs>
       </v-card-actions>
     </v-card>
@@ -163,9 +163,34 @@
                 {
                   text: "Bestätigung anfordern"
                   disabled: false
-                  href: this.$router.resolve({name: 'send_confirmation'}).href
+                  to: {name: 'send_confirmation'}
+                },
+                {
+                  text: "Passwort vergessen?"
+                  disabled: false
+                  to: {name: 'request_password'}
+                },
+                {
+                  text: "Login gesperrt?"
+                  disabled: false
+                  to: {name: 'request_unlock'}
                 }
               ]
+            when 'admin'
+              this.br_items = [
+                {
+                  text: "Passwort vergessen?"
+                  disabled: false
+                  to: {name: 'admin_request_password'}
+                },
+                {
+                  text: "Login gesperrt?"
+                  disabled: false
+                  to: {name: 'admin_request_unlock'}
+                }
+              ]
+            else
+              this.br_items = []
 
       signupuser: () ->
         that = this
