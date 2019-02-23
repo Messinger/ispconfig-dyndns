@@ -46,7 +46,7 @@ class Ability
 
     end
 
-    if user.instance_of?(User) && !user.access_locked?
+    if user.instance_of?(User) && !user.access_locked? && user.email_verified?
       can :read, DnsZone, :is_public => true
 
       can :read, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
