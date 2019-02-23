@@ -14,7 +14,7 @@
           </v-snackbar>
 
         </div>
-        <v-form ref="form" v-model="valid" lazy-validation id="loginform">
+        <v-form ref="form" v-model="valid" lazy-validation id="loginform" @keyup.enter.native="try_login" >
 
           <div  v-if="user_type==='client'" >
             <v-layout row wrap>
@@ -72,7 +72,6 @@
       </v-card-text>
       <v-card-actions class="pt-0">
         <v-btn :disabled="!valid" color="primary darken-1" flat="flat" @click.native="try_login">Login</v-btn>
-        <v-btn color="grey" flat="flat" @click.native="cancel">Cancel</v-btn>
         <v-btn @click.native="signupuser" v-if="user_type==='user'" flat >Signup</v-btn>
       </v-card-actions>
       <v-card-actions class="pt-0" v-if="user_type!=='client'">

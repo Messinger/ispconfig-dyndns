@@ -13,7 +13,7 @@
             </v-btn>
           </v-snackbar>
         </div>
-        <v-form ref="form" v-model="valid" lazy-validation id="loginform">
+        <v-form ref="form" v-model="valid" lazy-validation id="loginform" @keyup.enter.native="submit_request">
           <v-layout row wrap>
             <v-flex d-flex  xs12 sm12 offset-md1 md10>
               <v-text-field v-model="submit.login" :rules="loginRules" label="Login ID" required v-if="inputtype=='login'"></v-text-field>

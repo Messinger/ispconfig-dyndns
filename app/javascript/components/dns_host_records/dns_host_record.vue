@@ -13,7 +13,7 @@
         <v-alert v-model="errormsg" v-if="errormsg !== null" dismissible type="error">
           {{errormsg}}
         </v-alert>
-        <v-form ref="form" v-model="valid" lazy-validation id="recordform">
+        <v-form ref="form" v-model="valid" lazy-validation id="recordform" @keyup.enter.native="validate_and_submit">
           <v-layout v-if="this.id === 'new'" row>
             <v-flex md1 xs3>
               <v-subheader>Name:</v-subheader>
