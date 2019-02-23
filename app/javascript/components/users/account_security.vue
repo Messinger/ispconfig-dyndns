@@ -8,7 +8,7 @@
         <div>
           <v-snackbar v-model="alert" color="error" :timeout="snacktimeout" :top="ontop">
             {{alertmsg}}
-            <v-btn dark flat @click="snackbar = false">
+            <v-btn dark flat @click="alert = false">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-snackbar>
@@ -133,7 +133,24 @@
       submit_request: () ->
         if this.$refs.form.validate()
           console.log "Do it now"
-    }
+
+          submitdata = {}
+          submitdata[this.usertype] = {}
+          submitdata[this.usertype][this.inputtype] = this.submit[this.inputtype]
+          console.log "Submit ",submitdata
+          that = this
+
+          result = await this.axios.post(this.targeturl,submitdata).catch(
+              (error) ->
+                console.log "Fehler: ",error
+                that.alert = true
+                if !!error.data.errors && !!error.data.errors[that.inputtype]
+                  that.alertmsg = that.$root.$errors_to_array(error.data.errors)[0]
+                else
+                  that.alertmsg = error.data.error||'Fehler'
+          )
+          console.log "Ergebnis: ",result
+      }
   }
 </script>
 

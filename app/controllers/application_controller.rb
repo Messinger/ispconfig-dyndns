@@ -2,6 +2,8 @@ require 'isp_exceptions/isp_exceptions'
 require 'logging/applogger'
 
 class ApplicationController < ActionController::Base
+  respond_to :html, :json
+
   include IspExceptions
   include Applogger
 
