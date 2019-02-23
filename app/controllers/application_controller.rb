@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   before_action :process_authentication, unless: :devise_controller?
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
+  #before_action :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
   before_action :set_csrf_cookie
 
   helper_method :current_account, :current_client_user, :current_api_key
