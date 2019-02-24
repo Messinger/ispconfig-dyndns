@@ -57,5 +57,9 @@ RailsDynamicDomain::Application.routes.draw do
 
   # for omniauth
   match 'profile/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
-  
+
+
+  # catch all
+  #
+  match '*a', :to => 'welcome#routing', via: [:get,:patch,:put,:post]
 end
