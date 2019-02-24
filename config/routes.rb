@@ -1,10 +1,11 @@
 RailsDynamicDomain::Application.routes.draw do
-  devise_for :admins, :controllers => {:sessions => 'admins/sessions'}
+  devise_for :admins, :controllers => {:sessions => 'admins/sessions',:unlocks => 'user/unlocks'}
   devise_for :users, :controllers => {
       :sessions => 'user/sessions',
       :registrations => "user/registrations",
       :omniauth_callbacks => 'user/omniauth_callbacks',
-      :confirmations => 'user/confirmations'
+      :confirmations => 'user/confirmations',
+      :unlocks => 'user/unlocks'
   }
 
   # The priority is based upon order of creation: first created -> highest priority.
