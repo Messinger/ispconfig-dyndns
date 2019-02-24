@@ -56,7 +56,7 @@
         result = await this.axios.post("/profile/#{this.id}/finish_signup",submitdata).catch(
             (error) ->
               if !!error.data && !!error.data['email']
-                for msg of that.$root.$errors_to_array(error.data)
+                for msg in that.$root.$errors_to_array(error.data)
                   that.$root.$toast.addNotification({text:msg,color: 'alarm'})
               else
                 that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})

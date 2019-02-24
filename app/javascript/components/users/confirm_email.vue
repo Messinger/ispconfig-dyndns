@@ -46,7 +46,7 @@
           result = await this.axios.get('/users/confirmation',{ params: {confirmation_token: this.token}}).catch(
               (error) ->
                 if !!error.data && !!error.data['confirmation_token']
-                  for msg of that.$root.$errors_to_array(error.data)
+                  for msg in that.$root.$errors_to_array(error.data)
                     that.$root.$toast.addNotification({text:msg,color: 'alarm'})
                 else
                   that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})

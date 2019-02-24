@@ -132,10 +132,10 @@
               (error) ->
                 console.log "Fehler: ",error
                 if !!error.data.errors && !!error.data.errors[that.inputtype]
-                  for msg of that.$root.$errors_to_array(error.data.errors)
-                    that.$root.$toast.addNotification({text:msg,color: 'alarm'})
+                  for msg in that.$root.$errors_to_array(error.data.errors)
+                    that.$root.$toast.alert(msg,color: 'alarm')
                 else
-                  that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})
+                  that.$root.$toast.addNotification({text:(error.data||'Fehler'),color: 'alarm',top: true})
           )
           console.log "Ergebnis: ",result
       }

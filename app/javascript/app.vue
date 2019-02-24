@@ -59,6 +59,11 @@
       this.$root.$spinner = this.$refs.spinner
       this.$root.$toast = this.$refs.toast
 
+      for flash in window.flash_errors
+        usecolor = switch(flash[0])
+          when 'notice' then "success"
+          else flash[0]
+        this.$refs.toast.addNotification({text: flash[1], color: usecolor,top: true})
   }
 </script>
 

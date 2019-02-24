@@ -12,7 +12,8 @@
       return Constants;
   })();
   window.Constants = Constants;
-  window.flash_errors = <%= flash.as_json %>;
+
+  window.flash_errors = <%= flash.to_json.html_safe %>;
 
 </script>
 

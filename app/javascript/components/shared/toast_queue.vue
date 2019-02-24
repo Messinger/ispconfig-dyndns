@@ -62,6 +62,7 @@
             this.notification = true
 
         alert: (text) -> this.addNotification(this.makeToast(text,'error'))
+        error: (text) -> this.alert(text)
         info: (text) -> this.addNotification(this.makeToast(text,'info'))
         success: (text) -> this.addNotification(this.makeToast(text,'success'))
         warn: (text) -> this.addNotification(this.makeToast(text,'warning'))
