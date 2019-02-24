@@ -9,6 +9,7 @@ import IspDnsZone from '../components/client/isp_dns_zone'
 import AccountsLogin from '../components/shared/accounts_login'
 import FinishSignup from '../components/users/finish_signup'
 import AccountSecurity from '../components/users/account_security'
+import ConfirmEmail from '../components/users/confirm_email'
 
 export routes = [
   { path: '', component: Home, name: 'home' },
@@ -27,4 +28,5 @@ export routes = [
   { path: '/user/request_unlock', component: AccountSecurity, name: 'request_unlock', props: {action: 'send_request_unlock',usertype: 'user' } }
   { path: '/admin/request_new_password', component: AccountSecurity, name: 'admin_request_password', props: {action: 'send_request_password',usertype: 'admin' } }
   { path: '/admin/request_unlock', component: AccountSecurity, name: 'admin_request_unlock', props: {action: 'send_request_unlock',usertype: 'admin' } }
+  { path: '/user/confirmation/:confirmation_token?', component: ConfirmEmail, name: 'confirm_email', props: true }
 ]

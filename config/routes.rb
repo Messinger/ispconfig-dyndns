@@ -56,7 +56,7 @@ RailsDynamicDomain::Application.routes.draw do
   match 'dyndns/update(/:accesstoken)' => 'dns_host_records#setip', via: [:get, :patch,:put,:post]
 
   # for omniauth
-  match 'profile/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match 'profile/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch, :post], :as => :finish_signup
 
 
   # catch all
