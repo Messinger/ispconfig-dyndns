@@ -16,7 +16,7 @@
   import confirm from 'components/shared/confirm'
   import spinneroverlay from 'components/shared/spinneroverlay'
   import { errors_to_array } from 'packs/errors_to_array.coffee'
-  import { user_logout } from 'packs/user_logout'
+  import { user_service } from 'packs/user_service'
 
 
   export default {
@@ -33,6 +33,7 @@
 
     methods: {
       login_changed: () ->
+        this.$root.$update_user()
         this.$root.$emit('login-changed', {})
         if !!window.Constants.current_user
           this.$router.push('/')
@@ -40,13 +41,19 @@
           this.$router.push({name: 'userlogin',params:{usertype: 'user'}})
     }
 
-    mounted: () ->
-      this.$root.$confirm = this.$refs.confirm.open
-      this.$root.$spinner = this.$refs.spinner
+    beforeMount: () ->
+      console.log "Mount me"
       this.$root.$login_changed = this.login_changed
       this.$root.$errors_to_array = (errors) ->
         errors_to_array.error_hash_to_array(errors)
-      this.$root.$logout = user_logout.user_logout
+      this.$root.$logout = user_service.user_logout
+      this.$root.$retrieve_current_user = user_service.retrieve_current_user
+      this.$root.$update_user = user_service.update_current_user
+      this.$root.$current_user = user_service.current_user
+
+    mounted: () ->
+      this.$root.$confirm = this.$refs.confirm.open
+      this.$root.$spinner = this.$refs.spinner
   }
 </script>
 

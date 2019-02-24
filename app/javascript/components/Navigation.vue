@@ -6,13 +6,13 @@
       <v-btn flat to="/">
         Home
       </v-btn>
-      <v-btn flat :to="{name: 'dns_host_records'}" v-if="isUser()||isClient()">
+      <v-btn flat :to="{name: 'dns_host_records'}" v-if="valid_user || is_client">
         DNS Einträge
       </v-btn>
-      <v-btn flat :to="{name: 'IspDnsZones'}" v-if="isClient()">
+      <v-btn flat :to="{name: 'IspDnsZones'}" v-if="is_client">
         ISP Config DNS
       </v-btn>
-      <v-btn flat :to="{name: 'admin_userlist'}" v-if="isAdmin()">
+      <v-btn flat :to="{name: 'admin_userlist'}" v-if="is_admin">
         Userlist
       </v-btn>
       <v-btn flat v-if="!logged_in" v-on:click="login_user">
@@ -40,24 +40,41 @@
   export default {
     name: "Navigation",
     data: () => ({
-      logged_in: false
+      logged_in: false,
+      valid_user: false,
+      is_user: false,
+      is_client: false,
+      is_admin: false,
+      user_locked: false,
+      user_not_verified: false
     }),
     methods: {
       checkLoggedIn() {
-        console.log("Current user for navigation: ",window.Constants.current_user);
-        this.logged_in = this.loggedIn()
+        this.logged_in = this.loggedIn();
+        this.valid_user = this.isValidUser();
+        this.is_user = this.isUser();
+        this.is_client = this.isClient();
+        this.is_admin = this.isAdmin();
+        this.user_locked = this.logged_in && !!this.current_user().locked;
+        this.user_not_verified = this.logged_in && !!this.current_user().email_must_verified;
+      },
+      current_user() {
+        return this.$root.$current_user();
       },
       loggedIn() {
-        return !(window === undefined || window.Constants === undefined || window.Constants.current_user === null);
+        return !!this.$root.$current_user();
       },
       isClient() {
-        return this.loggedIn() && window.Constants.current_user.type === 'ClientUser'
+        return this.logged_in && this.current_user().type === 'ClientUser'
       },
       isUser() {
-        return this.loggedIn() && window.Constants.current_user.type === 'User'
+        return this.loggedIn() && this.current_user().type === 'User'
+      },
+      isValidUser() {
+        return this.isUser() && !this.current_user().locked && !this.current_user().email_must_verified
       },
       isAdmin() {
-        return this.loggedIn() && window.Constants.current_user.type === 'Admin'
+        return this.loggedIn() && this.current_user().type === 'Admin'
       },
       login_admin() {
         this.$router.push({name: 'userlogin', params: {usertype: 'admin'}});
@@ -76,6 +93,7 @@
     components: {
     },
     mounted: function () {
+      console.log("Mount navigation");
       this.checkLoggedIn();
       this.$root.$on('login-changed',this.checkLoggedIn)
     }

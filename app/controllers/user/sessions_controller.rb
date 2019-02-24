@@ -36,7 +36,12 @@ class User::SessionsController < Devise::SessionsController
       render json: {errormessage: session[:oauth_error]}, status: :ok
       session[:oauth_error] = nil
     else
-      render json: {account: current_account.as_json.merge({'type':current_account.class.name})}, status: :ok
+      if current_user
+        includes = [:unconfirmed_email]
+      else
+        includes = []
+      end
+      render json: {account: current_account.as_json(include: includes).merge({'type':current_account.class.name})}, status: :ok
     end
   end
 

@@ -133,6 +133,7 @@ class User < ActiveRecord::Base
     end
     _res['email_must_verified'] = !email_verified?
     _res['locked'] = access_locked?
+    _res['unconfirmed_set'] = unconfirmed_email?
     _res
   end
 
