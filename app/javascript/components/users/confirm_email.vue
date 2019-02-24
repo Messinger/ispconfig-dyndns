@@ -4,14 +4,6 @@
       <v-card-title>
         <h3>Got token: {{confirmation_token}}</h3>
       </v-card-title>
-      <div>
-        <v-snackbar v-model="alert" color="error" :timeout="snacktimeout" :top="ontop">
-          {{alertmsg}}
-          <v-btn dark flat @click="alert = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-snackbar>
-      </div>
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation id="token" @keyup.enter.native="submit_request_for_token">
           <v-layout row wrap>
@@ -34,11 +26,6 @@
     name: "confirm_email"
     data: () ->
       {
-        alert: false
-        alertmsg: ''
-        snacktimeout: 6000
-        ontop: true
-
         current_user: null
         update_timer: null
         token: ''
@@ -58,11 +45,11 @@
           clearTimeout(this.update_timer)
           result = await this.axios.get('/users/confirmation',{ params: {confirmation_token: this.token}}).catch(
               (error) ->
-                that.alert = true
                 if !!error.data && !!error.data['confirmation_token']
-                  that.alertmsg = that.$root.$errors_to_array(error.data)[0]
+                  for msg of that.$root.$errors_to_array(error.data)
+                    that.$root.$toast.addNotification({text:msg,color: 'alarm'})
                 else
-                  that.alertmsg = error.data||'Fehler'
+                  that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})
                 that.update_user()
           )
           console.log result

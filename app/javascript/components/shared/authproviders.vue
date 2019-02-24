@@ -1,11 +1,5 @@
 <template>
   <div id="authproviderlist">
-    <v-snackbar v-model="snackbar" color="error" :timeout="snacktimeout" :top="ontop">
-      {{errormessage}}
-      <v-btn dark flat @click="snackbar = false">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </v-snackbar>
     <v-list>
       <v-list-tile v-for="provider in providerlist" :key="provider.name">
         <v-list-tile-action>
@@ -30,16 +24,10 @@
         promise: null
         reject: null
         authwindow: null
-        snackbar: false
-        errormessage: ''
-        ontop: true
-        snacktimeout: 6000
       }
 
     mounted: () ->
       this.check_providers()
-      this.errormessage = ''
-      this.snackbar = false
 
     methods: {
       check_providers: () ->
@@ -70,8 +58,7 @@
             window.Constants.current_user = user.data.account
           else if !!user.data.errormessage
             window.Constants.current_user = null
-            this.errormessage = user.data.errormessage
-            this.snackbar = true
+            that.$root.$toast.alert(user.data.errormessage)
 
           this.$root.$login_changed()
 

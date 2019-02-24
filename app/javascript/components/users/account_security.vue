@@ -5,14 +5,6 @@
         <h3>{{title}} für <span class="first_upcase">{{ usertype }}</span></h3>
       </v-card-title>
       <v-card-text>
-        <div>
-          <v-snackbar v-model="alert" color="error" :timeout="snacktimeout" :top="ontop">
-            {{alertmsg}}
-            <v-btn dark flat @click="alert = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-snackbar>
-        </div>
         <v-form ref="form" v-model="valid" lazy-validation id="loginform" @keyup.enter.native="submit_request">
           <v-layout row wrap>
             <v-flex d-flex  xs12 sm12 offset-md1 md10>
@@ -41,10 +33,6 @@
     components: {}
     name: "account_security"
     data: () -> {
-      alert: false
-      alertmsg: ''
-      snacktimeout: 6000
-      ontop: true
       valid: false
       title: ''
       targeturl: ''
@@ -143,11 +131,11 @@
           result = await this.axios.post(this.targeturl,submitdata).catch(
               (error) ->
                 console.log "Fehler: ",error
-                that.alert = true
                 if !!error.data.errors && !!error.data.errors[that.inputtype]
-                  that.alertmsg = that.$root.$errors_to_array(error.data.errors)[0]
+                  for msg of that.$root.$errors_to_array(error.data.errors)
+                    that.$root.$toast.addNotification({text:msg,color: 'alarm'})
                 else
-                  that.alertmsg = error.data.error||'Fehler'
+                  that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})
           )
           console.log "Ergebnis: ",result
       }

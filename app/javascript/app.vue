@@ -2,6 +2,7 @@
 
   <div id="app">
     <v-app id="dyndns">
+      <toastqueue ref="toast"></toastqueue>
       <confirm ref="confirm"></confirm>
       <spinner ref="spinner"></spinner>
       <app-navigation></app-navigation>
@@ -15,6 +16,7 @@
   import Navigation from 'components/Navigation.vue'
   import confirm from 'components/shared/confirm'
   import spinneroverlay from 'components/shared/spinneroverlay'
+  import toastqueue from 'components/shared/toast_queue'
   import { errors_to_array } from 'packs/errors_to_array.coffee'
   import { user_service } from 'packs/user_service'
 
@@ -24,6 +26,7 @@
       appNavigation: Navigation
       confirm: confirm
       spinner: spinneroverlay
+      toastqueue: toastqueue
 
     }
     data: () ->
@@ -54,6 +57,8 @@
     mounted: () ->
       this.$root.$confirm = this.$refs.confirm.open
       this.$root.$spinner = this.$refs.spinner
+      this.$root.$toast = this.$refs.toast
+
   }
 </script>
 

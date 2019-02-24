@@ -4,14 +4,6 @@
       <v-card-title>
         <h3>Finish signup</h3>
       </v-card-title>
-      <div>
-        <v-snackbar v-model="alert" color="error" :timeout="snacktimeout" :top="ontop">
-          {{alertmsg}}
-          <v-btn dark flat @click="alert = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-snackbar>
-      </div>
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation id="loginform" @keyup.enter.native="submit_request_for_token">
           <v-layout row wrap>
@@ -43,10 +35,6 @@
       submit: {
         email: null
       }
-      alert: false
-      alertmsg: ''
-      snacktimeout: 6000
-      ontop: true
     }
 
     mounted: () ->
@@ -67,12 +55,11 @@
         console.log "Sende für Benutzer #{this.id}: ",submitdata
         result = await this.axios.post("/profile/#{this.id}/finish_signup",submitdata).catch(
             (error) ->
-              that.alert = true
               if !!error.data && !!error.data['email']
-                that.alertmsg = that.$root.$errors_to_array(error.data)[0]
+                for msg of that.$root.$errors_to_array(error.data)
+                  that.$root.$toast.addNotification({text:msg,color: 'alarm'})
               else
-                that.alertmsg = error.data||'Fehler'
-
+                that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})
         )
         console.log result
     }

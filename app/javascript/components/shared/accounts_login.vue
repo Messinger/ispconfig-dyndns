@@ -5,15 +5,6 @@
         <h3>Login als <span class="first_upcase">{{ user_type }}</span></h3>
       </v-card-title>
       <v-card-text>
-        <div>
-          <v-snackbar v-model="alert" color="error" :timeout="snacktimeout" :top="ontop">
-            {{alertmsg}}
-            <v-btn dark flat @click="snackbar = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-snackbar>
-
-        </div>
         <v-form ref="form" v-model="valid" lazy-validation id="loginform" @keyup.enter.native="try_login" >
 
           <div  v-if="user_type==='client'" >
@@ -98,10 +89,6 @@
     data: () -> {
       'user_type': ''
       'login_url': ''
-      alert: false,
-      snacktimeout: 6000
-      ontop: true
-      alertmsg: 'Fehler beim Login',
       valid: false
       client: {
         login_id: '',
@@ -211,16 +198,14 @@
                 window.Constants.current_user = response.data.account||null
                 console.log "Resonse: ",response
                 if response.status > 399
-                  that.alertmsg = response.data.error||'Fehler'
-                  that.alert = true
+                  that.$root.$toast.addNotification({text:response.data.error||'Fehler',color: 'alarm'})
                 else
                   that.$root.$login_changed()
                   that.$router.push({name: 'home'})
           ).catch(
               (error) ->
                 window.$cookies.remove("OAUTH-JSON-LOGIN")
-                that.alert = true
-                that.alertmsg = error.data.error||'Fehler'
+                that.$root.$toast.alert(error.data.error||'Fehler')
                 window.Constants.current_user = null;
           )
     }
