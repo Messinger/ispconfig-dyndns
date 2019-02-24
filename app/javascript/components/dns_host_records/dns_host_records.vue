@@ -158,6 +158,9 @@
         console.log("Userid: "+this.userid);
         let results = await this.axios.get('/dns_host_records',{
           params: params
+        }).catch( function(error) {
+          console.warn(error);
+          this.records = []
         });
         this.records = results.data;
         this.loading = false;
