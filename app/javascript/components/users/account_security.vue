@@ -99,7 +99,7 @@
           when 'user'
             this.br_items = [
               {
-                text: "Bestätigung anfordern"
+                text: "Neue Email-Bestätigung anfordern"
                 disabled: false
                 to: {name: 'send_confirmation'}
               },
