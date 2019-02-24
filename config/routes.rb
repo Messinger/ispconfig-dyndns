@@ -3,7 +3,8 @@ RailsDynamicDomain::Application.routes.draw do
   devise_for :users, :controllers => {
       :sessions => 'user/sessions',
       :registrations => "user/registrations",
-      :omniauth_callbacks => 'user/omniauth_callbacks'
+      :omniauth_callbacks => 'user/omniauth_callbacks',
+      :confirmations => 'user/confirmations'
   }
 
   # The priority is based upon order of creation: first created -> highest priority.

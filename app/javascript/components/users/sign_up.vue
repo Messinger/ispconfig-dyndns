@@ -10,7 +10,7 @@
             {{alertmsg}}
           </v-alert>
         </div>
-        <v-form ref="form" v-model="valid" lazy-validation id="signupform">
+        <v-form ref="form" v-model="valid" lazy-validation id="signupform" @keyup.enter.native="sign_up">
 
           <v-layout row wrap>
             <v-flex d-flex xs12 sm1 md1 child-flex>
