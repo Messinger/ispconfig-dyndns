@@ -14,7 +14,7 @@
               <td>
                 <v-tooltip top v-if="!props.item.local_zone.id">
                   <template #activator="data">
-                    <v-btn v-on="data.on" v-if="!props.item.local_zone.id" flat icon>
+                    <v-btn v-on="data.on" v-if="!props.item.local_zone.id" flat icon @click="add_local_zone(props.item)">
                       <v-icon>mdi-plus</v-icon>
                     </v-btn>
                   </template>
@@ -22,7 +22,7 @@
                 </v-tooltip>
                 <v-tooltip top v-if="props.item.local_zone.id">
                   <template #activator="data">
-                    <v-btn v-on="data.on" v-if="props.item.local_zone.id" flat icon>
+                    <v-btn v-on="data.on" v-if="props.item.local_zone.id" flat icon @click="delete_local_zone(props.item)">
                       <v-icon>mdi-delete-outline</v-icon>
                     </v-btn>
                   </template>
@@ -105,11 +105,32 @@
           this.isp_dns_zones = zones.data
 
         delete_local_zone: (item) ->
-          console.log "Lösche zuweisung für ",item
+          console.log "Lösche zuweisung für ",item.local_zone
+          that = this
+          this.$root.$confirm('Lösche lokale DNS Zone',"Die Zone #{item.local_zone.name} mit allen Einträgen wirklich löschen?",{color: 'red'})
+          .then( (confirm) ->
+            return unless confirm
+            that.axios.delete("/client/dns_zones/#{item.local_zone.id}").then( (response) ->
+              that.$root.$toast.warn("DNS Zone \"#{item.local_zone.name}\" entfernt.")
+              item.local_zone = {}
+            ).catch( (error) ->
+              that.$root.$toast.warn("DNS Zone #{item.local_zone.name} konnte nicht entfernt werden.")
+            )
+          )
 
         add_local_zone: (item) ->
           console.log "Neue lokale Zuweisung für ",item
-
+          submitdata = {
+            ispzone_id: item.id
+          }
+          that = this
+          axios.post('/client/dns_zones/add_dnszone',submitdata).then( (result) ->
+            dnszone = result.data
+            item.local_zone = dnszone
+            that.$root.$toast.info("Zone \"#{dnszone.name}\" angelegt")
+          ).catch( (error) ->
+            that.$root.$toast.error("Could not create zone")
+          )
     }
   }
 </script>
