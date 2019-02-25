@@ -28,9 +28,7 @@
 
     }
     data: () ->
-      {
-        message: "Töf"
-      }
+      {}
 
     methods: {
       login_changed: () ->
