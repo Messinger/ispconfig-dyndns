@@ -17,6 +17,9 @@
                 <v-btn flat icon @click="show_ispconfig(props.item)">
                   <v-icon>mdi-dns</v-icon>
                 </v-btn>
+                <v-btn flat icon :to="{name: 'dns_host_records',params: { zone_id: props.item.id }}">
+                  <v-icon>mdi-reorder-horizontal</v-icon>
+                </v-btn>
                 <v-tooltip top>
                   <template #activator="data">
                     <v-btn v-on="data.on" flat icon @click="delete_local_zone(props.item)">
@@ -79,6 +82,7 @@
           )
           .catch( (error) ->
             that.$root.$toast.error(error.data)
+            that.dns_zones = []
           )
 
         toggle_public: (item) ->
@@ -92,7 +96,15 @@
           ,20
           )
 
-        delete_local_zone: (item) ->
+        show_records: (item) ->
+          that = this
+          setTimeout(
+              () ->
+                that.$root.$router.push({name: 'dns_host_records', params: {zone_id: item.id}})
+            ,20
+          )
+
+    delete_local_zone: (item) ->
           console.log "Delete zone ",item
     }
   }

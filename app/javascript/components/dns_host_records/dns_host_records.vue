@@ -92,7 +92,7 @@
 <script>
 
   export default {
-    props: [ 'nofetch','userid','existingrecords','embedded' ],
+    props: [ 'nofetch','userid','existingrecords','embedded','zone_id' ],
     components: {
     },
     data: function () {
@@ -142,6 +142,11 @@
         this.loading = false;
       }
     },
+    watch: {
+      "$route": function(to,from) {
+          this.fetchRecords()
+        }
+    },
     methods: {
       filter_headers() {
         return this.headers.filter(function (e) {
@@ -152,17 +157,23 @@
         console.log("Fetch them");
         this.loading = true;
         let params = {};
-        if(this.userid!== null) {
+        if(!!this.userid) {
           params['user_id'] = this.userid
         }
-        console.log("Userid: "+this.userid);
+        if(!!this.zone_id) {
+          params['zone_id'] = this.zone_id
+        }
+        console.log("Params: ", params);
+        let that = this;
         let results = await this.axios.get('/dns_host_records',{
           params: params
         }).catch( function(error) {
           console.warn(error);
-          this.records = []
+          that.records = []
         });
-        this.records = results.data;
+        if(!!results) {
+          this.records = results.data;
+        }
         this.loading = false;
       },
       onResize() {

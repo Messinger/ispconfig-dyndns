@@ -14,9 +14,9 @@ import ConfirmEmail from '../components/users/confirm_email'
 
 export routes = [
   { path: '', component: Home, name: 'home' },
-  { path: '/dns-host-records/:id', component: DnsHostRecord, props: true, name: 'dns_host_record' },
-  { path: '/dns-host-records',component: DnsHostRecords, name: 'dns_host_records'}
-  { path: '/admin/users/:id', component: User, props: true, name: 'admin_userdetail' }
+  { path: '/dns-host-record/:id', component: DnsHostRecord, props: true, name: 'dns_host_record' },
+  { path: '/dns-host-records/:zone_id?',component: DnsHostRecords, name: 'dns_host_records', props: true}
+  { path: '/admin/user/:id', component: User, props: true, name: 'admin_userdetail' }
   { path: '/admin/users', component: Users, name: 'admin_userlist'}
   { path: '/client/isp_dns_zone/:id', component: IspDnsZone, name: 'IspDnsZone', props: true }
   { path: '/client/isp_dns_zones', component: IspDnsZones, name: 'IspDnsZones' }
