@@ -11,7 +11,7 @@
               <td>{{props.item.name}}</td>
               <td>{{props.item.assigned_records_count}}</td>
               <td>
-                <v-checkbox hide-details v-model="props.item.is_public" label=""  @click="toggle_public(props.item)"></v-checkbox>
+                <v-checkbox hide-details v-model="props.item.is_public" label=""  @click.native="toggle_public(props.item)"></v-checkbox>
               </td>
               <td>
                 <v-btn flat icon @click="show_ispconfig(props.item)">
@@ -87,6 +87,37 @@
 
         toggle_public: (item) ->
           console.log "Schalte public um für ",item
+          that = this
+          if !item.is_public
+            this.$root.$confirm('Verstecke DNS Zone',
+                "Die Zone #{item.name} wirklich verstecken? (es werden keine Einträge gelöscht)",{color: 'red'})
+            .then((confirm) ->
+              if confirm
+                that.real_toggle_public(item)
+              else
+                item.is_public = true
+            )
+          else
+            this.real_toggle_public(item)
+
+        real_toggle_public: (item) ->
+          that = this
+          params = {
+            dns_zone: {
+              is_public: !!item.is_public
+            }
+          }
+
+          this.axios.put("/client/dns_zones/#{item.id}",params).then(
+              (result) ->
+                that.fetch_dns_zones()
+                #item.is_public = !item.is_public
+          ).catch(
+              (error) ->
+                that.$root.$toast.error(error.data)
+                that.fetch_dns_zones()
+          )
+
 
         show_ispconfig: (item) ->
           that = this
