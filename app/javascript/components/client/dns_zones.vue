@@ -137,6 +137,21 @@
 
       delete_local_zone: (item) ->
         console.log "Delete zone ", item
+        that = this
+        this.$root.$confirm('Verstecke DNS Zone',
+            "Die Zone \"#{item.name}\" wirklich mit allen Einträgen löschen?", {color: 'red'})
+          .then(
+            (confirm) ->
+              if confirm
+                that.axios.delete("/client/dns_zones/#{item.id}").then(
+                    (result) ->
+                      that.fetch_dns_zones()
+                ).catch(
+                    (error) ->
+                      that.$root.$toast.error(error.data)
+                      that.fetch_dns_zones()
+                )
+        )
     }
   }
 </script>
