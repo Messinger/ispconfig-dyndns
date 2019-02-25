@@ -4,12 +4,6 @@
 <%= javascript_pack_tag 'hello_vue' %>
 <%= stylesheet_pack_tag 'hello_vue' %>
 
-<% if current_account %>
-    <%= render :partial => "#{current_account.class.name.underscore}_index" %>
-<% else %>
-<h1 class="page-header"></h1>
-<% end %>
-
 <div id='mainapp'>
    <app></app>
 </div>
