@@ -37,17 +37,26 @@ class Client::DnsZonesController < ApplicationController
     dnsid = params[:id]
     @dnszone = DnsZone.accessible_by(current_ability).find dnsid
 
-    is_public = params[:dns_zone][:is_public]
+    errors = ''
+    if params.key?(:dns_zone) && params[:dns_zone].key?(:is_public)
+      is_public = params[:dns_zone][:is_public]
+      @dnszone.is_public = is_public
+      saved = @dnszone.save
+      unless saved
+        errors = @dnszone.errors[0]
+      end
+    else
+      saved = false
+      errors = "Missing parameter"
+    end
 
-    @dnszone.is_public = is_public
-    saved = @dnszone.save
 
     respond_to do |format|
       format.json {
         if saved
           render json: @dnszone, status: :ok
         else
-          render json: @dnszone.errors, status: :bad_request
+          render json: errors, status: :bad_request
         end
       }
     end
