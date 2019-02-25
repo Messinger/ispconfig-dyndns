@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
              end
 
       # Create the user if it's a new registration
-      if user.nil?
+      if user.nil? || user.identity.id != identity.id
         _n = nil
         unless auth.info.nil?
           if !auth.info.name.blank?
@@ -70,9 +70,13 @@ class User < ActiveRecord::Base
         if _n.nil?
           _n = ""
         end
+        unless user.nil?
+          # we have the same email via another identity
+          # and have to ensure getting a new one for validating
+          auth.info.email = ''
+        end
         user = User.new(
           name: _n,
-          #username: auth.info.nickname || auth.uid,
           email: auth.info.email.blank? ? "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" : auth.info.email,
           password: Devise.friendly_token[0,20]
         )
