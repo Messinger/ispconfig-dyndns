@@ -11,7 +11,10 @@
               :vertical="toast.vertical"
   >
     {{toast.text}}
-      <v-icon @click="notification = false">mdi-close</v-icon>
+    <v-btn flat @click="notification = false">
+      <v-icon >mdi-close</v-icon>
+    </v-btn>
+
   </v-snackbar>
 </template>
 
@@ -42,7 +45,6 @@
     }
     watch: {
         notification: () ->
-          console.log "Aktuelle queue: ",this.notificationQueue
           if !this.notification && this.notificationQueue.length > 0
             this.toast = this.notificationQueue.shift()
             this.$nextTick(
@@ -68,7 +70,6 @@
         warn: (text) -> this.addNotification(this.makeToast(text,'warning'))
 
         makeToast: (text, color='info',timeout=6000,top=true,bottom=false,right = false, left = false, multiline = false, vertical = false) ->
-          console.log text
           {
             text,
             color,

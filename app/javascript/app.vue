@@ -1,14 +1,13 @@
 <template>
-
-  <div id="app">
-    <v-app id="dyndns">
-      <toastqueue ref="toast"></toastqueue>
-      <confirm ref="confirm"></confirm>
-      <spinner ref="spinner"></spinner>
-      <app-navigation></app-navigation>
+  <v-app id="dyndns-app">
+    <toastqueue ref="toast"></toastqueue>
+    <confirm ref="confirm"></confirm>
+    <spinner ref="spinner"></spinner>
+    <app-navigation></app-navigation>
+    <v-content>
       <router-view></router-view>
-    </v-app>
-  </div>
+    </v-content>
+  </v-app>
 </template>
 
 <script lang="coffee">
@@ -19,7 +18,6 @@
   import toastqueue from 'components/shared/toast_queue'
   import { errors_to_array } from 'packs/errors_to_array.coffee'
   import { user_service } from 'packs/user_service'
-
 
   export default {
     components: {
@@ -36,7 +34,7 @@
 
     methods: {
       login_changed: () ->
-        this.$root.$update_user()
+        await this.$root.$update_user()
         this.$root.$emit('login-changed', {})
         if !!window.Constants.current_user
           this.$router.push('/')
