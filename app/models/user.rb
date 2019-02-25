@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
              end
 
       # Create the user if it's a new registration
-      if user.nil? || user.identity.id != identity.id
+      if user.nil? || user.identity.nil? || user.identity.id != identity.id
         _n = nil
         unless auth.info.nil?
           if !auth.info.name.blank?
