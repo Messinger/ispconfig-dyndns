@@ -43,16 +43,23 @@
         submit_request_for_token: () ->
           that = this
           clearTimeout(this.update_timer)
-          result = await this.axios.get('/users/confirmation',{ params: {confirmation_token: this.token}}).catch(
-              (error) ->
-                if !!error.data && !!error.data['confirmation_token']
-                  for msg in that.$root.$errors_to_array(error.data)
-                    that.$root.$toast.addNotification({text:msg,color: 'alarm'})
-                else
-                  that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})
-                that.update_user()
+          this.axios.get('/users/confirmation',{ params: {confirmation_token: this.token}}
+          ).then( (result) ->
+            console.log "Token result: ",result.data
+            that.$root.$login_changed()
+          ).catch( (error) ->
+            if !!error.data && !!error.data['confirmation_token']
+              for msg in that.$root.$errors_to_array(error.data)
+                that.$root.$toast.error(msg)
+            else
+              that.$root.$toast.error(error.data||'Fehler')
+            that.update_user()
           )
-          console.log result
+
+        refresh_login_data: () ->
+          console.log "Refresh logged in user"
+          this.$root.$update_user()
+          this.update_user()
 
         update_user: () ->
           that = this
@@ -62,12 +69,7 @@
             if !this.current_user.email_must_verified
               this.$router.push({name: 'home'})
             else
-              this.update_timer = setTimeout(
-                  () ->
-                    console.log "Refresh user"
-                    that.$root.$update_user()
-                    that.update_user()
-              ,5000)
+              this.update_timer = setTimeout(this.refresh_login_data,5000)
     }
   }
 </script>

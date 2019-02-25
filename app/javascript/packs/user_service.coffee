@@ -1,11 +1,9 @@
 real_user_fetch = () ->
   response = await window.vueapp.axios.get('/users/fetch_user')
-  console.log "Response: ",response
-
-  response = await response
-  console.log "Response: ",response
+  console.log "User Response: ",response
 
   if !!response && !!response.data
+    console.log "User: ",response.data.account
     response.data.account
   else
     null
@@ -38,6 +36,7 @@ export user_service = {
     user
 
   update_current_user: () ->
+    console.log "Start fetch user"
     user = await real_user_fetch()
     console.log "Got user for constants : ",user
     window.Constants.current_user = user

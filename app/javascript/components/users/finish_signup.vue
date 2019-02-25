@@ -52,16 +52,21 @@
             email: this.submit.email
           }
         }
-        console.log "Sende für Benutzer #{this.id}: ",submitdata
-        result = await this.axios.post("/profile/#{this.id}/finish_signup",submitdata).catch(
-            (error) ->
-              if !!error.data && !!error.data['email']
-                for msg in that.$root.$errors_to_array(error.data)
-                  that.$root.$toast.addNotification({text:msg,color: 'alarm'})
-              else
-                that.$root.$toast.addNotification({text:error.data||'Fehler',color: 'alarm'})
+
+        this.axios.post("/profile/#{this.id}/finish_signup",submitdata).then( (result) ->
+          console.log "Finish signup result: ",result
+          if !!result
+            console.log "Tell root about"
+            that.$root.$login_changed()
+        ).catch ( (error) ->
+          result = null
+          console.log "Got an error .... ",error
+          if !!error.data && !!error.data['email']
+            for msg in that.$root.$errors_to_array(error.data)
+              that.$root.$toast.error(msg)
+          else
+            that.$root.$toast.error(error.data||'Fehler')
         )
-        console.log result
     }
 
   }
