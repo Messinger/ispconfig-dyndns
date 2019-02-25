@@ -7,11 +7,9 @@
 <title>
     <%= full_title yield(:title) %>
 </title>
-<%= render partial: "layouts/stylesheets" %>
 <%= render partial: "layouts/js_constants" %>
 
-<%= javascript_include_tag "application" %>
-  <%= javascript_pack_tag 'application' %>
+<%= javascript_pack_tag 'application' %>
 
     <!-- additional javascripts -->
 <%= yield(:additional_javascripts) %>
@@ -21,12 +19,6 @@
 <!-- specific extra header -->
 <%= yield(:extra_head_content) %>
 <!-- specific extra header end -->
-
-<script>
-  I18n.locale = window.navigator.userLanguage || window.navigator.language;
-$(document).ready(function(){
-  });
-</script>
 
 </head>
 
@@ -39,8 +31,6 @@ $(document).ready(function(){
   <!-- <div id="logo">Logobereich</div> -->
 
   <div class="container" id="centralarea">
-    <%= render partial: "layouts/navigation"%>
-    <%= render partial: "layouts/messages" %>
     <%= yield %>
   </div>
 
