@@ -11,7 +11,8 @@
               <td>{{props.item.name}}</td>
               <td>{{props.item.assigned_records_count}}</td>
               <td>
-                <v-checkbox hide-details v-model="props.item.is_public" label=""  @click.native="toggle_public(props.item)"></v-checkbox>
+                <v-checkbox hide-details v-model="props.item.is_public" label=""
+                            @click.native="toggle_public(props.item)"></v-checkbox>
               </td>
               <td>
                 <v-btn flat icon @click="show_ispconfig(props.item)">
@@ -73,70 +74,69 @@
       this.fetch_dns_zones()
 
     methods: {
-        fetch_dns_zones: () ->
-          that = this
-          this.axios.get('/client/dns_zones')
-          .then( (result) ->
+      fetch_dns_zones: () ->
+        that = this
+        this.axios.get('/client/dns_zones').then(
+          (result) ->
             that.dns_zones = result.data
-            console.log "DNS-Zonen: ",result.data
-          )
-          .catch( (error) ->
+            console.log "DNS-Zonen: ", result.data
+        ).catch(
+          (error) ->
             that.$root.$toast.error(error.data)
             that.dns_zones = []
-          )
+        )
 
-        toggle_public: (item) ->
-          console.log "Schalte public um für ",item
-          that = this
-          if !item.is_public
-            this.$root.$confirm('Verstecke DNS Zone',
-                "Die Zone #{item.name} wirklich verstecken? (es werden keine Einträge gelöscht)",{color: 'red'})
+      toggle_public: (item) ->
+        console.log "Schalte public um für ", item
+        that = this
+        if !item.is_public
+          this.$root.$confirm('Verstecke DNS Zone',
+              "Die Zone #{item.name} wirklich verstecken? (es werden keine Einträge gelöscht)", {color: 'red'})
             .then((confirm) ->
-              if confirm
-                that.real_toggle_public(item)
-              else
-                item.is_public = true
-            )
-          else
-            this.real_toggle_public(item)
+            if confirm
+              that.real_toggle_public(item)
+            else
+              item.is_public = true
+          )
+        else
+          this.real_toggle_public(item)
 
-        real_toggle_public: (item) ->
-          that = this
-          params = {
-            dns_zone: {
-              is_public: !!item.is_public
-            }
+      real_toggle_public: (item) ->
+        that = this
+        params = {
+          dns_zone: {
+            is_public: !!item.is_public
           }
+        }
 
-          this.axios.put("/client/dns_zones/#{item.id}",params).then(
-              (result) ->
-                that.fetch_dns_zones()
-                #item.is_public = !item.is_public
-          ).catch(
-              (error) ->
-                that.$root.$toast.error(error.data)
-                that.fetch_dns_zones()
-          )
+        this.axios.put("/client/dns_zones/#{item.id}", params).then(
+          (result) ->
+            that.fetch_dns_zones()
+        ).catch(
+          (error) ->
+            that.$root.$toast.error(error.data)
+            that.fetch_dns_zones()
+        )
 
 
-        show_ispconfig: (item) ->
-          that = this
-          setTimeout(
-            () ->
-              that.$root.$router.push({name: 'IspDnsZone', params: {id: item.isp_dnszone_id}})
-          ,20
-          )
+      show_ispconfig: (item) ->
+        that = this
+        setTimeout(
+          () ->
+            that.$root.$router.push({name: 'IspDnsZone', params: {id: item.isp_dnszone_id}})
+        , 20
+        )
 
-        show_records: (item) ->
-          that = this
-          setTimeout(
-              () ->
-                that.$root.$router.push({name: 'dns_host_records', params: {zone_id: item.id}})
-            ,20
-          )
+      show_records: (item) ->
+        that = this
+        setTimeout(
+          () ->
+            that.$root.$router.push({name: 'dns_host_records', params: {zone_id: item.id}})
+        , 20
+        )
 
-    delete_local_zone: (item) ->
-          console.log "Delete zone ",item
+      delete_local_zone: (item) ->
+        console.log "Delete zone ", item
     }
   }
 </script>
