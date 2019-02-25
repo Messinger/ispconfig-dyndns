@@ -99,10 +99,14 @@
 
         retrieve_zones: () ->
           that = this
-          zones = await this.axios.get('/client/isp_dnszones').catch( (error) ->
-            zones = {data: []}
+          this.axios.get('/client/isp_dnszones')
+            .then(
+              (zones) ->
+                that.isp_dns_zones = zones.data
+          ).catch(
+            (error) ->
+              that.isp_dns_zones = []
           )
-          this.isp_dns_zones = zones.data
 
         delete_local_zone: (item) ->
           console.log "Lösche zuweisung für ",item.local_zone

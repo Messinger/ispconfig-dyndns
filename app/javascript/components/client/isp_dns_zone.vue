@@ -76,15 +76,17 @@
     methods: {
       fetchdata: () ->
         that = this
-        zonedata = await this.axios.get("/client/isp_dnszones/#{this.id}").catch(
-            (error) ->
-              console.log error
-              that.zoneinfo = {}
-              that.records = []
+        this.axios.get("/client/isp_dnszones/#{this.id}")
+          .then(
+            (zonedata) ->
+              that.zoneinfo = zonedata.data.zone
+              that.records = zonedata.data.records
+        ).catch(
+          (error) ->
+            console.log error
+            that.zoneinfo = {}
+            that.records = []
         )
-        if !!zonedata
-          this.zoneinfo = zonedata.data.zone
-          this.records = zonedata.data.records
 
       get_item_url: (item) ->
         this.$router.resolve({name: 'dns_host_record',params:{id: item.local_host_rec.id}}).href

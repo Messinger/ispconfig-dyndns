@@ -6,12 +6,25 @@
       <v-btn flat to="/">
         Home
       </v-btn>
-      <v-btn flat :to="{name: 'dns_host_records'}" v-if="valid_user || is_client">
+      <v-btn flat :to="{name: 'dns_host_records'}" v-if="valid_user">
         DNS Einträge
       </v-btn>
-      <v-btn flat :to="{name: 'IspDnsZones'}" v-if="is_client">
-        ISP Config DNS
-      </v-btn>
+      <v-menu offset-y open-on-hover v-if="is_client">
+        <v-btn flat slot="activator">
+          Zonen Verwaltung
+        </v-btn>
+        <v-list>
+          <v-list-tile :to="{name: 'IspDnsZones'}">
+            <v-list-tile-title>ISPConfig DNS-Zonen </v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile :to="{name: 'DnsZones'}">
+            <v-list-tile-title>Lokale DNS Zonen</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile  :to="{name: 'dns_host_records'}">
+            Lokale DNS Einträge
+          </v-list-tile>
+        </v-list>
+      </v-menu>
       <v-btn flat :to="{name: 'admin_userlist'}" v-if="is_admin">
         Userlist
       </v-btn>

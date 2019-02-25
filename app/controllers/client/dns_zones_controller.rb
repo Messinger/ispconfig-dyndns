@@ -4,7 +4,12 @@ class Client::DnsZonesController < ApplicationController
   def index
     info "Dnszone index"
     @dns_zones = DnsZone.accessible_by(current_ability)
-    index_bread
+    if json_request?
+      @dns_zones = DnsZoneDecorator.decorate_collection(@dns_zones)
+    else
+      index_bread
+    end
+
     respond_to do |format|
       format.json {
         render json: @dns_zones.as_json, :status => :ok
