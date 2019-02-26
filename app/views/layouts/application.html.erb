@@ -9,8 +9,6 @@
 </title>
 <%= render partial: "layouts/js_constants" %>
 
-<%= javascript_pack_tag 'application' %>
-
     <!-- additional javascripts -->
 <%= yield(:additional_javascripts) %>
     <!-- end additional javascripts -->
@@ -30,7 +28,15 @@
 
   <!-- <div id="logo">Logobereich</div> -->
 
+  <%= javascript_pack_tag 'hello_vue' %>
+  <%= stylesheet_pack_tag 'hello_vue' %>
+
+  <div id='mainapp'>
+    <app></app>
+  </div>
+
   <%= yield %>
+
 
 </body>
 </html>
