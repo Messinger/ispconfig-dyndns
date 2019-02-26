@@ -70,7 +70,6 @@
         ]
       }
     mounted: () ->
-      console.log "Mount dnszones"
       this.fetch_dns_zones()
 
     methods: {
@@ -79,7 +78,6 @@
         this.axios.get('/client/dns_zones').then(
           (result) ->
             that.dns_zones = result.data
-            console.log "DNS-Zonen: ", result.data
         ).catch(
           (error) ->
             that.$root.$toast.error(error.data)
@@ -87,11 +85,10 @@
         )
 
       toggle_public: (item) ->
-        console.log "Schalte public um für ", item
         that = this
         if !item.is_public
           this.$root.$confirm('Verstecke DNS Zone',
-              "Die Zone #{item.name} wirklich verstecken? (es werden keine Einträge gelöscht)",
+              "Die Zone \"#{item.name}\" wirklich verstecken? (es werden keine Einträge gelöscht)",
               {color: 'red'}).then(
                 (confirm) ->
                   if confirm
@@ -112,6 +109,7 @@
 
         this.axios.put("/client/dns_zones/#{item.id}", params).then(
           (result) ->
+            that.$root.$toast.success("Zone auf #{if !!item.is_public then 'Sichtbar' else 'Unsichtbar' } gesetzt.")
             that.fetch_dns_zones()
         ).catch(
           (error) ->
@@ -137,7 +135,6 @@
         )
 
       delete_local_zone: (item) ->
-        console.log "Delete zone ", item
         that = this
         this.$root.$confirm('Verstecke DNS Zone',
             "Die Zone \"#{item.name}\" wirklich mit allen Einträgen löschen?", {color: 'red'})
