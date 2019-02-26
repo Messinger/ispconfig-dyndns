@@ -28,6 +28,9 @@
       <v-btn flat :to="{name: 'admin_userlist'}" v-if="is_admin">
         Userlist
       </v-btn>
+      <v-btn flat :to="{name: 'app_settings'}" v-if="is_admin">
+        Application Settings
+      </v-btn>
       <v-btn flat v-if="!logged_in" v-on:click="login_user">
         Login
       </v-btn>

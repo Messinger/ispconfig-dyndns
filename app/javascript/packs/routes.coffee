@@ -11,6 +11,7 @@ import AccountsLogin from '../components/shared/accounts_login'
 import FinishSignup from '../components/users/finish_signup'
 import AccountSecurity from '../components/users/account_security'
 import ConfirmEmail from '../components/users/confirm_email'
+import AppSettings from '../components/admin/app_settings'
 
 export routes = [
   { path: '', component: Home, name: 'home' },
@@ -18,6 +19,7 @@ export routes = [
   { path: '/dns-host-records/:zone_id?',component: DnsHostRecords, name: 'dns_host_records', props: true}
   { path: '/admin/user/:id', component: User, props: true, name: 'admin_userdetail' }
   { path: '/admin/users', component: Users, name: 'admin_userlist'}
+  { path: '/settings', component: AppSettings, name: 'app_settings' }
   { path: '/client/isp_dns_zone/:id', component: IspDnsZone, name: 'IspDnsZone', props: true }
   { path: '/client/isp_dns_zones', component: IspDnsZones, name: 'IspDnsZones' }
   { path: '/client/dns_zones', component: DnsZones, name: 'DnsZones' }
