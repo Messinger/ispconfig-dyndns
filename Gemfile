@@ -4,10 +4,6 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.1'
 gem 'sprockets-rails' #,'2.1.3'
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-
 platforms :ruby do
   gem 'pry'
   gem 'pry-rails'
@@ -20,8 +16,6 @@ end
 
 # Use SCSS for stylesheets
 gem 'sassc-rails'#, '~> 4.0.0'
-# using bootstrap
-gem 'bootstrap-sass'#, '~> 3.3.1'
 
 group :assets do
   # Use Uglifier as compressor for JavaScript assets
@@ -95,7 +89,6 @@ gem 'omniauth-github'
 gem 'draper'
 gem 'simple-navigation'
 gem 'breadcrumbs_on_rails'
-gem 'i18n-js'
 
 # soap gedoehns
 
