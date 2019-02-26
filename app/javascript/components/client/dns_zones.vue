@@ -91,12 +91,13 @@
         that = this
         if !item.is_public
           this.$root.$confirm('Verstecke DNS Zone',
-              "Die Zone #{item.name} wirklich verstecken? (es werden keine Einträge gelöscht)", {color: 'red'})
-            .then((confirm) ->
-            if confirm
-              that.real_toggle_public(item)
-            else
-              item.is_public = true
+              "Die Zone #{item.name} wirklich verstecken? (es werden keine Einträge gelöscht)",
+              {color: 'red'}).then(
+                (confirm) ->
+                  if confirm
+                    that.real_toggle_public(item)
+                  else
+                    item.is_public = true
           )
         else
           this.real_toggle_public(item)
