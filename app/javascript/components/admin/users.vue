@@ -13,12 +13,13 @@
           <template slot="items" slot-scope="props">
             <tr @dblclick="showUser(props.item)">
               <td>{{ props.item.id }}</td>
+              <td>{{ props.item.name }}</td>
               <td>{{ props.item.email}}</td>
               <td v-if="props.item.identity !== null">{{ props.item.identity.provider}}</td>
               <td v-else>Intern</td>
               <td>{{ props.item.dns_host_records.length}}</td>
               <td>
-                  <v-checkbox hide-details v-model="props.item.locked" label="" disabled></v-checkbox>
+                <v-checkbox hide-details v-model="props.item.locked" label="" disabled></v-checkbox>
               </td>
               <td class="justify-center layout px-0">
                 <v-icon
@@ -79,13 +80,17 @@
         displayuser: null
         records: []
         pagination: {
-          sortBy: 'id'
+          sortBy: 'name'
         }
         search: ''
         headers: [{
           text: "Id"
           align: "left"
           value: "id"
+        },{
+          text: "Name"
+          align: "left"
+          value: "name"
         },{
           text: "Email"
           align: "left"
