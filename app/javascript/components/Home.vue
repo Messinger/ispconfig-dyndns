@@ -1,6 +1,5 @@
 <template>
   <div id="home-container">
-    <h2>My Home is my Castle!</h2>
   </div>
 </template>
 
@@ -16,6 +15,12 @@
           this.$router.push({name: 'finishsignup', params: {id: _id }})
         else
           this.$router.push({name: 'confirm_email'})
+      else if this.$root.$current_user().type == 'Admin'
+        this.$router.push({name:'admin_userlist'})
+      else if this.$root.$current_user().type == 'Client'
+        this.$router.push({name:'DnsZones'})
+      else
+        this.$router.push({name:'dns_host_records'})
   }
 </script>
 
