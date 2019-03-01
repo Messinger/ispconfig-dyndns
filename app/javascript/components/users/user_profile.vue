@@ -41,6 +41,8 @@
         </v-form>
         <v-card-actions class="pt-0">
           <v-btn :disabled="!valid" color="primary darken-1" flat="flat" @click.native="submit_request">Änderungen speichern</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="error darken-1" flat @click="delete_user">Account löschen</v-btn>
         </v-card-actions>
       </div>
     </v-card>
@@ -80,6 +82,27 @@
           that.$root.$toast.error(error.data||'Fehler beim Abrufen')
         )
 
+      delete_user: () ->
+        that = this
+        this.$root.$confirm('Profil löschen','Möchtest Du Deinen Account mit allein Einträgen wirklich löschen?')
+          .then(
+            (confirm) ->
+              if confirm
+                that.$root.axios.delete("/users")
+                  .then(
+                    (response) ->
+                      that.$root.$toast.success('Account gelöscht')
+                      that.$root.$login_changed()
+                ).catch(
+                  (error) ->
+                    console.log error
+                    if !!error.data.errors
+                      for msg in that.$root.$errors_to_array(error.data.errors)
+                        that.$root.$toast.alert(msg)
+                    else
+                      that.$root.$toast.alert((error.data||'Fehler'))
+                )
+        )
       submit_request: () ->
         if !!this.$refs.pwform && !!this.$refs.pwform.current_password
           this.user.current_password = this.$refs.pwform.current_password

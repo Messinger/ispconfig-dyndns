@@ -38,31 +38,19 @@ class User::RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy
-    
-    user = User.accessible_by(current_ability).find params[:id]
-    error_request :not_found if user.nil?
+    if current_user.nil?
+      error_request :bad_request and return
+    else
+      user = current_user
+      error_request :not_found if user.nil?
 
-#    recordid = user.id
+      user.dns_host_records.each do |record|
+        rd = DnsHostRecordDecorator.new record
+        rd.delete_remote
+      end
 
-    user.dns_host_records.each do |record|
-      rd = DnsZoneRecordDecorator.new record
-      rd.delete_remote
+      super
     end
-
-    super
-
-#    user.destroy
-#    reset_session
-#
-#    respond_to do |format|
-#      format.json {
-#        render json: {:deleted => recordid}, status: :ok
-#      }
-#      format.html {
-#        redirect_to root_path
-#      }
-#    end
-
   end
 
   protected
