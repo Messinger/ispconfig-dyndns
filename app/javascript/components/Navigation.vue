@@ -37,7 +37,7 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down" v-if="logged_in">
-      <v-btn flat :to="{name: 'user_profile'}">
+      <v-btn flat :to="{name: 'user_profile'}" v-if="is_user">
         Profil
       </v-btn>
       <v-btn flat v-on:click="logout_user">
