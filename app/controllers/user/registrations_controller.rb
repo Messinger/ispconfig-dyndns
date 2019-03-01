@@ -4,9 +4,12 @@ class User::RegistrationsController < Devise::RegistrationsController
   respond_to :json, :html
 
   def update
-    user = User.accessible_by(current_ability).find params[:id]
+    error_request :bad_request unless params.key?(:user)
+    user = User.accessible_by(current_ability).find params[:user][:id]
 
     error_request :not_found if user.nil?
+
+
 
 #    is_external = !user.identity.nil?
 
@@ -60,6 +63,16 @@ class User::RegistrationsController < Devise::RegistrationsController
 #      }
 #    end
 
+  end
+
+  protected
+
+  def update_resource(resource, params)
+    if params.key?(:current_password)
+      resource.update_with_password(params)
+    else
+      resource.update(params)
+    end
   end
 
 end
