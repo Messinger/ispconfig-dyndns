@@ -12,6 +12,9 @@ import FinishSignup from '../components/users/finish_signup'
 import AccountSecurity from '../components/users/account_security'
 import ConfirmEmail from '../components/users/confirm_email'
 import AppSettings from '../components/admin/app_settings'
+import UserProfile from '../components/users/user_profile'
+import UserPasswordEdit from '../components/users/user_password_edit'
+
 
 export routes = [
   { path: '', component: Home, name: 'home' },
@@ -33,4 +36,10 @@ export routes = [
   { path: '/admin/request_new_password', component: AccountSecurity, name: 'admin_request_password', props: {action: 'send_request_password',usertype: 'admin' } }
   { path: '/admin/request_unlock', component: AccountSecurity, name: 'admin_request_unlock', props: {action: 'send_request_unlock',usertype: 'admin' } }
   { path: '/user/confirmation/:confirmation_token?', component: ConfirmEmail, name: 'confirm_email', props: true }
+  { path: '/user/profile', component: UserProfile, name: 'user_profile', props: true }
+  { path: '/users/password/edit', component: UserPasswordEdit, name: 'user_password_edit', props: (route) ->
+    {
+      reset_password_token: route.query.reset_password_token
+    }
+  }
 ]

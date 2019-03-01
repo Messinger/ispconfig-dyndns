@@ -71,6 +71,8 @@ class Ability
       can :destroy, DnsHostIpARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :destroy, DnsHostIpAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
 
+      can :manage, User, :id => user.id
+
     end
 
   end

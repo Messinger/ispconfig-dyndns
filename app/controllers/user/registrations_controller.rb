@@ -4,45 +4,61 @@ class User::RegistrationsController < Devise::RegistrationsController
   respond_to :json, :html
 
   def update
-    user = User.find params[:id]
-    is_external = !user.identity.nil?
+    user = User.accessible_by(current_ability).find params[:id]
 
-    if is_external
-      flash[:notice]="You can not edit your data"
-      respond_to do |format|
-        format.json {
-          render json: {:status => 'not possible'}, status: :ok
-        }
-        format.html {
-          redirect_to root_path
-        }
-      end and return
-    end
+    error_request :not_found if user.nil?
+
+#    is_external = !user.identity.nil?
+
+#    if is_external
+#      flash[:notice]="You can not edit your data"
+#      respond_to do |format|
+#        format.json {
+#          render json: {:status => 'not possible'}, status: :ok
+#        }
+#        format.html {
+#          redirect_to root_path
+#        }
+#      end and return
+#    end
     super
+  end
+
+  def edit
+    error_request :bad_request if current_user.nil?
+
+    if json_request?
+      render(json: { user: current_user.as_json(include: :identity )}, status: :ok) and return
+    else
+      super
+    end
   end
 
   def destroy
     
-    user = User.find(current_user.id)
+    user = User.accessible_by(current_ability).find params[:id]
+    error_request :not_found if user.nil?
 
-    recordid = user.id
+#    recordid = user.id
 
     user.dns_host_records.each do |record|
       rd = DnsZoneRecordDecorator.new record
       rd.delete_remote
     end
-    
-    user.destroy
-    reset_session
-    
-    respond_to do |format|
-      format.json {
-        render json: {:deleted => recordid}, status: :ok
-      }
-      format.html {
-        redirect_to root_path
-      }
-    end
+
+    super
+
+#    user.destroy
+#    reset_session
+#
+#    respond_to do |format|
+#      format.json {
+#        render json: {:deleted => recordid}, status: :ok
+#      }
+#      format.html {
+#        redirect_to root_path
+#      }
+#    end
 
   end
 
