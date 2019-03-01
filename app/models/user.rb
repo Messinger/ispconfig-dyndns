@@ -114,6 +114,9 @@ class User < ActiveRecord::Base
 
     if _opt.key?(:include) && !_opt.key?(:force_except)
       enforce_except = BLACKLIST_FOR_SERIALIZATION.dup
+      unless _opt[:include].is_a?(Array)
+        _opt[:include] = [_opt[:include]]
+      end
       includes = _opt[:include].dup
       _opt[:include].each do |val|
         if enforce_except.find_index(val)
