@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     if (request.patch? || request.post?) && params[:user] #&& params[:user][:email]
       if current_user.update(user_params)
         current_user.skip_reconfirmation!
-        sign_in(current_user, :bypass => true)
+        bypass_sign_in(user)
         if html_request?
           redirect_to current_user, notice: 'Your profile was successfully updated.'
         else
