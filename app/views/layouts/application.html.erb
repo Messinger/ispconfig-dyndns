@@ -7,10 +7,7 @@
 <title>
     <%= full_title yield(:title) %>
 </title>
-<%= render partial: "layouts/stylesheets" %>
 <%= render partial: "layouts/js_constants" %>
-
-<%= javascript_include_tag "application" %>
 
     <!-- additional javascripts -->
 <%= yield(:additional_javascripts) %>
@@ -20,12 +17,6 @@
 <!-- specific extra header -->
 <%= yield(:extra_head_content) %>
 <!-- specific extra header end -->
-
-<script>
-  I18n.locale = window.navigator.userLanguage || window.navigator.language;
-$(document).ready(function(){
-  });
-</script>
 
 </head>
 
@@ -37,25 +28,15 @@ $(document).ready(function(){
 
   <!-- <div id="logo">Logobereich</div> -->
 
-  <div class="container" id="centralarea">
+  <%= javascript_pack_tag 'hello_vue' %>
+  <%= stylesheet_pack_tag 'hello_vue' %>
 
+  <div id='mainapp'>
+    <app></app>
+  </div>
 
-    <%= render partial: "layouts/navigation"%>
-    
-    <!--    <div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main" id="centralarea"> -->
-    
-<!--      <div class="breadcrumbs">
-        < %= render_breadcrumbs :separator => ' &raquo; ' %>
-      </div>
--->
-
-  <%= render partial: "layouts/messages" %>
   <%= yield %>
 
-      <!--    </div> -->
-</div>
-
-<%= render partial:  "layouts/yesno" %>
 
 </body>
 </html>

@@ -33,9 +33,6 @@ class User < ActiveRecord::Base
     # Get the identity and user if they exist
     identity = Identity.find_for_oauth(auth)
 
-    Logging.logger["User"].debug("Auth raw_info: #{auth.extra.raw_info.inspect}")
-    Logging.logger["User"].debug("Auth info: #{auth.info.inspect}")
-
     # If a signed_in_resource is provided it always overrides the existing user
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
@@ -55,7 +52,7 @@ class User < ActiveRecord::Base
              end
 
       # Create the user if it's a new registration
-      if user.nil?
+      if user.nil? || user.identity.nil? || user.identity.id != identity.id
         _n = nil
         unless auth.info.nil?
           if !auth.info.name.blank?
@@ -73,9 +70,13 @@ class User < ActiveRecord::Base
         if _n.nil?
           _n = ""
         end
+        unless user.nil?
+          # we have the same email via another identity
+          # and have to ensure getting a new one for validating
+          auth.info.email = ''
+        end
         user = User.new(
           name: _n,
-          #username: auth.info.nickname || auth.uid,
           email: auth.info.email.blank? ? "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" : auth.info.email,
           password: Devise.friendly_token[0,20]
         )
@@ -108,8 +109,27 @@ class User < ActiveRecord::Base
   end
 
   def as_json options={}
-    _res = super options
+
     _opt = options.dup
+
+    if _opt.key?(:include) && !_opt.key?(:force_except)
+      enforce_except = BLACKLIST_FOR_SERIALIZATION.dup
+      unless _opt[:include].is_a?(Array)
+        _opt[:include] = [_opt[:include]]
+      end
+      includes = _opt[:include].dup
+      _opt[:include].each do |val|
+        if enforce_except.find_index(val)
+          includes.delete(val)
+          enforce_except.delete(val)
+        end
+      end
+      _opt[:force_except] = enforce_except
+      _opt[:include] = includes
+    end
+
+    _res = super _opt
+
     _opt.delete(:include)
     if options.key?(:include)
       if (options[:include].is_a?(Symbol) && options[:include] == :identity)||(options[:include].is_a?(Array) && options[:include].include?(:identity))
@@ -118,6 +138,9 @@ class User < ActiveRecord::Base
         _res['identity'] = {}
       end
     end
+    _res['email_must_verified'] = !email_verified?
+    _res['locked'] = access_locked?
+    _res['unconfirmed_set'] = unconfirmed_email?
     _res
   end
 

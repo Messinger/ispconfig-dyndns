@@ -15,7 +15,7 @@ class DnsHostRecord < ActiveRecord::Base
   validates_with DnsIspRecordValidator
 
 
-  after_create :create_assignees
+  before_validation :create_assignees
   
   def isp_dnszone_id
     self.dns_zone.isp_dnszone_id
@@ -42,7 +42,7 @@ class DnsHostRecord < ActiveRecord::Base
                                             :dns_host_ip_a_record => {:only => [:address]},
                                             :dns_host_ip_aaaa_record=> {:only => [:address]},
                                             :api_key => {:only => [:access_token]},
-                                            :dns_zone => {:only => [:name]}
+                                            :dns_zone => {:only => [:name,:id]}
                                             }
                               })
     else
@@ -62,9 +62,11 @@ class DnsHostRecord < ActiveRecord::Base
   private
 
   def create_assignees
-    self.api_key = ApiKey.new
-    self.dns_host_ip_aaaa_record = DnsHostIpAaaaRecord.new
-    self.dns_host_ip_a_record = DnsHostIpARecord.new
+    if new_record?
+      self.api_key = ApiKey.new
+      self.dns_host_ip_aaaa_record = DnsHostIpAaaaRecord.new
+      self.dns_host_ip_a_record = DnsHostIpARecord.new
+    end
   end
 
 end

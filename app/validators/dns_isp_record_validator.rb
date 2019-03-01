@@ -2,6 +2,7 @@
 class DnsIspRecordValidator <  ActiveModel::Validator
   # noinspection RubyResolve
   def validate(record)
+    return if record.errors.count > 0
     if record.new_record? || record.name_changed? || record.dns_zone_id_changed?
       record.errors[:dnszone] << 'Dnszone must selected' and return if record.dns_zone.nil?
       record.errors[:name] << 'No record name set' and return if record.name.blank?

@@ -8,7 +8,7 @@ class Admins::UsersController < ApplicationController
     respond_to do |format|
       format.html {respond_with @users}
       format.json {
-        respond_with @users.as_json(:include => [:dns_host_records,:identity]), :status => :ok
+        render json: @users.as_json(:include => [:dns_host_records,:identity],:force_except => [:encrypted_password,:password]), :status => :ok
       }
     end
   end
@@ -18,7 +18,7 @@ class Admins::UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        respond_with @user.as_json(:include => [:dns_host_records,:identity])
+        render json: @user.as_json(:include => [:dns_host_records,:identity], :force_except => [:encrypted_password,:password]), status: :ok
       }
     end
   end
@@ -27,6 +27,7 @@ class Admins::UsersController < ApplicationController
     begin
       user = User.accessible_by(current_ability).find params[:id]
     rescue => _
+      user = nil
     end
 
     status = if user.nil?

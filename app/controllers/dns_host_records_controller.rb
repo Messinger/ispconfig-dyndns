@@ -8,17 +8,45 @@ class DnsHostRecordsController < ApplicationController
     debug "DnszoneRecord index"
 
     zone_id = params[:zone_id]
+    dns_host_records = DnsHostRecord.accessible_by(current_ability)
     if zone_id.blank?
       @zone = nil
-      @dns_host_records = DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability))
     else
       @zone = DnsZone.accessible_by(current_ability).find zone_id
-      @dns_host_records = DnsHostRecordDecorator.decorate_collection(DnsHostRecord.accessible_by(current_ability).where(:dns_zone_id => @zone))
+      dns_host_records = dns_host_records.where(:dns_zone => @zone)
     end
 
-    index_bread
+    unless params[:user_id].blank?
+      dns_host_records = dns_host_records.where(:user => User.accessible_by(current_ability).find(params[:user_id]))
+    end
 
-    respond_with @dns_host_records
+    @dns_host_records = DnsHostRecordDecorator.decorate_collection(dns_host_records)
+
+    if html_request?
+      index_bread
+    end
+
+    json_response = []
+
+    if json_request?
+      @dns_host_records.each do |record|
+        rcj = record.as_json(simple: true)
+        unless can?(:edit,record)
+          rcj['api_key']['access_token'] = nil
+        end
+        rcj['full_name'] = record.full_name
+        json_response << rcj
+      end
+    end
+
+    respond_to do |format|
+      format.html {
+        respond_with @dns_host_records
+      }
+      format.json {
+        render :json => json_response, :status => :ok
+      }
+    end
   end
 
   def edit
@@ -42,6 +70,11 @@ class DnsHostRecordsController < ApplicationController
   def show
     recordid = params[:id]
     @dns_host_record = DnsHostRecord.accessible_by(current_ability).find(recordid).decorate
+    unless can?(:edit,@dns_host_record)
+      @dns_host_record.api_key.access_token=nil
+    end
+
+    show_bread
 
     show_bread
 
@@ -66,15 +99,22 @@ class DnsHostRecordsController < ApplicationController
       @dns_zone = DnsZone.accessible_by(current_ability).find dnszoneid
     end
     @dns_host_record = DnsHostRecord.new
-    debug "New Record: #{@dns_host_record}"
+
     @dns_host_record.dns_zone_id = @dns_zone.id unless @dns_zone.nil?
 
-    unless params[:partial].blank?
-      render :partial => 'edit_record' and return
+    if html_request?
+      unless params[:partial].blank?
+        render :partial => 'edit_record' and return
+      else
+        index_bread
+        add_breadcrumb "New DNS Record",new_dns_host_record_path
+      end
     else
-      index_bread
-      add_breadcrumb "New DNS Record",new_dns_host_record_path
+      zones = DnsZone.accessible_by(current_ability)
+      render :json => {record: @dns_host_record, zoneselection: zones }, status: :ok
     end
+
+
   end
 
   def update
@@ -140,7 +180,15 @@ class DnsHostRecordsController < ApplicationController
     dns_host_record.user = current_user
     recparams = params[:dns_host_record]
     logger.debug "Full params: #{params}"
-    dns_zone_id = params[:dns_zone][:id]
+    if params.key? :dns_zone
+      dns_zone_id = params[:dns_zone]
+      if dns_zone_id.is_a? ActionController::Parameters
+        dns_zone_id = dns_zone_id[:id]
+      end
+    else
+      dns_zone_id = 0
+    end
+
     zone = DnsZone.accessible_by(current_ability).find dns_zone_id
     dns_host_record.dns_zone = zone
     dns_host_record.name = recparams[:name]
@@ -177,7 +225,7 @@ class DnsHostRecordsController < ApplicationController
       else
         saved = recd.save if saved
       end
-      if saved == false
+      unless saved
         dns_host_record.delete
       end
     else 

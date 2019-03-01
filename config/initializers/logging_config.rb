@@ -1,7 +1,7 @@
 require 'logging/config/yaml_configurator'
 
 Rails.configuration().after_initialize do
-
+if defined?(Logging)
   loggerconfig = "#{Rails.root}/config/logging.yml"
 
   if (File.exists? loggerconfig)
@@ -24,5 +24,5 @@ Rails.configuration().after_initialize do
   # Nothing yet
 
   ### end   extra logging stuff  
-
+end
 end

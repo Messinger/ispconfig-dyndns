@@ -10,4 +10,9 @@ class DnsZoneDecorator < ApplicationDecorator
     end
   end
 
+  def as_json(options={})
+    res = model.as_json(options)
+    res[:assigned_records_count] = dns_host_records.count
+    res
+  end
 end

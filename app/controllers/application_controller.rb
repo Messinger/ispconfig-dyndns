@@ -2,6 +2,8 @@ require 'isp_exceptions/isp_exceptions'
 require 'logging/applogger'
 
 class ApplicationController < ActionController::Base
+  respond_to :html, :json
+
   include IspExceptions
   include Applogger
 
@@ -20,14 +22,15 @@ class ApplicationController < ActionController::Base
   before_action :process_authentication, unless: :devise_controller?
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
+  #before_action :ensure_signup_complete, unless: :devise_controller? #, only: [:new, :create, :update, :destroy]
+  before_action :set_csrf_cookie
 
   helper_method :current_account, :current_client_user, :current_api_key
 
   def initialize
     @current_client_user = nil
     @current_api_key = nil
-    @logger = getlogger("ApplicationController::#{self.class.logger_name}")
+    @logger = logger #getlogger("ApplicationController::#{self.class.logger_name}")
     @logger.debug "Finished initialize"
     @logger.debug "Is devise-controller: #{devise_controller?}"
     super
@@ -113,15 +116,7 @@ class ApplicationController < ActionController::Base
   end
 
   def respond_with_no_valid_authentication_found
-    respond_to do |format|
-      format.html {
-        redirect_to new_user_session_path and return
-        # TODO flash out a message
-      }
-      format.json {
-        render(nothing: true, status: :unauthorized)
-      }
-    end
+    error_request :unauthorized,nil
   end
 
   rescue_from RequestException do |exception|
@@ -192,9 +187,9 @@ class ApplicationController < ActionController::Base
 #  end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:last_name, :first_name, :email, :password, :password_confirmation, :remember_me) }
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation, :remember_me) }
     devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
-    devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:last_name, :first_name, :email, :password, :password_confirmation, :current_password) }
+    devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :current_password) }
   end
 
   def authenticate_user_from_token!
@@ -218,4 +213,17 @@ class ApplicationController < ActionController::Base
     end
 
   end
+
+  def json_request?
+    !request.format.nil? && request.format.json?
+  end
+
+  def html_request?
+    !request.format.nil? && request.format.html?
+  end
+
+  def set_csrf_cookie
+    cookies["CSRF-TOKEN"] = form_authenticity_token
+  end
+
 end

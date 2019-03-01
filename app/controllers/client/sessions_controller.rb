@@ -31,6 +31,16 @@ class Client::SessionsController < ApplicationController
     end
 
     redirect_url = client_root_path
+    if authentication_success
+      jsonstatus = :ok
+      json_response = {account: current_account.as_json.merge({'type':current_account.class.name})}
+      if json_request?
+        cookies["CSRF-TOKEN"] = form_authenticity_token
+      end
+    else
+      jsonstatus = 401
+      json_response = {account: nil}
+    end
 
     respond_to do |format|
       format.html {
@@ -39,6 +49,9 @@ class Client::SessionsController < ApplicationController
         else
           redirect_to client_login_path
         end
+      }
+      format.json {
+        render :json => json_response, status: jsonstatus
       }
     end
   end
@@ -54,14 +67,14 @@ class Client::SessionsController < ApplicationController
 
     redirect_url = client_root_path
     reset_session unless current_client_user.nil?
+    set_csrf_cookie
 
     respond_to do |format|
       format.html {
         redirect_to redirect_url
       }
       format.json {
-        render :nothing => true, :status => :ok
-        return false
+        render :json => {}, :status => :ok
       }
     end
 
@@ -73,12 +86,17 @@ class Client::SessionsController < ApplicationController
     user = send "#{@authtype}_authenticate"
     return false if user.nil?
     session[:current_client_user] = user
-    return true
+    true
   end
 
   def clientuser_authenticate
-    username = params[:user][:login_id]
-    password = params[:user][:password]
+    if params[:client]
+      username = params[:client][:login_id]
+      password = params[:client][:password]
+    else
+      username = params[:user][:login_id]
+      password = params[:user][:password]
+    end
 
     begin
       cl = IspClientUser.find_by_username username
