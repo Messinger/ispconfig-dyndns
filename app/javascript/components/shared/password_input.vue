@@ -2,6 +2,16 @@
   <div id="passwordinput">
 
     <input v-if="!!reset_password_token" type="hidden" v-model="reset_password_token" name="reset_password_token" id="reset_password_token">
+
+    <v-layout v-if="!reset_password_token && !$root.$current_user()" row>
+      <v-flex md2 xs3>
+        <v-subheader>Reset Token:</v-subheader>
+      </v-flex>
+      <v-flex md5 xs12 d-flex child-flex>
+        <v-text-field v-model="reset_token" label="Reset Token" :rules="passwordRules" required></v-text-field>
+      </v-flex>
+    </v-layout>
+
     <v-layout row>
       <v-flex md2 xs3>
         <v-subheader>Passwort:</v-subheader>
@@ -19,7 +29,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout v-if="!reset_password_token" row>
+    <v-layout v-if="!reset_password_token && $root.$current_user()" row>
       <v-flex md2 xs3>
         <v-subheader>Aktuelles Passwort:</v-subheader>
       </v-flex>
@@ -38,10 +48,11 @@
         password: null
         password_confirmation: null
         current_password: null
+        reset_token: null
         valid: false
         passwordRules: [
           (v) ->
-            !!v || 'Password wird benötigt'
+            !!v || 'Wird benötigt'
         ]
       }
     props: [ 'reset_password_token' ]

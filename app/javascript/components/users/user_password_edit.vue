@@ -9,6 +9,9 @@
           <password-input ref="passwordinput" :reset_password_token="reset_password_token"></password-input>
         </v-form>
       </v-card-text>
+      <v-card-actions class="pt-0">
+        <v-btn :disabled="!valid" color="primary darken-1" flat="flat" @click.native="submit_password">Ändere Passwort</v-btn>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -44,6 +47,7 @@
     methods: {
       submit_password: () ->
         that = this
+        return unless (this.$refs.pwform.validate())
         userdata = this.$refs.passwordinput.$data
         user = {
           password: userdata.password
@@ -51,8 +55,10 @@
         }
         if !!this.reset_password_token
           user.reset_password_token = this.reset_password_token
-        else
+        else if this.$root.$current_user()
           user.current_password = userdata.current_password
+        else
+          user.reset_password_token = userdata.reset_token
 
         this.$root.axios.put('/users/password',{user: user})
           .then(
