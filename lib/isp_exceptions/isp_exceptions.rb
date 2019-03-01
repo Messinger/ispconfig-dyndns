@@ -28,7 +28,7 @@ module IspExceptions
     #   raise BadRequest.new("The parameter #{p} is absolutly wrong")
     #   raise BadRequest
     def initialize(default="ok",message=nil,code)
-      if (message == nil)
+      if message.nil?
         @errormsg = default
       else
         @errormsg = message
