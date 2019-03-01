@@ -34,19 +34,15 @@
 
     methods: {
       login_changed: () ->
-        console.log "Retrieved login changed"
-        result = await this.$root.$update_user()
-
-        console.log "Set user to value"
-        if !!window.Constants.current_user
-          this.$router.push('/')
-        else
-          this.$router.push({name: 'userlogin',params:{usertype: 'user'}})
-
-        console.log "Emit signal"
-        this.$root.$emit('login-changed', {})
-
-
+        that = this
+        this.$root.$update_user().then(
+            () ->
+              if !!window.Constants.current_user
+                that.$router.push('/')
+              else
+                that.$router.push({name: 'userlogin',params:{usertype: 'user'}})
+              that.$root.$emit('login-changed', {})
+        )
     }
 
     beforeMount: () ->

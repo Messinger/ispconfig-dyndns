@@ -54,18 +54,19 @@
         else
           user.current_password = userdata.current_password
 
-        this.$root.axios.put('/users/password',{user: user}).then(
-            (resut) ->
-              console.log "PW Ändern: ",result
-              that.$root.$update_user()
+        this.$root.axios.put('/users/password',{user: user})
+          .then(
+            (result) ->
+              that.$root.$toast.success('Passwort geändert')
+              that.$root.$login_changed()
         ).catch(
           (error) ->
-            console.log error.data
-            if !!error.data.errors && !!error.data.errors['password']
+            console.log error
+            if !!error.data.errors
               for msg in that.$root.$errors_to_array(error.data.errors)
-                that.$root.$toast.alert(msg,color: 'alarm')
+                that.$root.$toast.alert(msg)
             else
-                that.$root.$toast.alert((error.data||'Fehler'))
+              that.$root.$toast.alert((error.data||'Fehler'))
         )
     }
   }
