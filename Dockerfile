@@ -36,12 +36,13 @@ ADD Rakefile   $APP_HOME/
 ADD config     $APP_HOME/config
 ADD public     $APP_HOME/public
 ADD app/assets $APP_HOME/app/assets
+ADD app/javascripts $APP_HOME/app/javascripts
 ADD lib/isp_exceptions  $APP_HOME/lib/isp_exceptions
 ADD lib/logging  $APP_HOME/lib/logging
 ADD lib/tasks $APP_HOME/lib/tasks
 ADD lib/assets $APP_HOME/lib/assets
 ADD . $APP_HOME
-RUN cd $APP_HOME && rm -rf public/assets && rake assets:precompile DATABASE_URL=sqlite3:tmp/dummy.db SECRET_KEY_BASE=dummy
+RUN cd $APP_HOME && rm -rf public/assets && rm -rf public/packs && rake assets:precompile DATABASE_URL=sqlite3:tmp/dummy.db SECRET_KEY_BASE=dummy
 
 #RUN cd $APP_HOME && rake db:migrate
 RUN chown -R nobody:nogroup $APP_HOME
