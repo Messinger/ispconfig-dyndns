@@ -1,0 +1,52 @@
+<%= render partial: 'application/datatables_include' %>
+
+<% content_for :additional_javascripts do %>
+  <script>
+    window.user_index = "<%= admins_users_path %>";
+    window.user_path = "<%= admins_user_path(@user) %>";
+  </script>
+  <%= javascript_include_tag "pages/admins/userdetail" %>
+<% end %>
+<div class="row">
+<H2 class="page-header">User <%= @user.name || @user.email %></h2>
+</div>
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>Details</h3>
+    </div>
+    <div class="panel-body">
+      <dl class="dl-horizontal">
+        <dt>Name</dt><dd><%= @user.name || "&nbsp;".html_safe %></dd>
+        <dt>Email</dt><dd><%= @user.email || "&nbsp;".html_safe  %></dd>
+        <dt>Seit</dt><dd><%= @user.created_at %></dd>
+        <% unless @user.identity.nil? %>
+          <dt>Via</dt><dd><%= @user.identity.provider %></dd>
+        <% end %>
+      </dl>
+    </div>
+    <div class="panel-footer">
+      <% if can? :destroy, @user %>
+        <button type="button" id="delete_user" class="deleteuserbutton btn btn-warning btn-circle">
+          <i class="fa fa-trash"></i></button>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<% unless @user.dns_host_records.count < 1 %>
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>DNS Records</h3>
+    </div>
+    <div class="panel-body">
+  <%= render :partial => "dns_host_records/record_list", :locals => {dns_host_records: DnsHostRecordDecorator.decorate_collection(@user.dns_host_records)} %>
+    </div>
+    <div class="panel-footer">
+      &nbsp;
+    </div>
+  </div>
+</div>
+<% end %>

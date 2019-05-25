@@ -22,7 +22,7 @@ module Applogger
     class_eval src, __FILE__, __LINE__
   end
 
-  def getlogger(loggername);Logging.logger[loggername] end
+  def getlogger(loggername);logger end
 
 end
 

@@ -2,6 +2,9 @@
     <%= render :partial => "#{current_client_user.class.name.underscore}_index" %>
 <% end %>
 
-<% content_for :additional_javascripts do %>
-<%= javascript_include_tag "pages/welcome/welcome" %>
-<% end %>
+<%= javascript_pack_tag 'hello_vue' %>
+<%= stylesheet_pack_tag 'hello_vue' %>
+
+<div id='mainapp'>
+  <app></app>
+</div>

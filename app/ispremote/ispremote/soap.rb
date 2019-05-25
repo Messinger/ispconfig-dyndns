@@ -12,7 +12,7 @@ module Ispremote
                 :pretty_print_xml => true,
                 :log => true,
                 :filters => [:password],
-                :logger => Logging.logger['soap'],
+                #:logger => Logging.logger['soap'],
                 env_namespace: 'SOAP-ENV',
                 :namespaces => {'xmlns:ns2' => 'http://xml.apache.org/xml-soap'}
                 
@@ -93,7 +93,6 @@ module Ispremote
     def flatten_hash(r)
       begin
         _h = r[:item]
-#        Rails.logger.info "No problems with #{r.inspect}"
         Hash[*_h.map { |v| [v[:key].to_sym, self.convert_value(v[:value])] }.flatten]
       rescue => ex
         Rails.logger.fatal "Got problems with #{r.inspect}"

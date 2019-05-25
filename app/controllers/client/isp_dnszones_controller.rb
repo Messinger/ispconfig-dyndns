@@ -10,7 +10,22 @@ class Client::IspDnszonesController < ApplicationController
     end
     @ispdnszones.flatten!
 
-    add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path
+    add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path if html_request?
+
+    if json_request?
+      @ispdnszones = @ispdnszones.as_json
+      @ispdnszones.each do |zone|
+        zone[:local_zone] = DnsZone.find_by(:isp_dnszone_id =>zone['id']).as_json(:only => [:id,:name])||{id: nil, name: nil }
+      end
+    end
+
+    respond_to do |format|
+      format.json {
+        render json: @ispdnszones.as_json, :status => :ok
+      }
+      format.html
+    end
+
   end
 
   def show
@@ -19,9 +34,19 @@ class Client::IspDnszonesController < ApplicationController
     _records = @ispdnszone.records
     @ispdnszonerecords = IspResourceRecordDecorator.decorate_collection _records
 
-    cu = ClientUserDecorator.new current_client_user
-    add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path
-    add_breadcrumb @ispdnszone.origin,client_isp_dnszone_path(@ispdnszone)
+    if html_request?
+      cu = ClientUserDecorator.new current_client_user
+      add_breadcrumb "ISPConfig domains for #{cu.full_name}",client_isp_dnszones_path
+      add_breadcrumb @ispdnszone.origin,client_isp_dnszone_path(@ispdnszone)
+    end
+
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: {zone: @ispdnszone.as_json, records: @ispdnszonerecords.as_json({:with_local => true})}, status: :ok
+      }
+    end
+
   end
 
 end

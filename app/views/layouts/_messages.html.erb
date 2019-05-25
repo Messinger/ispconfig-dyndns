@@ -1,10 +1,10 @@
 <% if flash.count > 0 %>
-<% flash.each do |name, msg| %>
-  <% if msg.is_a?(String) %>
-    <div class="alert alert-<%= name.to_s == 'notice' ? 'success' : 'danger' %> alert-dismissable">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= msg %>
-    </div>
+  <% flash.each do |name, msg| %>
+    <% if msg.is_a?(String) %>
+      <div class="alert alert-<%= name.to_s == 'notice' ? 'success' : 'danger' %> alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <%= msg %>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
 <% end %>

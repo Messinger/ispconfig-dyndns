@@ -40,6 +40,9 @@ class PresentationModel
     { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:int" } }
   end
 
+  singleton_class.send(:alias_method,:attributes_for_integer, :attributes_for_fixnum)
+  singleton_class.send(:alias_method,:attributes_for_int, :attributes_for_fixnum)
+
   def self.attributes_for_string
     { :key => { "xsi:type" => "xsd:string"}, :value => {"xsi:type" => "xsd:string" } }
   end

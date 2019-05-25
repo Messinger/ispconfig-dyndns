@@ -33,7 +33,7 @@ RailsDynamicDomain::Application.configure do
   config.assets.digest = true
 
   # Version of your assets, change this if you want to expire all your assets.
-  config.assets.version = '1.0'
+  config.assets.version = '1.2'
 
   # Specifies the header that your server uses for sending files.
   config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -50,6 +50,7 @@ RailsDynamicDomain::Application.configure do
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  config.logger = Logger.new(config.paths["log"].first, 3, 10.megabytes)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -99,4 +100,5 @@ RailsDynamicDomain::Application.configure do
 
   # Show the logging configuration on STDOUT
   config.show_log_configuration = false
+
 end

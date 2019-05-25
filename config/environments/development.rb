@@ -30,8 +30,9 @@ RailsDynamicDomain::Application.configure do
   config.assets.initialize_on_precompile = true
   
   config.log_level = :debug
+  config.logger = Logger.new(config.paths["log"].first, 3, 10.megabytes)
   
-  config.action_mailer.default_url_options = { :host => PRIVATE_DATA['url_host'] }
+  config.action_mailer.default_url_options = { :host => "#{PRIVATE_DATA['url_host']}:3000" }
   config.action_mailer.delivery_method = PRIVATE_DATA['mailer_method'].to_sym
 
   if config.action_mailer.delivery_method == :smtp
@@ -45,10 +46,4 @@ RailsDynamicDomain::Application.configure do
     }
   end
 
-
-  # Set the logging destination(s)
-  config.log_to = %w[stdout file]
-
-  # Show the logging configuration on STDOUT
-  config.show_log_configuration = true
 end

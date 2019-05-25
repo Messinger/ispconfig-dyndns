@@ -13,10 +13,17 @@ class Ability
       can :manage, Setting
       can :manage, Admin, :id => user.id
       can :manage, User
+      can :destroy, DnsHostRecord
+      can :destroy, DnsHostIpARecord
+      can :destroy, DnsHostIpAaaaRecord
+      can :read, DnsHostRecord
+      can :read, DnsHostIpARecord
+      can :read, DnsHostIpAaaaRecord
+      can :read, DnsZone
     end
 
     if user.instance_of? ApiKey
-      unless user.user.access_locked?
+      if user.user.nil? || !user.user.access_locked?
         can :setip, DnsHostRecord, :id => user.dns_entry.id
         can :read, DnsHostRecord, :id => user.dns_entry.id
         can :destroy, DnsHostRecord, :id => user.dns_entry.id
@@ -39,7 +46,7 @@ class Ability
 
     end
 
-    if user.instance_of? User
+    if user.instance_of?(User) && !user.access_locked? && user.email_verified?
       can :read, DnsZone, :is_public => true
 
       can :read, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
@@ -63,6 +70,8 @@ class Ability
       can :destroy, DnsHostRecord, :dns_zone => {:is_public => true}, :user_id => user.id.to_i
       can :destroy, DnsHostIpARecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
       can :destroy, DnsHostIpAaaaRecord, :dns_host_record => { :dns_zone => {:is_public => true}, :user_id => user.id.to_i }
+
+      can :manage, User, :id => user.id
 
     end
 
